@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6d3358557d057ab4ab46db6b7f49a1f3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 15600000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Samples/Resources/Terrains/Hills2.asset
+  uploadId: 880056

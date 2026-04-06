@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c1862c74a8ac3354a926ef3d96b60774
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Samples/Resources/Props/Tree.mat
+  uploadId: 880056

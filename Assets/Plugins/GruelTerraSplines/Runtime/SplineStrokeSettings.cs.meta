@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 0bbed8b0c9ab58743a68148775749213
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Runtime/SplineStrokeSettings.cs
+  uploadId: 880056

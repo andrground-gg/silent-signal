@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f24fefa7f955553499fde0c4434d7fc2
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Editor/GruelTerraSplines.Editor.asmdef
+  uploadId: 880056

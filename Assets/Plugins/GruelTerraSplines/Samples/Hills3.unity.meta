@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: fb590009c92173b47a654aa3456dfb44
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Samples/Hills3.unity
+  uploadId: 880056

@@ -1,0 +1,154 @@
+#pragma kernel RasterizePath
+
+// DEBUG TIMESTAMP: 2024-01-XX - FRESH COMPUTE SHADER - FORCE RECOMPILATION
+
+// Input data structures
+struct SplinePoint
+{
+    float3 position;
+    float brushSizeMultiplier;
+    float normalizedDistance;
+};
+
+// Terrain parameters
+struct TerrainParams
+{
+    float3 terrainPosition;
+    float3 terrainSize;
+    int heightmapResolution;
+    float brushSizeMeters;
+    float sampleStepMeters;
+    float brushHardness;
+    int splinePointCount;
+    int minX, minZ, maxX, maxZ;
+};
+
+// Input buffers
+StructuredBuffer<SplinePoint> splinePoints;
+StructuredBuffer<TerrainParams> terrainParams;
+
+// Output textures
+RWTexture2D<float> outputHeights;
+RWTexture2D<float> outputAlpha;
+
+// Helper function to convert world position to heightmap coordinates
+int2 WorldToHeightmap(float3 worldPos, TerrainParams params)
+{
+    float3 localPos = worldPos - params.terrainPosition;
+    float2 normalized = float2(localPos.x / params.terrainSize.x, localPos.z / params.terrainSize.z);
+    int2 result = int2(
+        round(normalized.x * (params.heightmapResolution - 1)),
+        round(normalized.y * (params.heightmapResolution - 1))
+    );
+    return clamp(result, int2(0, 0), int2(params.heightmapResolution - 1, params.heightmapResolution - 1));
+}
+
+// Helper function to convert heightmap coordinates to world position
+float3 HeightmapToWorld(int2 heightmapPos, TerrainParams params)
+{
+    float2 normalized = float2(heightmapPos) / float(params.heightmapResolution - 1);
+    float3 localPos = float3(
+        normalized.x * params.terrainSize.x,
+        0, // Y will be calculated from spline points
+        normalized.y * params.terrainSize.z
+    );
+    return params.terrainPosition + localPos;
+}
+
+// Helper function to convert world Y to normalized height
+float WorldYToNormalizedHeight(float worldY, TerrainParams params)
+{
+    return saturate((worldY - params.terrainPosition.y) / params.terrainSize.y);
+}
+
+// Helper function to convert meters to heightmap pixels
+float MetersToHeightmapPixels(float meters, TerrainParams params)
+{
+    return meters * (params.heightmapResolution - 1) / params.terrainSize.x;
+}
+
+// Procedural brush falloff calculation (matches BrushFalloffUtils.CalculateFalloff)
+float CalculateBrushFalloff(float normalizedDistance, float hardness)
+{
+    // Map hardness to power curve exponent (0.5 to 5.0 range)
+    float exponent = lerp(0.5, 5.0, hardness);
+
+    // Calculate smoothstep from center (0) to edge (1) - CORRECTED to match CPU
+    float smoothstepValue = 1.0 - smoothstep(0.0, 1.0, normalizedDistance);
+
+    // Apply power curve for desired falloff shape
+    return pow(smoothstepValue, exponent);
+}
+
+[numthreads(8, 8, 1)]
+void RasterizePath(uint3 id : SV_DispatchThreadID)
+{
+    TerrainParams params = terrainParams[0];
+
+    // Calculate global heightmap coordinates from dispatch thread ID
+    int2 globalPos = int2(id.x + params.minX, id.y + params.minZ);
+
+    // Check if we're within the texture bounds
+    int textureWidth = params.maxX - params.minX + 1;
+    int textureHeight = params.maxZ - params.minZ + 1;
+
+    if (id.x >= textureWidth || id.y >= textureHeight)
+    {
+        return;
+    }
+
+    // Convert to local cache coordinates (same as thread ID)
+    int2 localPos = int2(id.x, id.y);
+
+
+    // Convert heightmap coordinates to world position
+    float3 worldPos = HeightmapToWorld(globalPos, params);
+    float2 p = float2(worldPos.x, worldPos.z);
+
+    // Find nearest spline point (same as CPU version)
+    float nearestDistSq = 999999.0;
+    float3 nearestPoint = float3(0, 0, 0);
+    float nearestBrushSize = params.brushSizeMeters;
+
+    for (int i = 0; i < params.splinePointCount; i++)
+    {
+        SplinePoint splinePoint = splinePoints[i];
+        float3 sp = splinePoint.position;
+        float distSq = (p.x - sp.x) * (p.x - sp.x) + (p.y - sp.z) * (p.y - sp.z);
+
+        if (distSq < nearestDistSq)
+        {
+            nearestDistSq = distSq;
+            nearestPoint = sp;
+            nearestBrushSize = params.brushSizeMeters * splinePoint.brushSizeMultiplier;
+        }
+    }
+
+    float nearestDist = sqrt(nearestDistSq);
+
+    // Check if we're within brush range
+    if (nearestDist > nearestBrushSize)
+    {
+        outputHeights[localPos] = 0.0;
+        outputAlpha[localPos] = 0.0;
+        return;
+    }
+
+    // Calculate target height from nearest spline point (same as CPU version)
+    float targetHeight = WorldYToNormalizedHeight(nearestPoint.y, params);
+
+    // Calculate brush falloff based on distance using procedural falloff
+    float normalizedDistance = nearestDist / nearestBrushSize;
+    float finalAlpha = CalculateBrushFalloff(normalizedDistance, params.brushHardness);
+
+    if (finalAlpha <= 0.0001)
+    {
+        outputHeights[localPos] = 0.0;
+        outputAlpha[localPos] = 0.0;
+        return;
+    }
+
+    // Store results
+    outputHeights[localPos] = targetHeight;
+    outputAlpha[localPos] = finalAlpha;
+}

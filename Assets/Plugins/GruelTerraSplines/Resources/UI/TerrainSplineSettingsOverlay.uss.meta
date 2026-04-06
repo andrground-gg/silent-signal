@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Resources/UI/TerrainSplineSettingsOverlay.uss
+  uploadId: 880056

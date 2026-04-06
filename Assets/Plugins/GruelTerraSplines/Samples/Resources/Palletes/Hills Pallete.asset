@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c509dbaa7b6f416409e3195321a2187e, type: 3}
+  m_Name: Hills Pallete
+  m_EditorClassIdentifier: 
+  PaletteLayers:
+  - {fileID: 8574412962073106934, guid: 323d8b28223a30648988be9d59f53b21, type: 2}
+  - {fileID: 8574412962073106934, guid: 5ddbac06cd0af4f43a9efa2b6dec3e74, type: 2}
+  - {fileID: 8574412962073106934, guid: 69f95f8bd6d21154db2a76c53a904e44, type: 2}
+  - {fileID: 8574412962073106934, guid: a6bd1fa8bc5cac345aab8bdfcf95bcfd, type: 2}

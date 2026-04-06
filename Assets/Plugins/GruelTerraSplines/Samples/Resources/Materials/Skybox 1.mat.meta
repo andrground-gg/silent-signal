@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 87855117f10263f408221b0fc841a87e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Samples/Resources/Materials/Skybox
+    1.mat
+  uploadId: 880056

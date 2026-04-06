@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 0dce7b2d3ade2f04889ed6fc2e7bb313
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Editor/DetailFalloffMapping.cs
+  uploadId: 880056

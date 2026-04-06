@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 69f95f8bd6d21154db2a76c53a904e44
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Samples/Resources/Layers/Sand.terrainlayer
+  uploadId: 880056

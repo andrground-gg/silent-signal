@@ -1,0 +1,191 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Plugins/GruelTerraSplines/Resources/UI/TerraSplinesListItem.uss?fileID=7433441132597879392&amp;guid=e7d3542f22843c04fb5f099fe36be991&amp;type=3#TerraSplinesListItem" />
+    <engine:VisualElement class="spline-item-container" style="padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+        <engine:VisualElement class="spline-header-row" style="background-color: rgba(9, 9, 9, 0.23); height: 26px; -unity-text-align: middle-left; padding-left: 4px; align-items: center;">
+            <engine:Toggle name="spline-foldout-toggle" value="true" class="foldout-toggle">
+                <engine:Label name="spline-arrow" text="▼" class="spline-arrow" />
+            </engine:Toggle>
+            <engine:Toggle name="enabled-toggle" value="true" tooltip="Enable or disable this spline. Disabled splines are ignored during terrain processing." class="spline-enabled-toggle" />
+            <engine:Label name="spline-name-label" text="[0] Spline Name" tooltip="Spline name and index. Click to select the GameObject in the hierarchy. Number in brackets shows processing priority (higher = more priority)." class="spline-name-text" style="text-overflow: ellipsis; flex-grow: 1; min-width: 0; flex-shrink: 1;" />
+            <engine:VisualElement name="spline-icons-container" class="spline-icons-container" style="flex-grow: 1; flex-shrink: 0;">
+                <engine:Image name="spline-mode-icon" tooltip="Spline mode icon: Path (linear) or Shape (filled)" class="spline-icon" />
+                <engine:VisualElement name="spline-operation-icons" class="spline-operation-icons" />
+            </engine:VisualElement>
+            <engine:Button name="apply-spline-button" tooltip="Apply spline to baseline" class="spline-action-button">
+                <engine:Image name="apply-icon" class="spline-action-icon" />
+            </engine:Button>
+            <engine:Button name="duplicate-spline-button" tooltip="Duplicate spline GameObject" class="spline-action-button">
+                <engine:Image name="duplicate-icon" class="spline-action-icon" />
+            </engine:Button>
+            <engine:Button name="delete-spline-button" tooltip="Delete spline GameObject" class="spline-action-button">
+                <engine:Image name="delete-icon" class="spline-action-icon" />
+            </engine:Button>
+        </engine:VisualElement>
+        <engine:VisualElement name="spline-content" class="spline-item-content">
+            <engine:VisualElement class="spline-controls">
+                <engine:VisualElement class="spline-tabs">
+                    <engine:Button name="override-mode-tab" text="Mode" tooltip="Override global mode and operation settings for this spline" class="spline-tab-button spline-tab-button-active" />
+                    <engine:Button name="override-brush-tab" text="Brush" tooltip="Override global brush settings (size, hardness, strength, sample step) for this spline" class="spline-tab-button" />
+                    <engine:Button name="override-paint-tab" text="Paint" tooltip="Override global paint settings (layer, paint strength) for this spline" class="spline-tab-button" />
+                    <engine:Button name="override-detail-tab" text="Detail" tooltip="Override global detail settings (mode, layer, strength, target density) for this spline" class="spline-tab-button" />
+                </engine:VisualElement>
+                <engine:VisualElement name="override-mode-content" class="spline-tab-content" style="padding-left: 0; padding-right: 0;">
+                    <engine:Toggle name="override-mode-toggle" label="Override" value="false" tooltip="Enable to override global mode and operation settings. When enabled, this spline uses its own mode and operation instead of global settings." />
+                    <engine:VisualElement class="mode-toolbar">
+                        <engine:Button name="path-mode-radio" text="Path" tooltip="Path Mode: Creates terrain paths along spline curves. Use for roads, rivers, trails, or any linear terrain features." class="mode-button" />
+                        <engine:Button name="shape-mode-radio" text="Shape" tooltip="Shape Mode: Fills the interior of closed splines. Use for plateaus, valleys, building foundations, or any area-based terrain." class="mode-button" />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="operation-mode-container">
+                        <engine:Label text="Operation" />
+                        <engine:VisualElement name="operation-dropdown" class="operation-dropdown" />
+                        <engine:Label name="operation-warning" text="Feature disabled" class="operation-warning-label" style="display: none;" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+                <engine:VisualElement name="override-brush-content" class="spline-tab-content" style="display: none;">
+                    <engine:Toggle name="override-brush-toggle" label="Override" value="false" tooltip="Enable to override global brush settings. When enabled, this spline uses its own brush size, hardness, strength, and sample step instead of global settings." />
+                    <engine:VisualElement class="brush-field-container">
+                        <engine:Label text="Brush" />
+                        <engine:VisualElement class="single-brush-field">
+                            <engine:VisualElement class="brush-preview-with-checkerboard">
+                                <engine:Image name="brush-preview-image" tooltip="Brush falloff preview - shows how brush strength decreases from center (white) to edge (black). Checkerboard shows transparency." class="brush-texture-image" />
+                            </engine:VisualElement>
+                            <editor:ObjectField name="brush-hidden-field" type="UnityEngine.Texture2D, UnityEngine.CoreModule" allow-scene-objects="false" tooltip="Select a brush texture for this spline. Click the preview image to open texture picker." class="hidden-object-field" />
+                        </engine:VisualElement>
+                    </engine:VisualElement>
+                    <engine:VisualElement name="brush-size-multiplier-section" class="size-multiplier-row">
+                        <engine:Label text="Size Multiplier" />
+                        <engine:Toggle name="override-brush-size-multiplier-toggle" value="false" tooltip="Enable to override brush size multiplier curve. Curve controls how brush size varies along the spline length (X-axis: normalized distance 0-1, Y-axis: size multiplier)." />
+                        <editor:CurveField name="brush-size-multiplier-curve" tooltip="Animation curve controlling brush size variation along spline. X-axis: normalized distance along spline (0-1). Y-axis: size multiplier (typically 0-5). Default: flat at 1.0 (no variation)." />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:Slider name="brush-size-slider" label="Size (m)" low-value="0.1" high-value="200" value="30" tooltip="Brush size in meters for this spline. Controls the radius of influence around spline points. Range: 0.1 to 200 meters." />
+                        <editor:FloatField name="brush-size-field" value="5" tooltip="Brush size in meters for this spline. Controls the radius of influence around spline points. Range: 0.1 to 200 meters." />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:Slider name="brush-hardness-slider" label="Hardness" low-value="0" high-value="1" value="0.5" tooltip="Brush hardness for this spline. Controls falloff curve: 0.0 = soft (gradual falloff), 0.5 = linear, 1.0 = hard (sharp falloff)." />
+                        <editor:FloatField name="brush-hardness-field" value="0.5" tooltip="Brush hardness for this spline. Controls falloff curve: 0.0 = soft (gradual falloff), 0.5 = linear, 1.0 = hard (sharp falloff)." />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:Slider name="strength-slider" label="Strength" low-value="0" high-value="1" value="1" tooltip="Blend strength for this spline's modifications. 0.0 = no effect, 1.0 = full effect. Controls how much this spline's changes blend with existing terrain." />
+                        <editor:FloatField name="strength-field" value="1" tooltip="Blend strength for this spline's modifications. 0.0 = no effect, 1.0 = full effect. Controls how much this spline's changes blend with existing terrain." />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:Slider name="sample-step-slider" label="Step (m)" low-value="0.05" high-value="30" value="2" tooltip="Distance between spline sample points in meters for this spline. Lower values = more detail but slower performance. Range: 0.05 to 30 meters." />
+                        <editor:FloatField name="sample-step-field" value="1" tooltip="Distance between spline sample points in meters. Lower values = more detail but slower performance. Range: 0.05 to 30 meters." />
+                    </engine:VisualElement>
+                    <engine:Foldout name="brush-noise-foldout" text="Noise" value="false" class="noise-foldout">
+                        <engine:VisualElement class="noise-foldout-content">
+                            <engine:VisualElement class="noise-inline-row">
+                                <editor:ObjectField name="brush-noise-texture" label="Texture" type="UnityEngine.Texture2D, UnityEngine.CoreModule" allow-scene-objects="false" tooltip="Optional noise texture used to modulate brush alpha for this spline." class="noise-texture-field" />
+                                <engine:Toggle name="brush-noise-invert-toggle" value="false" tooltip="Invert sampled noise (1 - noise)." class="icon-toggle noise-invert-toggle">
+                                    <engine:Image name="brush-noise-invert-icon" class="icon-toggle-icon noise-invert-icon" />
+                                </engine:Toggle>
+                            </engine:VisualElement>
+                            <editor:Vector2Field name="brush-noise-offset-field" label="Offset" tooltip="UV offset applied after world-to-UV mapping." class="noise-offset-field" />
+                            <engine:VisualElement class="slider-field-row">
+                                <engine:Slider name="brush-noise-size-slider" label="Scale" low-value="0.1" high-value="512" value="128" tooltip="World meters per noise tile. Larger values = larger blobs; smaller values = more frequent variation." />
+                                <editor:FloatField name="brush-noise-size-field" value="128" tooltip="World meters per noise tile. Larger values = larger blobs; smaller values = more frequent variation." />
+                            </engine:VisualElement>
+                            <engine:VisualElement class="slider-field-row">
+                                <engine:Slider name="brush-noise-strength-slider" label="Strength" low-value="0" high-value="1" value="1" tooltip="Noise influence. 0 = no noise, 1 = fully multiply by noise." />
+                                <editor:FloatField name="brush-noise-strength-field" value="1" tooltip="Noise influence. 0 = no noise, 1 = fully multiply by noise." />
+                            </engine:VisualElement>
+                            <engine:VisualElement class="slider-field-row">
+                                <engine:Slider name="brush-noise-edge-slider" label="Edge" low-value="-1" high-value="1" value="0" tooltip="Bias noise toward center or edges. 0 = noise everywhere, 1 = noise only near edges, -1 = noise only near center/interior." />
+                                <editor:FloatField name="brush-noise-edge-field" value="0" tooltip="Bias noise toward center or edges. 0 = noise everywhere, 1 = noise only near edges, -1 = noise only near center/interior." />
+                            </engine:VisualElement>
+                        </engine:VisualElement>
+                    </engine:Foldout>
+                </engine:VisualElement>
+                <engine:VisualElement name="override-paint-content" class="spline-tab-content" style="display: none;">
+                    <engine:Toggle name="override-paint-toggle" label="Override" value="false" tooltip="Enable to override global paint settings. When enabled, this spline uses its own paint layer and paint strength instead of global settings." />
+                    <engine:VisualElement class="paint-layer-selection">
+                        <engine:Label text="Layer" />
+                        <engine:VisualElement name="paint-layer-palette" tooltip="Click a terrain layer thumbnail to select it for painting this spline. Selected layer will be applied along the spline path or within the spline shape." class="paint-layer-palette" />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:Slider name="paint-strength-slider" label="Paint Strength" low-value="0" high-value="1" value="1" tooltip="Paint blend strength for this spline. 0.0 = no paint applied, 1.0 = full paint strength. Controls how much the selected terrain layer is applied." />
+                        <editor:FloatField name="paint-strength-field" value="1" tooltip="Paint blend strength for this spline. 0.0 = no paint applied, 1.0 = full paint strength. Controls how much the selected terrain layer is applied." />
+                    </engine:VisualElement>
+                    <engine:Foldout name="paint-noise-foldout" text="Noise" value="false" class="noise-foldout">
+                        <engine:VisualElement class="noise-foldout-content">
+                            <engine:VisualElement class="noise-inline-row">
+                                <editor:ObjectField name="paint-noise-texture" label="Texture" type="UnityEngine.Texture2D, UnityEngine.CoreModule" allow-scene-objects="false" tooltip="Optional noise texture used to modulate paint alpha for the selected layer." class="noise-texture-field" />
+                                <engine:Toggle name="paint-noise-invert-toggle" value="false" tooltip="Invert sampled noise (1 - noise)." class="icon-toggle noise-invert-toggle">
+                                    <engine:Image name="paint-noise-invert-icon" class="icon-toggle-icon noise-invert-icon" />
+                                </engine:Toggle>
+                            </engine:VisualElement>
+                            <editor:Vector2Field name="paint-noise-offset-field" label="Offset" tooltip="UV offset applied after world-to-UV mapping." class="noise-offset-field" />
+                            <engine:VisualElement class="slider-field-row">
+                                <engine:Slider name="paint-noise-size-slider" label="Scale" low-value="0.1" high-value="512" value="128" tooltip="World meters per noise tile. Larger values = larger blobs; smaller values = more frequent variation." />
+                                <editor:FloatField name="paint-noise-size-field" value="128" tooltip="World meters per noise tile. Larger values = larger blobs; smaller values = more frequent variation." />
+                            </engine:VisualElement>
+                            <engine:VisualElement class="slider-field-row">
+                                <engine:Slider name="paint-noise-strength-slider" label="Strength" low-value="0" high-value="1" value="1" tooltip="Noise influence. 0 = no noise, 1 = fully multiply by noise." />
+                                <editor:FloatField name="paint-noise-strength-field" value="1" tooltip="Noise influence. 0 = no noise, 1 = fully multiply by noise." />
+                            </engine:VisualElement>
+                            <engine:VisualElement class="slider-field-row">
+                                <engine:Slider name="paint-noise-edge-slider" label="Edge" low-value="-1" high-value="1" value="0" tooltip="Bias noise toward center or edges. 0 = noise everywhere, 1 = noise only near edges, -1 = noise only near center/interior." />
+                                <editor:FloatField name="paint-noise-edge-field" value="0" tooltip="Bias noise toward center or edges. 0 = noise everywhere, 1 = noise only near edges, -1 = noise only near center/interior." />
+                            </engine:VisualElement>
+                        </engine:VisualElement>
+                    </engine:Foldout>
+                </engine:VisualElement>
+                <engine:VisualElement name="override-detail-content" class="spline-tab-content" style="display: none;">
+                    <engine:Toggle name="override-detail-toggle" label="Override" value="false" tooltip="Enable to override global detail settings. When enabled, this spline uses its own detail mode, layer, strength, and target density instead of global settings." />
+                    <engine:VisualElement class="paint-layer-selection">
+                        <engine:Label text="Detail Layer" />
+                        <engine:VisualElement name="detail-layer-palette" tooltip="Click a detail layer thumbnail to select it for this spline. Selected layer will be applied along the spline path or within the spline shape." class="paint-layer-palette" />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:SliderInt name="detail-density-slider" label="Density" low-value="10" high-value="2048" value="16" tooltip="Target per-cell detail density (max) for this spline. Higher values = denser detail." />
+                        <editor:IntegerField name="detail-density-field" value="16" tooltip="Target per-cell detail density (max) for this spline. Higher values = denser detail." />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:Slider name="detail-strength-slider" label="Strength" low-value="0" high-value="1" value="1" tooltip="Detail density strength for this spline. 0.0 = no detail applied, 1.0 = full density. Controls how much the selected detail layer is applied." />
+                        <editor:FloatField name="detail-strength-field" value="1" tooltip="Detail density strength for this spline. 0.0 = no detail applied, 1.0 = full density. Controls how much the selected detail layer is applied." />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:Slider name="detail-falloff-slider" label="Falloff" low-value="0" high-value="1" value="0.12" tooltip="Normalized power for detail falloff. 0 = soft edges, 1 = sharp edges." />
+                        <editor:FloatField name="detail-falloff-field" value="0.12" tooltip="Normalized power for detail falloff. 0 = soft edges, 1 = sharp edges." />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:SliderInt name="detail-spread-slider" label="Spread" low-value="0" high-value="4" value="0" tooltip="Expands detail painting to neighboring detail cells to reduce bleeding gaps. Values bigger than 0 are performance heavy." />
+                        <editor:IntegerField name="detail-spread-field" value="0" tooltip="Expands detail painting to neighboring detail cells to reduce bleeding gaps. Values bigger than 0 are performance heavy." />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:Slider name="detail-slope-slider" label="Max Slope" low-value="0" high-value="90" value="90" tooltip="Detail will be skipped on slopes steeper than this angle (degrees)." />
+                        <editor:FloatField name="detail-slope-field" value="90" tooltip="Detail will be skipped on slopes steeper than this angle (degrees)." />
+                    </engine:VisualElement>
+                    <engine:VisualElement class="slider-field-row">
+                        <engine:Slider name="detail-remove-threshold-slider" label="Remove Threshold" low-value="0" high-value="1" value="0.6" tooltip="When removing detail, alpha above this threshold forces density to 0 for cleaner edges." />
+                        <editor:FloatField name="detail-remove-threshold-field" value="0.6" tooltip="When removing detail, alpha above this threshold forces density to 0 for cleaner edges." />
+                    </engine:VisualElement>
+                    <engine:Foldout name="detail-noise-foldout" text="Noise" value="false" class="noise-foldout">
+                        <engine:VisualElement class="noise-foldout-content">
+                            <engine:VisualElement class="noise-inline-row">
+                                <editor:ObjectField name="detail-noise-texture" label="Texture" type="UnityEngine.Texture2D, UnityEngine.CoreModule" allow-scene-objects="false" tooltip="Optional noise texture used to modulate detail density for the selected layer." class="noise-texture-field" />
+                                <engine:Toggle name="detail-noise-invert-toggle" value="false" tooltip="Invert sampled noise (1 - noise)." class="icon-toggle noise-invert-toggle">
+                                    <engine:Image name="detail-noise-invert-icon" class="icon-toggle-icon noise-invert-icon" />
+                                </engine:Toggle>
+                            </engine:VisualElement>
+                            <editor:Vector2Field name="detail-noise-offset-field" label="Offset" tooltip="UV offset applied after world-to-UV mapping." class="noise-offset-field" />
+                            <engine:VisualElement class="slider-field-row">
+                                <engine:Slider name="detail-noise-size-slider" label="Scale" low-value="0.1" high-value="512" value="128" tooltip="World meters per noise tile. Larger values = larger blobs; smaller values = more frequent variation." />
+                                <editor:FloatField name="detail-noise-size-field" value="128" tooltip="World meters per noise tile. Larger values = larger blobs; smaller values = more frequent variation." />
+                            </engine:VisualElement>
+                            <engine:VisualElement class="slider-field-row">
+                                <engine:Slider name="detail-noise-threshold-slider" label="Threshold" low-value="0" high-value="1" value="0.5" tooltip="Noise values below this threshold are treated as 0 (hard cutoff), higher values are remapped to 0..1." />
+                                <editor:FloatField name="detail-noise-threshold-field" value="0.5" tooltip="Noise values below this threshold are treated as 0 (hard cutoff), higher values are remapped to 0..1." />
+                            </engine:VisualElement>
+                        </engine:VisualElement>
+                    </engine:Foldout>
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement class="spline-preview">
+                <engine:Image name="preview-thumbnail" tooltip="Preview thumbnail showing this spline&apos;s heightmap contribution. Darker = lower, lighter = higher. Updates automatically as spline is modified." class="preview-thumbnail" />
+                <engine:Label text="No Preview" name="no-preview-label" tooltip="No preview available. Preview will appear after spline is processed." class="no-preview-label" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

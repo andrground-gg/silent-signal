@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 13e7d625a6519d540bd7b7572cbd5189
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Samples/Flower.unity
+  uploadId: 880056

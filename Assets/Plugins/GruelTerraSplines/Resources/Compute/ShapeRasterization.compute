@@ -1,0 +1,305 @@
+#pragma kernel RasterizeShape
+
+// DEBUG TIMESTAMP: 2024-01-XX - Force recompilation
+// Input data structures
+struct BorderPoint
+{
+    float3 position;
+    float brushSizeMultiplier;
+    float normalizedDistance;
+};
+
+struct TerrainParams
+{
+    float3 terrainPosition;
+    float3 terrainSize;
+    int heightmapResolution;
+    float brushSizeMeters;
+    float sampleStepMeters;
+    float brushHardness;
+    int borderPointCount;
+    int minX, minZ, maxX, maxZ;
+};
+
+// Input buffers
+StructuredBuffer<BorderPoint> borderPoints;
+StructuredBuffer<TerrainParams> terrainParams;
+
+// Brush hardness parameter for procedural falloff
+float brushHardness;
+
+// Output textures
+RWTexture2D<float> outputHeights;
+RWTexture2D<float> outputAlpha;
+
+// Helper function to convert world position to heightmap coordinates
+int2 WorldToHeightmap(float3 worldPos, TerrainParams params)
+{
+    float3 localPos = worldPos - params.terrainPosition;
+    float2 normalized = float2(localPos.x / params.terrainSize.x, localPos.z / params.terrainSize.z);
+    int2 result = int2(
+        round(normalized.x * (params.heightmapResolution - 1)),
+        round(normalized.y * (params.heightmapResolution - 1))
+    );
+    return clamp(result, int2(0, 0), int2(params.heightmapResolution - 1, params.heightmapResolution - 1));
+}
+
+// Helper function to convert heightmap coordinates to world position
+float3 HeightmapToWorld(int2 heightmapPos, TerrainParams params)
+{
+    float2 normalized = float2(heightmapPos) / float(params.heightmapResolution - 1);
+    float3 localPos = float3(
+        normalized.x * params.terrainSize.x,
+        0, // Y will be calculated from border points
+        normalized.y * params.terrainSize.z
+    );
+    return params.terrainPosition + localPos;
+}
+
+// Helper function to convert world Y to normalized height
+float WorldYToNormalizedHeight(float worldY, TerrainParams params)
+{
+    return saturate((worldY - params.terrainPosition.y) / params.terrainSize.y);
+}
+
+// Point-in-polygon test using winding number algorithm (more robust)
+bool PointInPolygon(float2 p, StructuredBuffer<BorderPoint> points, int pointCount)
+{
+    float winding = 0.0;
+
+    for (int i = 0; i < pointCount; i++)
+    {
+        int j = (i + 1) % pointCount;
+        float2 pi = float2(points[i].position.x, points[i].position.z);
+        float2 pj = float2(points[j].position.x, points[j].position.z);
+
+        // Calculate winding number
+        float2 v1 = pi - p;
+        float2 v2 = pj - p;
+
+        float cross = v1.x * v2.y - v1.y * v2.x;
+        float dot1 = dot(v1, v1);
+        float dot2 = dot(v2, v2);
+
+        if (dot1 > 0.0001 && dot2 > 0.0001)
+        {
+            float angle = atan2(cross, dot(v1, v2));
+            winding += angle;
+        }
+    }
+
+    // Point is inside if winding number is close to 2π or -2π
+    return abs(winding) > 3.0; // Approximately 2π
+}
+
+// Calculate signed distance to polygon edge
+float SignedDistanceToPolygon(float2 p, StructuredBuffer<BorderPoint> points, int pointCount)
+{
+    float minDist = 999999.0;
+    bool inside = PointInPolygon(p, points, pointCount);
+
+    for (int i = 0; i < pointCount; i++)
+    {
+        int j = (i + 1) % pointCount;
+        float2 a = float2(points[i].position.x, points[i].position.z);
+        float2 b = float2(points[j].position.x, points[j].position.z);
+
+        // Distance to line segment
+        float2 ab = b - a;
+        float2 ap = p - a;
+        float abLength = length(ab);
+
+        if (abLength < 0.0001)
+        {
+            float dist = length(ap);
+            minDist = min(minDist, dist);
+        }
+        else
+        {
+            float t = saturate(dot(ap, ab) / (abLength * abLength));
+            float2 projection = a + t * ab;
+            float dist = length(p - projection);
+            minDist = min(minDist, dist);
+        }
+    }
+
+    return inside ? -minDist : minDist;
+}
+
+// IDW interpolation for border heights (matches CPU InterpolationUtils.InterpolateIDW)
+float InterpolateIDW(float2 p, StructuredBuffer<BorderPoint> points, int pointCount)
+{
+    // Use k=8 nearest neighbors like CPU version
+    int k = min(8, pointCount);
+
+    // Find k nearest points
+    float nearestDistSq[8];
+    int nearestIndices[8];
+
+    // Initialize with max values
+    for (int i = 0; i < k; i++)
+    {
+        nearestDistSq[i] = 999999.0;
+        nearestIndices[i] = 0;
+    }
+
+    // Find k nearest points
+    for (int i = 0; i < pointCount; i++)
+    {
+        float2 bp = float2(points[i].position.x, points[i].position.z);
+        float distSq = dot(p - bp, p - bp);
+
+        // Insert if closer than furthest in k nearest
+        for (int j = 0; j < k; j++)
+        {
+            if (distSq < nearestDistSq[j])
+            {
+                // Shift array to make room
+                for (int l = k - 1; l > j; l--)
+                {
+                    nearestDistSq[l] = nearestDistSq[l - 1];
+                    nearestIndices[l] = nearestIndices[l - 1];
+                }
+                nearestDistSq[j] = distSq;
+                nearestIndices[j] = i;
+                break;
+            }
+        }
+    }
+
+    // Calculate weighted average
+    float weightSum = 0.0;
+    float heightSum = 0.0;
+
+    for (int i = 0; i < k; i++)
+    {
+        float distSq = max(nearestDistSq[i], 1e-6); // Avoid division by zero
+        float weight = 1.0 / distSq;
+        weightSum += weight;
+        heightSum += weight * WorldYToNormalizedHeight(points[nearestIndices[i]].position.y, terrainParams[0]);
+    }
+
+    return weightSum > 1e-6 ? heightSum / weightSum : WorldYToNormalizedHeight(points[nearestIndices[0]].position.y, terrainParams[0]);
+}
+
+// Smooth interpolation for border heights (matches CPU InterpolationUtils.InterpolateSmooth)
+float InterpolateSmooth(float2 p, StructuredBuffer<BorderPoint> points, int pointCount)
+{
+    float weightSum = 0.0;
+    float heightSum = 0.0;
+
+    for (int i = 0; i < pointCount; i++)
+    {
+        float2 bp = float2(points[i].position.x, points[i].position.z);
+        float dist = length(p - bp);
+
+        // Use inverse distance squared for smooth, natural interpolation
+        // This creates a convex surface that naturally rises from border points
+        float weight = 1.0 / (dist * dist + 0.1); // +0.1 to avoid division by zero
+        weightSum += weight;
+        heightSum += weight * WorldYToNormalizedHeight(points[i].position.y, terrainParams[0]);
+    }
+
+    return weightSum > 1e-6 ? heightSum / weightSum : WorldYToNormalizedHeight(points[0].position.y, terrainParams[0]);
+}
+
+// Procedural brush falloff calculation (matches BrushFalloffUtils.CalculateFalloff)
+float CalculateBrushFalloff(float normalizedDistance, float hardness)
+{
+    // Map hardness to power curve exponent (0.5 to 5.0 range)
+    float exponent = lerp(0.5, 5.0, hardness);
+
+    // Apply smoothstep interpolation for smooth transition
+    float smoothStep = smoothstep(0.0, 1.0, 1.0 - normalizedDistance);
+
+    // Apply power curve for desired falloff shape
+    return pow(smoothStep, exponent);
+}
+
+[numthreads(8, 8, 1)]
+void RasterizeShape(uint3 id : SV_DispatchThreadID)
+{
+    TerrainParams params = terrainParams[0];
+
+    // Calculate global heightmap coordinates from dispatch thread ID
+    int2 globalPos = int2(id.x + params.minX, id.y + params.minZ);
+
+    // Check if we're within the texture bounds
+    int textureWidth = params.maxX - params.minX + 1;
+    int textureHeight = params.maxZ - params.minZ + 1;
+
+    if (id.x >= textureWidth || id.y >= textureHeight)
+    {
+        return;
+    }
+
+    // Convert to local cache coordinates (same as thread ID)
+    int2 localPos = int2(id.x, id.y);
+
+    // Convert heightmap coordinates to world position
+    float3 worldPos = HeightmapToWorld(globalPos, params);
+    float2 p = float2(worldPos.x, worldPos.z);
+
+    // Calculate signed distance to polygon
+    float signedDist = SignedDistanceToPolygon(p, borderPoints, params.borderPointCount);
+    float absDist = abs(signedDist);
+
+    // Find nearest border point to get its brush size multiplier
+    float nearestDistSq = 999999.0;
+    float nearestBrushSize = params.brushSizeMeters;
+
+    for (int i = 0; i < params.borderPointCount; i++)
+    {
+        BorderPoint borderPoint = borderPoints[i];
+        float3 bp = borderPoint.position;
+        float distSq = (p.x - bp.x) * (p.x - bp.x) + (p.y - bp.z) * (p.y - bp.z);
+
+        if (distSq < nearestDistSq)
+        {
+            nearestDistSq = distSq;
+            nearestBrushSize = params.brushSizeMeters * borderPoint.brushSizeMultiplier;
+        }
+    }
+
+    // Only process if inside polygon or within brush range
+    if (signedDist > 0 && absDist > nearestBrushSize)
+    {
+        outputHeights[localPos] = 0.0;
+        outputAlpha[localPos] = 0.0;
+        return;
+    }
+
+
+    // Determine target height and brush strength based on position
+    float targetHeight;
+    float finalAlpha;
+
+    if (signedDist <= 0) // Inside polygon
+    {
+        // For convex surface: interpolate border heights and apply them with full strength
+        targetHeight = InterpolateSmooth(p, borderPoints, params.borderPointCount);
+        finalAlpha = 1.0; // Full strength inside for convex surface
+    }
+    else // Outside polygon
+    {
+        // Taper from border height to original terrain height using brush texture
+        float borderHeight = InterpolateIDW(p, borderPoints, params.borderPointCount);
+
+        // Calculate brush falloff for outside tapering using nearest brush size
+        float normalizedDistance = absDist / nearestBrushSize;
+        finalAlpha = CalculateBrushFalloff(normalizedDistance, params.brushHardness);
+
+        if (finalAlpha <= 0.0001)
+        {
+            outputHeights[localPos] = 0.0;
+            outputAlpha[localPos] = 0.0;
+            return;
+        }
+
+        targetHeight = borderHeight; // Store target height, will blend with original later
+    }
+
+    // Store results
+    outputHeights[localPos] = targetHeight;
+    outputAlpha[localPos] = finalAlpha;
+}

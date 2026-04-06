@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9946ce2c27321ed4eaf1a314ccb27f1e
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Samples/SplineOperationsExamples.unity
+  uploadId: 880056

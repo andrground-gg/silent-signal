@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Resources/Compute/ShapeRasterization.compute
+  uploadId: 880056

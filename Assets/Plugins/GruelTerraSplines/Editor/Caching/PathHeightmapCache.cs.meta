@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: bc86edf70304ea64abcdfc06c3bdc005
+AssetOrigin:
+  serializedVersion: 1
+  productId: 343912
+  packageName: TerraSplines - Spline Terrain Editor
+  packageVersion: 1.2.0
+  assetPath: Assets/Plugins/GruelTerraSplines/Editor/Caching/PathHeightmapCache.cs
+  uploadId: 880056
