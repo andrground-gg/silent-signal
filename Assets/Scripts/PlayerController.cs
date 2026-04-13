@@ -11,7 +11,9 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 velocity;
-
+    private float groundedTimer = 0f;
+    private float groundedBuffer = 0.1f;
+    
     float xRotation = 0f;
 
     void Start()
@@ -31,26 +33,34 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateMovement()
     {
-        if (controller.isGrounded && velocity.y < 0)
+        // Ground buffer
+        if (controller.isGrounded)
         {
-            velocity.y = -2f;
+            groundedTimer = groundedBuffer;
+
+            if (velocity.y < 0)
+                velocity.y = -0.5f; 
+        }
+        else
+        {
+            groundedTimer -= Time.deltaTime;
         }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(move * (speed * Time.deltaTime));
 
-        // Jump
-        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        if (Input.GetButtonDown("Jump") && groundedTimer > 0f)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            velocity.y = Mathf.Sqrt(-jumpHeight * gravity);
+            groundedTimer = 0f;
         }
 
-        // Gravity
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+
+        Vector3 finalMove = move * speed + velocity;
+        controller.Move(finalMove * Time.deltaTime);
     }
 
     private void UpdateRotation()
