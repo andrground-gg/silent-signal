@@ -24,7 +24,40 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // ===== Mouse Look =====
+        UpdateLockState();
+        UpdateRotation();
+        UpdateMovement();
+    }
+
+    private void UpdateMovement()
+    {
+        if (controller.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        Vector3 move = transform.right * x + transform.forward * z;
+        controller.Move(move * (speed * Time.deltaTime));
+
+        // Jump
+        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        // Gravity
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void UpdateRotation()
+    {
+        if (Cursor.lockState != CursorLockMode.Locked)
+            return;
+        
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
@@ -36,27 +69,22 @@ public class PlayerController : MonoBehaviour
 
         // Horizontal rotation (player body)
         transform.Rotate(Vector3.up * mouseX);
-
-        // ===== Movement =====
-        if (controller.isGrounded && velocity.y < 0)
+    }
+    
+    private void UpdateLockState()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            velocity.y = -2f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            return;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(move * speed * Time.deltaTime);
-
-        // Jump
-        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        if (Cursor.lockState != CursorLockMode.Locked && Input.GetMouseButtonDown(0))
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            return;
         }
-
-        // Gravity
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
     }
 }
