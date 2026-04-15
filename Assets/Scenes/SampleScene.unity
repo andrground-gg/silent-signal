@@ -748,7 +748,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8.7
+  m_fontSize: 24.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -912,7 +912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1416177541}
   m_Layer: 0
-  m_Name: Utils
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1467,13 +1467,22 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: -1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
+    - serializedVersion: 3
+      time: 0.25671077
+      value: 0.33379433
+      inSlope: 2.351987
+      outSlope: 2.351987
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.10869152
     - serializedVersion: 3
       time: 1
       value: 1
@@ -1569,7 +1578,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   moonColor: {r: 0.4, g: 0.5, b: 0.7019608, a: 1}
   dayAmbientLight: {r: 0.83137256, g: 0.9098039, b: 0.7607843, a: 0}
-  nightAmbientLight: {r: 0.054901965, g: 0.050980397, b: 0.09411766, a: 0}
+  nightAmbientLight: {r: 0.24319558, g: 0.23166609, b: 0.3584906, a: 0}
   horizonAmbientLight: {r: 1, g: 0.47843137, b: 0.18431373, a: 0}
   horizonBlendCurve:
     serializedVersion: 2
@@ -1584,7 +1593,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 1
     - serializedVersion: 3
-      time: 0.2
+      time: 0.15
       value: 0
       inSlope: -0
       outSlope: -0
@@ -1593,49 +1602,49 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.31249997
     - serializedVersion: 3
-      time: 0.25
+      time: 0.23750356
+      value: 0.7980965
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.38333333
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6666667
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.81666666
       value: 0.8
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.4690166
+      outSlope: 0.4690166
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 1
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.4
+      time: 0.8666667
       value: 0
-      inSlope: 0
+      inSlope: -0.644496
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 1
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.75
-      value: 0.8
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.8
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 1
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
