@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class LeverController : MonoBehaviour
 {
-    [SerializeField] private LeverAnimator leverAnimator;
-    [SerializeField] private SpeedState    defaultState = SpeedState.Normal;
+    [SerializeField] private Lever[]    levers;
+    [SerializeField] private SpeedState defaultState = SpeedState.Normal;
 
     public event Action<SpeedState> OnSpeedChanged;
 
@@ -12,33 +12,33 @@ public class LeverController : MonoBehaviour
 
     private void Awake()
     {
-        // Snap all levers to released position before animating the default
-        int count = Enum.GetValues(typeof(SpeedState)).Length;
-        for (int i = 0; i < count; i++)
-            leverAnimator.SnapToDefault(i);
+        foreach (var lever in levers)
+            lever.SnapToReleased();
     }
 
     private void Start()
     {
-        // Pull the default lever without firing the event — initial state only
         Current = defaultState;
-        leverAnimator.AnimatePull((int)defaultState);
+        GetLever(defaultState)?.AnimatePull();
     }
 
-    /// <summary>Called by each lever's UnityEvent (OnClick / trigger).</summary>
     public void SetSpeed(SpeedState newState)
     {
         if (newState == Current) return;
 
-        leverAnimator.AnimateRelease((int)Current);
-        leverAnimator.AnimatePull((int)newState);
+        GetLever(Current)?.AnimateRelease();
+        GetLever(newState)?.AnimatePull();
 
         Current = newState;
         OnSpeedChanged?.Invoke(newState);
     }
 
-    // Convenience wrappers so UnityEvent buttons can call these directly
-    public void SetSlow()   => SetSpeed(SpeedState.Slow);
-    public void SetNormal() => SetSpeed(SpeedState.Normal);
-    public void SetFast()   => SetSpeed(SpeedState.Fast);
+    private Lever GetLever(SpeedState state)
+    {
+        foreach (var lever in levers)
+            if (lever.SpeedState == state) return lever;
+
+        Debug.LogWarning($"[LeverController] No lever found for state {state}");
+        return null;
+    }
 }

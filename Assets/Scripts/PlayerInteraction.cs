@@ -27,7 +27,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, interactDistance, interactLayer))
         {
-            newInteractable = hit.collider.GetComponent<IInteractable>();
+            newInteractable = hit.collider.GetComponentInParent<IInteractable>();
         }
 
         if (newInteractable != current)
