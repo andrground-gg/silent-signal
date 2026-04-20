@@ -111,14 +111,14 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DisplacementRadius: 13.7
-    - _DisplacementStrength: 10.8
+    - _DisplacementRadius: 1
+    - _DisplacementStrength: 52.14
     - _DisplacerCount: 0
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FoamSoftness: 0.0575
-    - _FoamThreshold: 0.059
+    - _FoamSoftness: 0.015
+    - _FoamThreshold: 0.04
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -127,21 +127,21 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0
+    - _Smoothness: 0.791
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _WaveHeight: 8.94
-    - _WaveScale: 22
-    - _WaveSpeed: 0.88
+    - _WaveHeight: 0.18
+    - _WaveScale: 10
+    - _WaveSpeed: 0.7
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepColor: {r: 0, g: 0.3921569, b: 1, a: 1}
+    - _DeepColor: {r: 0.028746892, g: 0.15805806, b: 0.3584906, a: 1}
     - _Displacer0: {r: 0, g: 0, b: 0, a: 0}
     - _Displacer1: {r: 0, g: 0, b: 0, a: 0}
     - _Displacer2: {r: 0, g: 0, b: 0, a: 0}
