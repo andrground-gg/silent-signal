@@ -1,8 +1,8 @@
+using GeneratorSystem;
 using UnityEngine;
 
-public class LighthouseManager : MonoBehaviour
+public class LighthouseManager : Singleton<LighthouseManager>
 {
-    [SerializeField] private LeverController leverController;
     [SerializeField] private Transform       beamPivot;
 
     [Header("Angular velocities (degrees per second)")]
@@ -11,25 +11,26 @@ public class LighthouseManager : MonoBehaviour
     [SerializeField] private float fastSpeed   = 150f;
 
     [Header("Transition")]
-    [SerializeField] private float lerpRate = 3f;  // how quickly velocity changes
+    [SerializeField] private float lerpRate = 3f;
 
     private float _targetVelocity;
     private float _currentVelocity;
 
     private void OnEnable()
     {
-        leverController.OnSpeedChanged += HandleSpeedChanged;
+        LeverController.Instance.OnSpeedChanged += HandleSpeedChanged;
+        GeneratorManager.Instance.OnGeneratorActivated += HandleOnGeneratorActivated;
     }
 
     private void OnDisable()
     {
-        leverController.OnSpeedChanged -= HandleSpeedChanged;
+        LeverController.Instance.OnSpeedChanged -= HandleSpeedChanged;
+        GeneratorManager.Instance.OnGeneratorActivated -= HandleOnGeneratorActivated;
     }
 
     private void Start()
     {
-        // Sync with whatever state the controller initialised to
-        _targetVelocity  = VelocityFor(leverController.Current);
+        _targetVelocity  = VelocityFor(LeverController.Instance.Current);
         _currentVelocity = _targetVelocity;
     }
 
@@ -51,4 +52,10 @@ public class LighthouseManager : MonoBehaviour
         SpeedState.Fast   => fastSpeed,
         _                 => normalSpeed
     };
+
+    private void HandleOnGeneratorActivated(GeneratorID id)
+    {
+        if (id != GeneratorID.GENERATOR_LIGHTHOUSE) return;
+        Debug.Log($"Lighthouse generator activated for {id}");
+    }
 }

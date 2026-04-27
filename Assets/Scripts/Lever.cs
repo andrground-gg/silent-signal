@@ -1,50 +1,59 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
 public class Lever : BaseInteractable
 {
-    [SerializeField] private LeverController controller;
     [SerializeField] private Transform levelPart;
-    [SerializeField] private SpeedState      speedState;
 
     [Header("Animation")]
-    [SerializeField] private float pulledAngle   =  30f;
-    [SerializeField] private float releasedAngle = -30f;
+    [SerializeField] private Vector3 pulledAngle    = Vector3.zero;
+    [SerializeField] private Vector3 releasedAngle  = Vector3.zero;
     [SerializeField] private float pullDuration   = 0.25f;
     [SerializeField] private float releaseDuration = 0.2f;
     [SerializeField] private Ease  pullEase    = Ease.OutBack;
     [SerializeField] private Ease  releaseEase = Ease.OutSine;
-
+    private bool _isPulled;
     private Tween _tween;
 
-    public SpeedState SpeedState => speedState;
+    public event Action OnPulled;
+    public event Action OnRelease;
 
+    
     public override void Interact()
     {
         base.Interact();
-        controller.SetSpeed(speedState);
+        if (_isPulled)
+            AnimateRelease();
+        else
+            AnimatePull();
     }
 
     public void AnimatePull()
     {
+        _isPulled = true;
         KillTween();
         _tween = levelPart
-            .DOLocalRotate(new Vector3(pulledAngle, 0f, 0f), pullDuration)
-            .SetEase(pullEase);
+            .DOLocalRotate(pulledAngle, pullDuration)
+            .SetEase(pullEase)
+            .OnComplete(() => OnPulled?.Invoke());
     }
 
     public void AnimateRelease()
     {
+        _isPulled = false;
         KillTween();
         _tween = levelPart
-            .DOLocalRotate(new Vector3(releasedAngle, 0f, 0f), releaseDuration)
-            .SetEase(releaseEase);
+            .DOLocalRotate(releasedAngle, releaseDuration)
+            .SetEase(releaseEase)
+            .OnComplete(() => OnRelease?.Invoke());
     }
 
     public void SnapToReleased()
     {
+        _isPulled = false;
         KillTween();
-        levelPart.localRotation = Quaternion.Euler(releasedAngle, 0f, 0f);
+        levelPart.localRotation = Quaternion.Euler(releasedAngle);
     }
 
     private void KillTween() => _tween?.Kill();
