@@ -19,14 +19,23 @@ public class Lever : BaseInteractable
     public event Action OnPulled;
     public event Action OnRelease;
 
+    [SerializeField] private AudioSource pullSound;
+    [SerializeField] private AudioSource releaseSound;
+
     
     public override void Interact()
     {
         base.Interact();
         if (_isPulled)
+        {
             AnimateRelease();
+            PlayReleaseSound();
+        }
         else
+        {
             AnimatePull();
+            PlayPullSound();
+        }
     }
 
     public void AnimatePull()
@@ -57,4 +66,7 @@ public class Lever : BaseInteractable
     }
 
     private void KillTween() => _tween?.Kill();
+
+    public void PlayPullSound() => pullSound.Play();
+    public void PlayReleaseSound() => releaseSound.Play();
 }

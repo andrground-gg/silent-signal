@@ -67,6 +67,7 @@ public class LeverController : Singleton<LeverController>
         if (currentEntry != null)
         {
             currentEntry.lever?.AnimateRelease();
+            currentEntry.lever?.PlayReleaseSound();
         }
 
         var newEntry = GetEntry(newState);
