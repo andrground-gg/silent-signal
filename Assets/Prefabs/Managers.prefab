@@ -483,9 +483,61 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2538065089576931721}
     m_Modifications:
+    - target: {fileID: 1182504913860568544, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_fontSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1812536400256483937, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -45.5028
+      objectReference: {fileID: 0}
+    - target: {fileID: 1812536400256483937, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -19.8404
+      objectReference: {fileID: 0}
+    - target: {fileID: 1812536400256483937, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 2371411441977283027, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782297847363791214, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.9552875
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782297847363791214, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.8726925
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782297847363791214, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.070034
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782297847363791214, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.12730747
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782297847363791214, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782297847363791214, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782297847363791214, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3310968434506728493, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
       propertyPath: m_Name
       value: UI Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4324820149058684190, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6373290906539670641, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
       propertyPath: m_Pivot.x

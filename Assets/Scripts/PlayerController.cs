@@ -109,11 +109,11 @@ public class PlayerController : MonoBehaviour
         float currentSpeed = _isRunning ? runSpeed : walkSpeed;
         Vector3 move = transform.right * x + transform.forward * z;
 
-        if (Input.GetButtonDown("Jump") && groundedTimer > 0f)
-        {
-            velocity.y = Mathf.Sqrt(-jumpHeight * gravity);
-            groundedTimer = 0f;
-        }
+        // if (Input.GetButtonDown("Jump") && groundedTimer > 0f)
+        // {
+        //     velocity.y = Mathf.Sqrt(-jumpHeight * gravity);
+        //     groundedTimer = 0f;
+        // }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move((move * currentSpeed + velocity) * Time.deltaTime);
