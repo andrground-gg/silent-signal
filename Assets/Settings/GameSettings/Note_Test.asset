@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_Test
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: -1
+  id: 1
   title: Test log
-  boardUpdateID: -1
+  boardUpdateIDs: 01000000
+  key: 1
   contentText: So we have test log and it's test.
   paperSprite: {fileID: 0}

@@ -22,9 +22,12 @@ public abstract class CollectibleData : ScriptableObject
     public abstract CollectibleType Type { get; }
 
     [Header("Investigation Board")]
-    [Tooltip("Optional. If set, on FIRST discovery this id is pushed to the InvestigationBoard.")]
-    public string boardUpdateID;
+    [Tooltip("On FIRST discovery, each of these IDs is sent to the InvestigationBoard. " +
+             "One collectible can unlock multiple board pieces (photo + string + marker, etc).")]
+    public LogKeys[] boardUpdateIDs;
 
+    public LogKeys key;
+    
     private void OnValidate()
     {
         // Auto-fill id from asset name if missing, so designers can't ship empty ids.

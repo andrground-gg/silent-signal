@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0986aede5c9a95d49ba1682150f3882a, type: 3}
   m_Name: AudioLog_Test
   m_EditorClassIdentifier: Assembly-CSharp::AudioLogData
-  id: 1
+  id: 2
   title: Test Audio
-  boardUpdateID: 1
+  boardUpdateIDs: 02000000
+  key: 2
   audioClip: {fileID: 8300000, guid: 149de8b2c68071f448dfe29bcdecac86, type: 3}
   transcriptText: Audio transcipt archive test
