@@ -11,8 +11,11 @@ public class UIManager : Singleton<UIManager>
     [Header("UI References (drop scene instances here)")]
     [SerializeField] private NoteReaderUI noteUI;
     [SerializeField] private AudioLogUI audioUI;
+    [SerializeField] private PopupCanvasUI popupCanvasUIPrefab;
     // [SerializeField] private KeeperArchiveUI archiveUI;
 
+    private PopupCanvasUI currentPopup;
+    
     protected void Start()
     {
         // Make sure everything starts hidden.
@@ -52,18 +55,22 @@ public class UIManager : Singleton<UIManager>
         audioUI.gameObject.SetActive(false);
     }
 
-    // ---------- Archive ----------
+    // ---------- Board ----------
 
-    // public void ShowArchive()
-    // {
-    //     if (archiveUI == null) return;
-    //     archiveUI.gameObject.SetActive(true);
-    //     archiveUI.Refresh();
-    // }
-    //
-    // public void HideArchive()
-    // {
-    //     if (archiveUI == null) return;
-    //     archiveUI.gameObject.SetActive(false);
-    // }
+    public void ShowBoardCollectible(CollectibleData data, Transform parent)
+    {
+        HideBoardCollectible();
+
+        currentPopup = Instantiate(popupCanvasUIPrefab, parent, worldPositionStays: false);
+        currentPopup.SetData(data);
+        currentPopup.Show();
+    }
+
+    public void HideBoardCollectible()
+    {
+        if (currentPopup == null) return;
+
+        currentPopup.HideAndDestroy();
+        currentPopup = null;
+    }
 }

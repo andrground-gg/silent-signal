@@ -488,6 +488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   noteUI: {fileID: 8523719535744323710}
   audioUI: {fileID: 7020514833170102343}
+  popupCanvasUIPrefab: {fileID: 850787788618547076, guid: 68b796d4bfff6954e9f17189c812df69, type: 3}
 --- !u!114 &1529940546088434570
 MonoBehaviour:
   m_ObjectHideFlags: 0

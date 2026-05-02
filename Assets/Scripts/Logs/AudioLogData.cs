@@ -7,8 +7,4 @@ public class AudioLogData : CollectibleData
 
     [Header("Audio")]
     public AudioClip audioClip;
-
-    [TextArea(5, 30)]
-    [Tooltip("Transcript shown in keeper's archive next to playback.")]
-    public string transcriptText;
 }

@@ -16,21 +16,20 @@ public class BoardInteractable : BaseInteractable
     {
         data = newData;
     }
-
-    public override void Interact()
+    
+    public override void OnHoverEnter()
     {
-        if (!canInteract) return;
         if (data == null)
         {
-            Debug.LogWarning($"[BoardInteractable] No data assigned on '{name}'.", this);
-            return;
+            Debug.LogError("No Collectible data assigned.");
         }
+        UIManager.Instance?.ShowBoardCollectible(data, transform);
+        base.OnHoverEnter();
+    }
 
-        // TODO: route by type. For now — placeholder.
-        // Note  -> UIManager.Instance?.ShowNote((NoteData)data);
-        // Audio -> UIManager.Instance?.ShowAudioLog((AudioLogData)data);
-        Debug.Log($"[BoardInteractable] Interacted with '{data.title}' (type: {data.Type}).");
-
-        base.Interact();
+    public override void OnHoverExit()
+    {
+        UIManager.Instance?.HideBoardCollectible();
+        base.OnHoverExit();
     }
 }

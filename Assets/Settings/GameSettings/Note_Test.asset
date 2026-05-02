@@ -16,5 +16,12 @@ MonoBehaviour:
   title: Test log
   boardUpdateIDs: 01000000
   key: 1
+  boardContentText: 'So there''s some updates:
+
+    -Added note log
+
+    -Found note
+    log'
+  boardSprite: {fileID: 0}
   contentText: So we have test log and it's test.
   paperSprite: {fileID: 0}
