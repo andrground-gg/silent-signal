@@ -1,8 +1,10 @@
 ﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Samples.Runtime.csproj" />
   <Project Path="GruelTerraSplines.Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
+  <Project Path="CustomToolbar.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Samples.Editor.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="GruelTerraSplines.csproj" />
 </Solution>
