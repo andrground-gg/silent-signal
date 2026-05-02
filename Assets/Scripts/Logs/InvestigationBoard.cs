@@ -8,12 +8,18 @@ using UnityEngine;
 /// Unlocks are queued — they don't appear immediately. The queue plays out
 /// when the player enters the board's InteractionZone, scaling each piece
 /// in via DOTween with a delay between them.
+///
+/// Connections between nodes are activated automatically whenever both
+/// endpoint keys are revealed.
 /// </summary>
-
 public class InvestigationBoard : MonoBehaviour
 {
     [Header("Board Entries")]
     [SerializeField] private List<BoardInteractable> entries = new List<BoardInteractable>();
+
+    [Header("Connections")]
+    [Tooltip("Strings/lines between nodes. Each becomes visible when both its endpoint keys are revealed.")]
+    [SerializeField] private List<BoardConnection> connections = new List<BoardConnection>();
 
     [Header("Trigger")]
     [Tooltip("Zone the player walks into to play the queued unlocks.")]
@@ -26,13 +32,9 @@ public class InvestigationBoard : MonoBehaviour
     [SerializeField] private float scaleDuration = 0.35f;
     [SerializeField] private Ease scaleEase = Ease.OutBack;
 
-    // ID -> objects, built from `entries` on Awake.
     private readonly Dictionary<LogKeys, BoardInteractable> map = new Dictionary<LogKeys, BoardInteractable>();
-
-    // Already finalized (revealed and animated). Persisted.
     private readonly HashSet<LogKeys> revealed = new HashSet<LogKeys>();
-
-    // Pending IDs waiting for the player to enter the zone.
+    private readonly HashSet<BoardConnection> activatedConnections = new HashSet<BoardConnection>();
     private readonly Queue<LogKeys> pendingQueue = new Queue<LogKeys>();
 
     private Coroutine playRoutine;
@@ -47,12 +49,8 @@ public class InvestigationBoard : MonoBehaviour
     {
         BuildMap();
         HideAll();
-
-        // Re-show everything that was already revealed in a previous session.
-        // No animation — they were already seen, just appear.
         RestoreFromRegistry();
 
-        // Subscribe live so future unlocks queue up automatically.
         if (CollectibleRegistry.Instance != null)
             CollectibleRegistry.Instance.OnFirstDiscovery += HandleFirstDiscovery;
     }
@@ -73,6 +71,7 @@ public class InvestigationBoard : MonoBehaviour
         map.Clear();
         foreach (var entry in entries)
         {
+            if (entry == null || entry.Data == null) continue;
             if (entry.Data.key == LogKeys.None) continue;
             if (!map.ContainsKey(entry.Data.key))
                 map[entry.Data.key] = entry;
@@ -82,10 +81,10 @@ public class InvestigationBoard : MonoBehaviour
     private void HideAll()
     {
         foreach (var entry in entries)
-            if (entry != null)
-            {
-                entry.gameObject.SetActive(false);
-            }
+            if (entry != null) entry.gameObject.SetActive(false);
+
+        foreach (var conn in connections)
+            if (conn != null) conn.gameObject.SetActive(false);
     }
 
     private void RestoreFromRegistry()
@@ -94,49 +93,39 @@ public class InvestigationBoard : MonoBehaviour
         if (registry == null) return;
 
         foreach (var data in registry.GetAllDiscovered())
-        {
-            if (data.boardUpdateIDs == null) continue;
-            foreach (var id in data.boardUpdateIDs)
-                RevealInstant(id);
-        }
+            RevealInstant(data.key);
     }
 
     // ---------- Unlock pipeline ----------
 
     private void HandleFirstDiscovery(CollectibleData data)
     {
-        if (data == null || data.boardUpdateIDs == null) return;
-        foreach (var id in data.boardUpdateIDs)
-            UnlockNode(id);
+        if (data == null || data.key == LogKeys.None) return;
+        UnlockNode(data.key);
     }
 
-    /// <summary>
-    /// Queue an ID for reveal. Does NOT show the object immediately —
-    /// it appears when the player enters the board's InteractionZone.
-    /// </summary>
-    public void UnlockNode(LogKeys boardUpdateID)
+    public void UnlockNode(LogKeys key)
     {
-        if (boardUpdateID == LogKeys.None) return;
-        if (revealed.Contains(boardUpdateID)) return;
-        if (!map.ContainsKey(boardUpdateID))
+        if (key == LogKeys.None) return;
+        if (revealed.Contains(key)) return;
+        if (!map.ContainsKey(key))
         {
-            Debug.LogWarning($"[InvestigationBoard] No entry for ID '{boardUpdateID}'.");
+            Debug.LogWarning($"[InvestigationBoard] No entry for ID '{key}'.");
             return;
         }
 
-        // Avoid duplicate queue entries.
-        if (pendingQueue.Contains(boardUpdateID)) return;
+        if (pendingQueue.Contains(key)) return;
 
-        pendingQueue.Enqueue(boardUpdateID);
-        Debug.Log($"[InvestigationBoard] UnlockNode for ID '{boardUpdateID}'.");
+        pendingQueue.Enqueue(key);
+        Debug.Log($"[InvestigationBoard] UnlockNode for ID '{key}'.");
     }
 
     // ---------- Trigger / playback ----------
 
     private void HandleZoneEntered()
     {
-        if (playRoutine != null) return;       // already playing
-        if (pendingQueue.Count == 0) return;   // nothing to play
+        if (playRoutine != null) return;
+        if (pendingQueue.Count == 0) return;
 
         playRoutine = StartCoroutine(PlayQueueRoutine());
     }
@@ -147,7 +136,14 @@ public class InvestigationBoard : MonoBehaviour
         {
             var id = pendingQueue.Dequeue();
             RevealAnimated(id);
+
             yield return new WaitForSeconds(intervalSeconds);
+
+            // After the node is shown, see if any connections it touches can now light up.
+            int before = activatedConnections.Count;
+            CheckConnectionsFor(id, animated: true);
+            if (activatedConnections.Count > before)
+                yield return new WaitForSeconds(intervalSeconds);
         }
         playRoutine = null;
     }
@@ -170,15 +166,57 @@ public class InvestigationBoard : MonoBehaviour
     {
         if (!map.TryGetValue(id, out var boardInteractable)) return;
         revealed.Add(id);
-        if (boardInteractable == null) return;
-        boardInteractable.gameObject.SetActive(true);
+        if (boardInteractable != null)
+            boardInteractable.gameObject.SetActive(true);
+
+        // Restore connections too — any whose both endpoints are now revealed.
+        CheckConnectionsFor(id, animated: false);
     }
-    
+
+    // ---------- Connections ----------
+
+    /// <summary>
+    /// Looks at every connection touching `key` and activates those whose
+    /// other endpoint is already revealed.
+    /// </summary>
+    private void CheckConnectionsFor(LogKeys key, bool animated)
+    {
+        foreach (var conn in connections)
+        {
+            if (conn == null) continue;
+            if (activatedConnections.Contains(conn)) continue;
+            if (!conn.Involves(key)) continue;
+            if (!conn.CanActivate(revealed)) continue;
+
+            ActivateConnection(conn, animated);
+        }
+    }
+
+    private void ActivateConnection(BoardConnection conn, bool animated)
+    {
+        activatedConnections.Add(conn);
+
+        if (animated)
+        {
+            Vector3 scale = conn.transform.localScale;
+            conn.transform.localScale = Vector3.zero;
+            conn.gameObject.SetActive(true);
+            conn.transform.DOScale(scale, scaleDuration).SetEase(scaleEase);
+        }
+        else
+        {
+            conn.gameObject.SetActive(true);
+        }
+    }
+
     [ContextMenu("DEBUG / Set Interactables")]
     private void SetInteractables()
     {
         entries.Clear();
         GetComponentsInChildren<BoardInteractable>(includeInactive: true, entries);
+
+        connections.Clear();
+        GetComponentsInChildren<BoardConnection>(includeInactive: true, connections);
 
 #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(this);
@@ -186,6 +224,6 @@ public class InvestigationBoard : MonoBehaviour
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
 #endif
 
-        Debug.Log($"[InvestigationBoard] Found {entries.Count} BoardInteractable(s).", this);
+        Debug.Log($"[InvestigationBoard] Found {entries.Count} interactable(s) and {connections.Count} connection(s).", this);
     }
 }

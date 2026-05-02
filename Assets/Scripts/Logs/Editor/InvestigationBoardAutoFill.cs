@@ -6,14 +6,9 @@ using UnityEngine;
 
 /// <summary>
 /// Watches the editor Hierarchy and keeps every InvestigationBoard's
-/// `entries` list in sync with its child BoardInteractables.
+/// `entries` and `connections` lists in sync with its children.
 ///
 /// Place this file under an Editor/ folder.
-///
-/// Why this exists: OnTransformChildrenChanged is unreliable in edit mode
-/// without [ExecuteAlways], and [ExecuteAlways] caused scene state to
-/// leak from play mode back into edit mode. This handles auto-fill from
-/// outside the component, no runtime side effects.
 /// </summary>
 [InitializeOnLoad]
 public static class InvestigationBoardAutoFill
@@ -32,34 +27,48 @@ public static class InvestigationBoardAutoFill
             FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         foreach (var board in boards)
-            SyncEntries(board);
+            Sync(board);
     }
 
-    private static void SyncEntries(InvestigationBoard board)
+    private static void Sync(InvestigationBoard board)
     {
-        // Collect current children with BoardInteractable.
-        var current = new List<BoardInteractable>();
-        board.GetComponentsInChildren<BoardInteractable>(includeInactive: true, current);
+        var entries = new List<BoardInteractable>();
+        board.GetComponentsInChildren<BoardInteractable>(includeInactive: true, entries);
+
+        var connections = new List<BoardConnection>();
+        board.GetComponentsInChildren<BoardConnection>(includeInactive: true, connections);
 
         var so = new SerializedObject(board);
-        var prop = so.FindProperty("entries");
-        if (prop == null) return;
+        var entriesProp = so.FindProperty("entries");
+        var connectionsProp = so.FindProperty("connections");
 
-        // Skip if already in sync — avoids dirtying the scene on every selection click.
-        if (IsSameList(prop, current)) return;
+        bool entriesChanged = entriesProp != null && WriteIfChanged(entriesProp, entries);
+        bool connectionsChanged = connectionsProp != null && WriteIfChanged(connectionsProp, connections);
+
+        if (!entriesChanged && !connectionsChanged) return;
+
+        so.ApplyModifiedPropertiesWithoutUndo();
+
+        EditorUtility.SetDirty(board);
+        EditorSceneManager.MarkSceneDirty(board.gameObject.scene);
+    }
+
+    /// <summary>
+    /// Writes `current` into the array property only if its content differs.
+    /// Returns true if a write happened.
+    /// </summary>
+    private static bool WriteIfChanged<T>(SerializedProperty prop, List<T> current) where T : Object
+    {
+        if (IsSameList(prop, current)) return false;
 
         prop.arraySize = current.Count;
         for (int i = 0; i < current.Count; i++)
             prop.GetArrayElementAtIndex(i).objectReferenceValue = current[i];
 
-        so.ApplyModifiedPropertiesWithoutUndo();
-
-        EditorUtility.SetDirty(board);
-        if (!Application.isPlaying)
-            EditorSceneManager.MarkSceneDirty(board.gameObject.scene);
+        return true;
     }
 
-    private static bool IsSameList(SerializedProperty prop, List<BoardInteractable> current)
+    private static bool IsSameList<T>(SerializedProperty prop, List<T> current) where T : Object
     {
         if (prop.arraySize != current.Count) return false;
         for (int i = 0; i < current.Count; i++)

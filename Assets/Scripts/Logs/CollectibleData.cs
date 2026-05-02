@@ -22,8 +22,7 @@ public abstract class CollectibleData : ScriptableObject
     public abstract CollectibleType Type { get; }
 
     [Header("Investigation Board")]
-    [Tooltip("On FIRST discovery, each of these IDs is sent to the InvestigationBoard. " +
-             "One collectible can unlock multiple board pieces (photo + string + marker, etc).")]
+    [Tooltip("Checks for string connection between this collectible and datas in the array.")]
     public LogKeys[] boardUpdateIDs;
 
     public LogKeys key;
