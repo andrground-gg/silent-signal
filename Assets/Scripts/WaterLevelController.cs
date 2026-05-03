@@ -3,8 +3,11 @@ using DG.Tweening;
 
 public class WaterLevelController : MonoBehaviour
 {
+    private const string PREF_FIRST_DROP_TRIGGERED = "WaterLevel.FirstDropTriggered";
+
     [Header("References")]
     [SerializeField] private Transform waterTransform;
+    [SerializeField] private TimedInteractionZone keepersDenZone;
 
     [Header("Level Anchors")]
     [SerializeField] private Transform slowLevelAnchor;
@@ -16,11 +19,17 @@ public class WaterLevelController : MonoBehaviour
     [SerializeField] private Ease transitionEase = Ease.InOutSine;
 
     private SpeedState currentState = SpeedState.Normal;
+    private SpeedState pendingState = SpeedState.Normal;
     private Tween activeTween;
+
+    private bool _firstDropUnlocked;
 
     private void Start()
     {
-        LeverController.Instance.OnSpeedChanged += SetState;
+        _firstDropUnlocked = PlayerPrefs.GetInt(PREF_FIRST_DROP_TRIGGERED, 0) == 1;
+
+        LighthouseManager.Instance.OnSpeedChanged += HandleLighthouseSpeedChanged;
+        keepersDenZone.OnEnteredInteractionZone += HandlePlayerEnteredDen;
 
         Vector3 pos = waterTransform.position;
         pos.y = GetTargetLevelFor(currentState);
@@ -29,8 +38,29 @@ public class WaterLevelController : MonoBehaviour
 
     private void OnDisable()
     {
-        if (LeverController.Instance != null)
-            LeverController.Instance.OnSpeedChanged -= SetState;
+        if (LighthouseManager.Instance != null)
+            LighthouseManager.Instance.OnSpeedChanged -= HandleLighthouseSpeedChanged;
+
+        if (keepersDenZone != null)
+            keepersDenZone.OnEnteredInteractionZone -= HandlePlayerEnteredDen;
+    }
+
+    private void HandleLighthouseSpeedChanged(SpeedState newState)
+    {
+        pendingState = newState;
+
+        SetState(newState);
+    }
+
+    private void HandlePlayerEnteredDen()
+    {
+        if (_firstDropUnlocked) return;
+
+        _firstDropUnlocked = true;
+        PlayerPrefs.SetInt(PREF_FIRST_DROP_TRIGGERED, 1);
+        PlayerPrefs.Save();
+
+        SetState(pendingState);
     }
 
     private void SetState(SpeedState newState)

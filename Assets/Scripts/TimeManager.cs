@@ -1,13 +1,17 @@
 using TMPro;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour {
+public class TimeManager : Singleton<TimeManager> {
     [SerializeField] TimeSettings timeSettings;
     [SerializeField] TextMeshProUGUI timeText;
 
     public TimeService Service { get; private set; }
 
-    void Awake() => Service = new TimeService(timeSettings);
+    protected override void Awake()
+    {
+        base.Awake();
+        Service = new TimeService(timeSettings);
+    }
 
     void Update() {
         Service.UpdateTime(Time.deltaTime);

@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beamPivot: {fileID: 0}
+  leverController: {fileID: 1669377243401893882}
   slowSpeed: 20
   normalSpeed: 60
   fastSpeed: 150
@@ -286,7 +287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5074675b57061c40916259e4362fe00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeManager: {fileID: 3974786973865485188}
   sun: {fileID: 0}
   moon: {fileID: 0}
   maxSunIntensity: 1

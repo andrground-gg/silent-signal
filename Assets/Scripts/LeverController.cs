@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class LeverController : Singleton<LeverController>
+public class LeverController : MonoBehaviour
 {
     [Serializable]
     public class LeverEntry
@@ -46,17 +46,6 @@ public class LeverController : Singleton<LeverController>
         }
 
         GetEntry(defaultState)?.lever?.AnimatePull();
-    }
-
-    public void SetSpeedByLever(Lever lever)
-    {
-        var entry = GetEntryByLever(lever);
-        if (entry == null)
-        {
-            Debug.LogWarning($"[LeverController] Lever {lever.name} is not registered.");
-            return;
-        }
-        SetSpeed(entry.speedState);
     }
 
     public void SetSpeed(SpeedState newState)

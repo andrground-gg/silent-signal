@@ -3,8 +3,6 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 public class LightManager : MonoBehaviour {
-    [SerializeField] TimeManager timeManager;
-
     [Header("Lights")]
     [SerializeField] Light sun;
     [SerializeField] Light moon;
@@ -41,7 +39,7 @@ public class LightManager : MonoBehaviour {
         volume.profile.TryGet(out colorAdjustments);
         volume.profile.TryGet(out bloom);
 
-        service = timeManager.Service;
+        service = TimeManager.Instance.Service;
         service.OnTimeChanged += HandleTimeChanged;
     }
 
