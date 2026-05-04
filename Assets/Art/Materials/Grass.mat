@@ -21,6 +21,7 @@ Material:
     RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -89,7 +90,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
-    - _CastShadows: 1
+    - _CastShadows: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -120,12 +121,21 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
+    - _time: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 0.39253014, g: 0.6037736, b: 0.38447845, a: 1}
     - _Color2: {r: 0.08018864, g: 0.32075468, b: 0.2080518, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Evening1: {r: 1, g: 1, b: 1, a: 1}
+    - _Evening2: {r: 0, g: 0, b: 0, a: 1}
+    - _Morning1: {r: 0.3647059, g: 0.42745098, b: 0.3947112, a: 1}
+    - _Morning2: {r: 0.16131186, g: 0.23584908, b: 0.17472525, a: 1}
+    - _Night1: {r: 1, g: 1, b: 1, a: 1}
+    - _Night2: {r: 0, g: 0, b: 0, a: 1}
+    - _Noon1: {r: 1, g: 1, b: 1, a: 1}
+    - _Noon2: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

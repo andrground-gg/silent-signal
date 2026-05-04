@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Terrain
-  m_Shader: {fileID: -6465566751694194690, guid: 69643ef98228b20498e3ad667cdae8b7, type: 3}
-  m_Parent: {fileID: 2100000, guid: 98cfe66669ef2c74c8da4300cc2ac062, type: 2}
+  m_Shader: {fileID: -6465566751694194690, guid: 3ca84562b9c01bd41acc92b2a9c2919c, type: 3}
+  m_Parent: {fileID: -876546973899608171, guid: 3ca84562b9c01bd41acc92b2a9c2919c, type: 3}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -17,7 +17,8 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -26,11 +27,17 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _Gradient_Scale_Mult: 10
+    - _QueueControl: 0
     - _Sun_Intensity: 1
     - _Sun_Scale: 0.01
+    - _Use_Indivisual_Scale: 0
+    - _time: 0
     m_Colors:
     - _Color1: {r: 0.39253017, g: 0.6037736, b: 0.38447848, a: 1}
     - _Color2: {r: 0.08018868, g: 0.3207547, b: 0.20805185, a: 1}
+    - _Morning1: {r: 0.3647059, g: 0.42745098, b: 0.39607844, a: 1}
+    - _Morning2: {r: 0.16078432, g: 0.23529412, b: 0.1764706, a: 1}
     - _Sun_Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
