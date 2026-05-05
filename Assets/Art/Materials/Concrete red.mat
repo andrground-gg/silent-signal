@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Metal
+  m_Name: Concrete red
   m_Shader: {fileID: -6465566751694194690, guid: 3ca84562b9c01bd41acc92b2a9c2919c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -110,7 +110,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Gradient_Scale_Mult: 0.54
+    - _Gradient_Scale_Mult: 1
     - _Metallic: 0
     - _Normal_Map_Tiling: 1
     - _OcclusionStrength: 1
@@ -135,17 +135,17 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.85490197, g: 0.9411765, b: 0.93333334, a: 1}
-    - _Color2: {r: 0.23137255, g: 0.25490198, b: 0.23529412, a: 1}
+    - _Color1: {r: 0.972549, g: 0.95686275, b: 0.8901961, a: 1}
+    - _Color2: {r: 0.3764706, g: 0.42745098, b: 0.3647059, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Evening1: {r: 0.4528302, g: 0.13456745, b: 0.22330776, a: 1}
-    - _Evening2: {r: 0.10137059, g: 0.15121257, b: 0.3207547, a: 1}
-    - _Morning1: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
-    - _Morning2: {r: 0.2804824, g: 0.31132078, b: 0.3090491, a: 1}
-    - _Night1: {r: 0.46502313, g: 0.44277322, b: 0.4716981, a: 1}
-    - _Night2: {r: 0.078987196, g: 0.23584908, b: 0.21839193, a: 1}
-    - _Noon1: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
-    - _Noon2: {r: 0.43810073, g: 0.5188679, b: 0.5188679, a: 1}
+    - _Evening1: {r: 1, g: 0.86026704, b: 0, a: 1}
+    - _Evening2: {r: 0.735849, g: 0.24874228, b: 0.06594872, a: 1}
+    - _Morning1: {r: 0.7830189, g: 0.4542987, b: 0.4542987, a: 1}
+    - _Morning2: {r: 0.20558916, g: 0.26415092, b: 0.25490433, a: 1}
+    - _Night1: {r: 0.43460116, g: 0.4528302, b: 0.42933428, a: 1}
+    - _Night2: {r: 0.16647384, g: 0.2735849, b: 0.26257002, a: 1}
+    - _Noon1: {r: 1, g: 0.53612185, b: 0.3915094, a: 1}
+    - _Noon2: {r: 0.5754717, g: 0.08957815, b: 0.08957815, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteAlways]
@@ -7,6 +8,8 @@ public class GlobalMaterialController : MonoBehaviour
     [SerializeField] private List<Material> materials;
 
     [SerializeField, Range(0,1)] private float currentTime;
+
+
 
     // Update is called once per frame
     void Update()
@@ -36,5 +39,41 @@ public class GlobalMaterialController : MonoBehaviour
     public void SetNormalizedTime(float time)
     {
         currentTime = time;
+    }
+}
+
+[CustomEditor(typeof(GlobalMaterialController))]
+public class GlobalMaterialControllerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        GlobalMaterialController controller = (GlobalMaterialController)target;
+
+        GUILayout.BeginVertical();
+
+        if (GUILayout.Button("Morning"))
+        {
+            controller.SetNormalizedTime(0);
+        }
+
+        if (GUILayout.Button("Noon"))
+        {
+            controller.SetNormalizedTime(0.25f);
+        }
+
+        if (GUILayout.Button("Evening"))
+        {
+            controller.SetNormalizedTime(0.5f);
+        }
+
+        if (GUILayout.Button("Night"))
+        {
+            controller.SetNormalizedTime(0.75f);
+        }
+
+        GUILayout.EndVertical();
+
     }
 }

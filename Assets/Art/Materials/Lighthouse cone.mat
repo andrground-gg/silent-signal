@@ -145,14 +145,14 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Evening1: {r: 1, g: 1, b: 1, a: 1}
-    - _Evening2: {r: 0, g: 0, b: 0, a: 1}
-    - _Morning1: {r: 1, g: 0.976846, b: 0.504717, a: 1}
-    - _Morning2: {r: 0.9994126, g: 0.98039216, b: 0.5058824, a: 1}
-    - _Night1: {r: 1, g: 1, b: 1, a: 1}
-    - _Night2: {r: 0, g: 0, b: 0, a: 1}
-    - _Noon1: {r: 1, g: 1, b: 1, a: 1}
-    - _Noon2: {r: 0, g: 0, b: 0, a: 1}
+    - _Evening1: {r: 1, g: 0.5176471, b: 0, a: 1}
+    - _Evening2: {r: 1, g: 0.51870775, b: 0, a: 1}
+    - _Morning1: {r: 0.8951207, g: 0.9811321, b: 0.69882524, a: 1}
+    - _Morning2: {r: 0.8941177, g: 0.9803922, b: 0.69803923, a: 1}
+    - _Night1: {r: 0.9457547, g: 1, b: 0.6745283, a: 1}
+    - _Night2: {r: 0.9450981, g: 1, b: 0.6745098, a: 1}
+    - _Noon1: {r: 0.9762435, g: 1, b: 0.5518868, a: 1}
+    - _Noon2: {r: 0.97647065, g: 1, b: 0.5529412, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
