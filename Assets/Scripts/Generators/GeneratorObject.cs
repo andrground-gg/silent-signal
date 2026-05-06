@@ -20,34 +20,23 @@ namespace GeneratorSystem
         private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
         [Header("Audio")]
-        [SerializeField] private AudioClip _clipStartup;
-        [SerializeField] private AudioClip _clipShutdown;
-        [SerializeField] private AudioClip _clipForcedShutdown;
-        [SerializeField] private AudioClip _clipHum;
-        [SerializeField] private AudioClip _clipLeverClunk;
-        [SerializeField] [Range(0f, 1f)] private float _humVolume = 0.35f;
+        [SerializeField] private AudioSource startUpSound;
+        [SerializeField] private AudioSource shutdownSound;
+        [SerializeField] private AudioSource humSound;
+        [SerializeField] private AudioSource leverClunkSound;
 
         [Header("Timing")]
         [SerializeField] private float _effectDelay = 0.7f;
 
-        private AudioSource _audio;
-        private AudioSource _humSource;
         private bool        _isActive;
         private Coroutine   _flickerCoroutine;
+        private float       _humInitialVolume;
 
         protected void Awake()
         {
-            _audio              = GetComponent<AudioSource>();
-            _audio.spatialBlend = 1f;
-
-            _humSource              = gameObject.AddComponent<AudioSource>();
-            _humSource.clip         = _clipHum;
-            _humSource.loop         = true;
-            _humSource.volume       = 0f;
-            _humSource.playOnAwake  = false;
-            _humSource.spatialBlend = 1f;
-
             _lever?.SnapToReleased();
+
+            _humInitialVolume = humSound.volume;
         }
 
         private void Start()
@@ -73,7 +62,7 @@ namespace GeneratorSystem
 
         public void Interact()
         {
-            PlaySound(_clipLeverClunk);
+            leverClunkSound.Play();
             GeneratorManager.Instance.ToggleGenerator(_generatorID);
         }
 
@@ -100,15 +89,15 @@ namespace GeneratorSystem
 
         private IEnumerator ActivateSequence()
         {
-            PlaySound(_clipStartup);
+            startUpSound.Play();
             SetIndicatorLight(on: true);
 
             yield return new WaitForSeconds(_effectDelay);
 
-            if (_clipHum != null)
+            if (humSound != null)
             {
-                _humSource.volume = _humVolume;
-                if (!_humSource.isPlaying) _humSource.Play();
+                humSound.volume = _humInitialVolume;
+                humSound.Play();
             }
 
             GeneratorManager.Instance.NotifyActivated(_generatorID);
@@ -118,13 +107,13 @@ namespace GeneratorSystem
         {
             if (forced)
             {
-                PlaySound(_clipForcedShutdown);
+                shutdownSound.Play();
                 if (_flickerCoroutine != null) StopCoroutine(_flickerCoroutine);
                 _flickerCoroutine = StartCoroutine(FlickerIndicator(times: 4));
             }
             else
             {
-                PlaySound(_clipShutdown);
+                shutdownSound.Play();
             }
             
             StartCoroutine(FadeHum(to: 0f, duration: 1.2f));
@@ -157,24 +146,18 @@ namespace GeneratorSystem
             SetIndicatorLight(on: false);
         }
 
-        private void PlaySound(AudioClip clip)
-        {
-            if (clip == null) return;
-            _audio.PlayOneShot(clip);
-        }
-
         private IEnumerator FadeHum(float to, float duration)
         {
-            float start   = _humSource.volume;
+            float start   = humSound.volume;
             float elapsed = 0f;
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
-                _humSource.volume = Mathf.Lerp(start, to, elapsed / duration);
+                humSound.volume = Mathf.Lerp(start, to, elapsed / duration);
                 yield return null;
             }
-            _humSource.volume = to;
-            if (to <= 0f) _humSource.Stop();
+            humSound.volume = to;
+            if (to <= 0f) humSound.Stop();
         }
     }
 }
