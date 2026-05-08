@@ -47,7 +47,7 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
                 continue;
             }
 
-            if (seen.TryGetValue(c.key, out var existing))
+            if (c.key != LogKeys.None && seen.TryGetValue(c.key, out var existing))
             {
                 Debug.LogError(
                     $"[CollectibleRegistry] Duplicate key '{c.key}' on '{c.name}' and '{existing.name}'. " +

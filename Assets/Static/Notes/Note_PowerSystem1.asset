@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
   id: Note_PowerSystem1
   title: LIght Intensity Dependance
-  key: 1
+  key: 4
   boardContentText: The lighthouse light intensity depends on an external generator
   boardSprite: {fileID: 0}
   lockedPlaceholder: -???????
-  boardUpdates: []
+  boardUpdates:
+  - triggerKey: 0
+    textToAppend: 
   contentText: The lighthouse light intensity depends on an external generator
   paperSprite: {fileID: 0}

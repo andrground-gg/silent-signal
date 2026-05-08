@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
   id: 4
   title: Submerged Areas
-  key: 1
+  key: 5
   boardContentText: There are some submerged areas that could be accessible
   boardSprite: {fileID: 0}
   lockedPlaceholder: -???????
