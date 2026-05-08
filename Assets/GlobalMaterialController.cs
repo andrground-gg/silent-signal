@@ -11,7 +11,11 @@ public class GlobalMaterialController : MonoBehaviour
 
     void Update()
     {
-        currentTime = TimeManager.Instance.Service.NormalizedTime;
+        if (TimeManager.Instance != null)
+        {
+            SetNormalizedTime(TimeManager.Instance.Service.NormalizedTime);
+        }
+
         UpdateMaterials();
     }
 
