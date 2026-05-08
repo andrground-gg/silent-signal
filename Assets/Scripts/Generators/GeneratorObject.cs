@@ -31,7 +31,8 @@ namespace GeneratorSystem
         private bool        _isActive;
         private Coroutine   _flickerCoroutine;
         private float       _humInitialVolume;
-
+        private MaterialPropertyBlock _mpb;
+        
         protected void Awake()
         {
             _lever?.SnapToReleased();
@@ -43,6 +44,7 @@ namespace GeneratorSystem
         {
             _lever.OnPulled += Interact;
             _lever.OnRelease += Interact;
+            SetIndicatorLight(on: false);
             
             GeneratorManager.Instance.OnGeneratorActivated    += HandleActivated;
             GeneratorManager.Instance.OnGeneratorDeactivated  += HandleDeactivated;
@@ -69,6 +71,7 @@ namespace GeneratorSystem
         private void HandleActivated(GeneratorID id)
         {
             if (id != _generatorID) return;
+            Debug.Log($"[{gameObject.name}] HandleActivated received id={id}, my id={_generatorID}, match={id == _generatorID}", this);
             _isActive = true;
             StartCoroutine(ActivateSequence());
         }
@@ -127,11 +130,18 @@ namespace GeneratorSystem
         private void SetIndicatorLight(bool on)
         {
             if (_indicatorRenderer == null) return;
-            Material mat = _indicatorRenderer.material;
-            Color col = on ? _lightOnColor : _lightOffColor;
-            mat.color = col;
-            mat.EnableKeyword("_EMISSION");
-            mat.SetColor(EmissionColor, on ? col * _lightEmissionIntensity : Color.black);
+
+            Debug.Log($"[{gameObject.name}] SetIndicatorLight({on}) → renderer: {_indicatorRenderer.gameObject.name} (id: {_indicatorRenderer.GetInstanceID()})", this);
+
+            if (_mpb == null) _mpb = new MaterialPropertyBlock();
+            _indicatorRenderer.GetPropertyBlock(_mpb);
+
+            Color emission = on
+                ? _lightOnColor  * _lightEmissionIntensity
+                : _lightOffColor * _lightEmissionIntensity;
+
+            _mpb.SetColor(EmissionColor, emission);
+            _indicatorRenderer.SetPropertyBlock(_mpb);
         }
 
         private IEnumerator FlickerIndicator(int times)
