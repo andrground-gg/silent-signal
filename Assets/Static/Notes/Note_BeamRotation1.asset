@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
   id: Note_BeamRotation1
   title: Beam Rotation Mechanism
-  key: 1
+  key: 3
   boardContentText: Lighthouse rotational mechanism is located in the lighthouse's
     machinery floor
   boardSprite: {fileID: 0}

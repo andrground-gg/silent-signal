@@ -47,7 +47,7 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
                 continue;
             }
 
-            if (seen.TryGetValue(c.key, out var existing))
+            if (c.key != LogKeys.None && seen.TryGetValue(c.key, out var existing))
             {
                 Debug.LogError(
                     $"[CollectibleRegistry] Duplicate key '{c.key}' on '{c.name}' and '{existing.name}'. " +
@@ -71,6 +71,7 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
         if (data == null || data.key == LogKeys.None) return false;
         if (!discoveredKeys.Add(data.key)) return false;
 
+        UIManager.Instance.ShowDiscoveryText();
         Save();
         Debug.Log($"[CollectibleRegistry] Discovered key '{data.key}'");
         OnFirstDiscovery?.Invoke(data);

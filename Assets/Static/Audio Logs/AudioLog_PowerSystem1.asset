@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioLogData
   id: AudioLog_PowerSystem1
   title: Generators
-  key: 2
+  key: 0
   boardContentText: Only several generators actually affect something
   boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}
   lockedPlaceholder: -???????

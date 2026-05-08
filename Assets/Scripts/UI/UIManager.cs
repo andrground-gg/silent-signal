@@ -12,6 +12,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private NoteReaderUI noteUI;
     [SerializeField] private AudioLogUI audioUI;
     [SerializeField] private PopupCanvasUI popupCanvasUIPrefab;
+    [SerializeField] private DiscoveryText discoveryText;
     // [SerializeField] private KeeperArchiveUI archiveUI;
 
     private PopupCanvasUI currentPopup;
@@ -21,6 +22,7 @@ public class UIManager : Singleton<UIManager>
         // Make sure everything starts hidden.
         if (noteUI != null) noteUI.gameObject.SetActive(false);
         if (audioUI != null) audioUI.gameObject.SetActive(false);
+        if (discoveryText != null) discoveryText.gameObject.SetActive(false);
         // if (archiveUI != null) archiveUI.gameObject.SetActive(false);
     }
 
@@ -72,5 +74,11 @@ public class UIManager : Singleton<UIManager>
 
         currentPopup.HideAndDestroy();
         currentPopup = null;
+    }
+
+    public void ShowDiscoveryText()
+    {
+        discoveryText.gameObject.SetActive(true);
+        discoveryText.ShowDiscovery();
     }
 }
