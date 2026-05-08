@@ -5,7 +5,7 @@ using UnityEditor;
 #endif
 
 [ExecuteAlways]
-public class TimeOfDayController : MonoBehaviour
+public class TimeOfDayController : Singleton<TimeOfDayController>
 {
     [Header("Time of Day")]
     [SerializeField, Range(0f, 1f)]

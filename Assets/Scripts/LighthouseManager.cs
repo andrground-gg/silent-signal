@@ -1,12 +1,17 @@
 using System;
 using GeneratorSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LighthouseManager : Singleton<LighthouseManager>
 {
     [SerializeField] private Transform       beamPivot;
     [SerializeField] private LeverController leverController;
-
+    
+    [Header("Generator Settings")]
+    [SerializeField] private float generatorEnabledValue = 2f;
+    [SerializeField] private float generatorDisabledValue = 1f;
+    
     [Header("Angular velocities (degrees per second)")]
     [SerializeField] private float slowSpeed   = 20f;
     [SerializeField] private float normalSpeed = 60f;
@@ -20,7 +25,7 @@ public class LighthouseManager : Singleton<LighthouseManager>
 
     private float _targetVelocity;
     private float _currentVelocity;
-
+    private bool _generatorActivated;
     public event Action<SpeedState> OnSpeedChanged;
 
     private void OnDisable()
@@ -79,6 +84,15 @@ public class LighthouseManager : Singleton<LighthouseManager>
     private void HandleOnGeneratorActivated(GeneratorID id)
     {
         if (id != GeneratorID.GENERATOR_LIGHTHOUSE) return;
+        _generatorActivated = !_generatorActivated;
+        if (_generatorActivated)
+        {
+            TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorEnabledValue);
+        }
+        else
+        {
+            TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorDisabledValue);
+        }
         Debug.Log($"Lighthouse generator activated for {id}");
     }
 }
