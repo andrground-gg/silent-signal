@@ -36,6 +36,19 @@ public class PlayerController : MonoBehaviour
     public float landingVelocityThreshold = 1.2f; // minimum downward speed to consider as a landing
     private bool _wasGrounded = false;
 
+    [Header("Ladder")]
+    public LayerMask ladderLayer;
+    public float ladderClimbSpeed = 3.5f;
+    public float ladderAttachDot = 0.4f;
+    public float ladderContactGrace = 0.1f;
+    public float ladderJumpVertical = 4f;
+    public float ladderJumpHorizontal = 3f;
+    public float ladderReattachDelay = 0.2f;
+    private bool _onLadder = false;
+    private float _ladderContactTimer = 0f;
+    private float _ladderReattachTimer = 0f;
+    private Vector3 _ladderNormal = Vector3.forward;
+
     private CharacterController controller;
     private Vector3 velocity;
     private float groundedTimer = 0f;
@@ -67,6 +80,20 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateMovement()
     {
+        if (_ladderReattachTimer > 0f)
+        {
+            _ladderReattachTimer -= Time.deltaTime;
+            if (_ladderReattachTimer < 0f) _ladderReattachTimer = 0f;
+        }
+
+        if (_ladderContactTimer > 0f)
+        {
+            _ladderContactTimer -= Time.deltaTime;
+            if (_ladderContactTimer < 0f) _ladderContactTimer = 0f;
+        }
+
+        bool touchingLadder = _ladderContactTimer > 0f;
+
         // Debounce raw grounded state to avoid twitching on slopes
         bool groundedRaw = controller.isGrounded;
         if (groundedRaw)
@@ -108,6 +135,42 @@ public class PlayerController : MonoBehaviour
 
         float currentSpeed = _isRunning ? runSpeed : walkSpeed;
         Vector3 move = transform.right * x + transform.forward * z;
+
+        Vector3 moveDir = move.sqrMagnitude > 0.001f ? move.normalized : Vector3.zero;
+        bool movingTowardLadder = touchingLadder
+            && _ladderReattachTimer <= 0f
+            && Vector3.Dot(moveDir, -_ladderNormal) > ladderAttachDot;
+
+        if (movingTowardLadder)
+        {
+            _onLadder = true;
+        }
+        else if (!touchingLadder)
+        {
+            _onLadder = false;
+        }
+
+        if (_onLadder)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                _onLadder = false;
+                _ladderReattachTimer = ladderReattachDelay;
+                groundedTimer = 0f;
+                _groundedStableTimer = 0f;
+                velocity = (_ladderNormal * ladderJumpHorizontal) + (Vector3.up * ladderJumpVertical);
+                controller.Move(velocity * Time.deltaTime);
+                _wasMovingOnGround = false;
+                _wasGrounded = false;
+                return;
+            }
+
+            velocity = Vector3.up * ladderClimbSpeed;
+            controller.Move(velocity * Time.deltaTime);
+            _wasMovingOnGround = false;
+            _wasGrounded = false;
+            return;
+        }
 
         // if (Input.GetButtonDown("Jump") && groundedTimer > 0f)
         // {
@@ -258,5 +321,14 @@ public class PlayerController : MonoBehaviour
     private bool IsInLayerMask(LayerMask mask, int layer)
     {
         return (mask.value & (1 << layer)) != 0;
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (!IsInLayerMask(ladderLayer, hit.gameObject.layer))
+            return;
+
+        _ladderNormal = hit.normal;
+        _ladderContactTimer = ladderContactGrace;
     }
 }
