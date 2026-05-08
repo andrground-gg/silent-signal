@@ -71,6 +71,7 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
         if (data == null || data.key == LogKeys.None) return false;
         if (!discoveredKeys.Add(data.key)) return false;
 
+        UIManager.Instance.ShowDiscoveryText();
         Save();
         Debug.Log($"[CollectibleRegistry] Discovered key '{data.key}'");
         OnFirstDiscovery?.Invoke(data);
