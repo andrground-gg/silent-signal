@@ -1382,10 +1382,10 @@
         "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -170.3077392578125,
-            "y": 733.232421875,
-            "width": 144.99996948242188,
-            "height": 110.99996948242188
+            "x": -233.0,
+            "y": 733.0,
+            "width": 145.0,
+            "height": 111.0
         }
     },
     "m_Slots": [
@@ -2113,8 +2113,8 @@
     "m_ObjectId": "4590ac1a6e0b490e892cf8108ae11860",
     "m_Title": "Layer Mask",
     "m_Position": {
-        "x": -735.9999389648438,
-        "y": 883.9999389648438
+        "x": -736.0000610351563,
+        "y": 884.0
     }
 }
 
@@ -2346,8 +2346,8 @@
     "m_ObjectId": "52601033865942f795a61fd1d2b6167d",
     "m_Title": "Distant",
     "m_Position": {
-        "x": -2579.99951171875,
-        "y": -853.9999389648438
+        "x": -2580.000244140625,
+        "y": -854.0000610351563
     }
 }
 
@@ -2452,8 +2452,8 @@
     "m_ObjectId": "553253c34b8546699c4388a43e7c160b",
     "m_Title": "Holes",
     "m_Position": {
-        "x": -194.99996948242188,
-        "y": 673.9998779296875
+        "x": -258.0000305175781,
+        "y": 674.0000610351563
     }
 }
 
@@ -4584,7 +4584,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Metallic",
     "m_StageCapability": 2,
-    "m_Value": 0.0,
+    "m_Value": 1.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
@@ -4600,8 +4600,8 @@
     "m_Theme": 0,
     "m_Position": {
         "serializedVersion": "2",
-        "x": -43.97449493408203,
-        "y": 948.899169921875,
+        "x": -85.0,
+        "y": 1083.0,
         "width": 200.0,
         "height": 100.0
     },
