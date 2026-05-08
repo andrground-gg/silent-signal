@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 2631131361781684761}
   - component: {fileID: 656418281864944495}
   - component: {fileID: 3124357791933830779}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: InteractionZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
