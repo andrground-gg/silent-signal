@@ -9,11 +9,9 @@ public class GlobalMaterialController : MonoBehaviour
 
     [SerializeField, Range(0,1)] private float currentTime;
 
-
-
-    // Update is called once per frame
     void Update()
     {
+        currentTime = TimeManager.Instance.Service.NormalizedTime;
         UpdateMaterials();
     }
 
