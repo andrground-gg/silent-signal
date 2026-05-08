@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FogBox
+  m_Name: FogBox_Noon
   m_Shader: {fileID: 4800000, guid: ac94461cebf34e74d919d2e7ef4a41b0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -131,7 +131,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _StepCount: 86
     - _Surface: 0
-    - _Visibility: 548
+    - _Visibility: 177
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1

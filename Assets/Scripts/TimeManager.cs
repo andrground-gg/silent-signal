@@ -15,6 +15,6 @@ public class TimeManager : Singleton<TimeManager> {
 
     void Update() {
         Service.UpdateTime(Time.deltaTime);
-        if (timeText != null) timeText.text = Service.CurrentTime.ToString("hh:mm");
+        if (timeText != null) timeText.text = Service.CurrentTime.ToString("HH:mm");
     }
 }
