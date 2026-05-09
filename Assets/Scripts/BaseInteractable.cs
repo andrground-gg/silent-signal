@@ -14,7 +14,7 @@ public class BaseInteractable : MonoBehaviour, IInteractable
     public virtual void Interact()
     {
         if (!canInteract) return;
-        Debug.Log("Interacted");
+        // Debug.Log("Interacted");
     }
 
     public virtual void OnHoverEnter()

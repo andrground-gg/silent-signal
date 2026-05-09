@@ -130,9 +130,6 @@ namespace GeneratorSystem
         private void SetIndicatorLight(bool on)
         {
             if (_indicatorRenderer == null) return;
-
-            Debug.Log($"[{gameObject.name}] SetIndicatorLight({on}) → renderer: {_indicatorRenderer.gameObject.name} (id: {_indicatorRenderer.GetInstanceID()})", this);
-
             if (_mpb == null) _mpb = new MaterialPropertyBlock();
             _indicatorRenderer.GetPropertyBlock(_mpb);
 

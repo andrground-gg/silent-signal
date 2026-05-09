@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LighthousePulse
   targetRenderer: {fileID: 724074080457427841}
-  boostedIntensity: 6
+  boostMultiplier: 2
   tweenDuration: 0.5
 --- !u!4 &1893554008516489454 stripped
 Transform:

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LighthouseManager : Singleton<LighthouseManager>
 {
+    [SerializeField] private Transform  beamPivot;
     [SerializeField] private LightHousePulse  beamPulse;
     [SerializeField] private LeverController leverController;
     
@@ -24,13 +25,13 @@ public class LighthouseManager : Singleton<LighthouseManager>
 
     private float _targetVelocity;
     private float _currentVelocity;
-    private bool _generatorActivated;
     public event Action<SpeedState> OnSpeedChanged;
 
     private void OnDisable()
     {
         leverController.OnSpeedChanged -= HandleSpeedChanged;
         GeneratorManager.Instance.OnGeneratorActivated -= HandleOnGeneratorActivated;
+        GeneratorManager.Instance.OnGeneratorDeactivated -= HandleOnGeneratorDeactivated;
 
         if (TimeManager.Instance != null)
             TimeManager.Instance.Service.OnHourChange -= HandleHourChange;
@@ -43,13 +44,14 @@ public class LighthouseManager : Singleton<LighthouseManager>
         
         leverController.OnSpeedChanged += HandleSpeedChanged;
         GeneratorManager.Instance.OnGeneratorActivated += HandleOnGeneratorActivated;
+        GeneratorManager.Instance.OnGeneratorDeactivated += HandleOnGeneratorDeactivated;
         TimeManager.Instance.Service.OnHourChange += HandleHourChange;
     }
 
     private void Update()
     {
         _currentVelocity = Mathf.Lerp(_currentVelocity, _targetVelocity, lerpRate * Time.deltaTime);
-        beamPulse.transform.Rotate(Vector3.up, _currentVelocity * Time.deltaTime, Space.World);
+        beamPivot.Rotate(Vector3.up, _currentVelocity * Time.deltaTime, Space.World);
     }
 
     private void HandleHourChange()
@@ -83,18 +85,15 @@ public class LighthouseManager : Singleton<LighthouseManager>
     private void HandleOnGeneratorActivated(GeneratorID id)
     {
         if (id != GeneratorID.GENERATOR_LIGHTHOUSE) return;
-        _generatorActivated = !_generatorActivated;
-        if (_generatorActivated)
-        {
-            TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorEnabledValue);
-            beamPulse.BoostEmission();
-        }
-        else
-        {
-            TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorDisabledValue);
-            beamPulse.RestoreEmission();
-        }
-
-        Debug.Log($"Lighthouse generator activated for {id}");
+        TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorEnabledValue);
+        beamPulse.BoostEmission();
     }
+    
+    private void HandleOnGeneratorDeactivated(GeneratorID id)
+    {
+        if (id != GeneratorID.GENERATOR_LIGHTHOUSE) return;
+        TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorDisabledValue);
+        beamPulse.RestoreEmission();
+    }
+
 }

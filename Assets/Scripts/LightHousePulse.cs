@@ -8,62 +8,67 @@ public class LightHousePulse : MonoBehaviour
 
     [SerializeField] private Renderer targetRenderer;
 
-    [SerializeField] private float boostedIntensity = 6f;
+    [Tooltip("Multiplier applied to the original emission. 1 = original, 2 = twice as bright, 0.5 = half.")]
+    [SerializeField] private float boostMultiplier = 2f;
     [SerializeField] private float tweenDuration = 0.5f;
 
     private Material _mat;
 
-    private Color _baseEmissionColor;
-    private float _originalIntensity;
+    // The emission color as authored in the material — used as the absolute reference.
+    private Color _originalEmission;
+
+    // Current multiplier being animated. 1 = original brightness.
+    private float _currentMultiplier = 1f;
+
     private Tween _tween;
 
     private void Awake()
     {
+        // Instance the material so we don't touch the asset
         _mat = new Material(targetRenderer.sharedMaterial);
         targetRenderer.material = _mat;
-
         _mat.EnableKeyword("_EMISSION");
 
-        Color emission = _mat.GetColor(EmissionColor);
-
-        // HDR color intensity
-        _originalIntensity = emission.maxColorComponent;
-
-        if (_originalIntensity <= 0.0001f)
-            _originalIntensity = 1f;
-
-        _baseEmissionColor = emission / _originalIntensity;
+        // Snapshot the authored HDR emission color — this is our 1.0 reference.
+        // Includes exponential intensity already (Unity stores HDR colors as
+        // pre-multiplied RGB where (1,1,1) at intensity 3 = (8,8,8)).
+        _originalEmission = _mat.GetColor(EmissionColor);
     }
 
     public void BoostEmission()
     {
-        AnimateIntensity(boostedIntensity);
+        AnimateToMultiplier(boostMultiplier);
     }
 
     public void RestoreEmission()
     {
-        AnimateIntensity(_originalIntensity);
+        AnimateToMultiplier(1f);
     }
 
-    private void AnimateIntensity(float targetIntensity)
+    /// <summary>Set custom multiplier. 1 = original, 1.1 = barely brighter, 2 = twice bright.</summary>
+    public void SetIntensityMultiplier(float multiplier)
+    {
+        AnimateToMultiplier(multiplier);
+    }
+
+    private void AnimateToMultiplier(float target)
     {
         _tween?.Kill();
 
-        float currentIntensity =
-            _mat.GetColor(EmissionColor).maxColorComponent;
-
         _tween = DOTween.To(
-            () => currentIntensity,
+            () => _currentMultiplier,
             x =>
             {
-                currentIntensity = x;
-                _mat.SetColor(
-                    EmissionColor,
-                    _baseEmissionColor * currentIntensity
-                );
+                _currentMultiplier = x;
+                _mat.SetColor(EmissionColor, _originalEmission * x);
             },
-            targetIntensity,
+            target,
             tweenDuration
-        );
+        ).SetLink(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        _tween?.Kill();
     }
 }
