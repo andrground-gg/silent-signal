@@ -1,11 +1,10 @@
 using System;
 using GeneratorSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class LighthouseManager : Singleton<LighthouseManager>
 {
-    [SerializeField] private Transform       beamPivot;
+    [SerializeField] private LightHousePulse  beamPulse;
     [SerializeField] private LeverController leverController;
     
     [Header("Generator Settings")]
@@ -50,7 +49,7 @@ public class LighthouseManager : Singleton<LighthouseManager>
     private void Update()
     {
         _currentVelocity = Mathf.Lerp(_currentVelocity, _targetVelocity, lerpRate * Time.deltaTime);
-        beamPivot.Rotate(Vector3.up, _currentVelocity * Time.deltaTime, Space.World);
+        beamPulse.transform.Rotate(Vector3.up, _currentVelocity * Time.deltaTime, Space.World);
     }
 
     private void HandleHourChange()
@@ -88,11 +87,14 @@ public class LighthouseManager : Singleton<LighthouseManager>
         if (_generatorActivated)
         {
             TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorEnabledValue);
+            beamPulse.BoostEmission();
         }
         else
         {
             TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorDisabledValue);
+            beamPulse.RestoreEmission();
         }
+
         Debug.Log($"Lighthouse generator activated for {id}");
     }
 }
