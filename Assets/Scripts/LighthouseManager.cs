@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LighthouseManager : Singleton<LighthouseManager>
 {
+    [Header("Event Managers")]
+    [SerializeField] private NightEventManager nightEventManager;
+    
     [SerializeField] private Transform  beamPivot;
     [SerializeField] private LightHousePulse  beamPulse;
     [SerializeField] private LeverController leverController;
@@ -19,10 +22,7 @@ public class LighthouseManager : Singleton<LighthouseManager>
 
     [Header("Transition")]
     [SerializeField] private float lerpRate = 3f;
-
-    [Header("Night Event")]
-    [SerializeField, Range(0, 23)] private int nightEventHour = 21;
-
+    
     private float _targetVelocity;
     private float _currentVelocity;
     public event Action<SpeedState> OnSpeedChanged;
@@ -32,11 +32,9 @@ public class LighthouseManager : Singleton<LighthouseManager>
         leverController.OnSpeedChanged -= HandleSpeedChanged;
         GeneratorManager.Instance.OnGeneratorActivated -= HandleOnGeneratorActivated;
         GeneratorManager.Instance.OnGeneratorDeactivated -= HandleOnGeneratorDeactivated;
-
-        if (TimeManager.Instance != null)
-            TimeManager.Instance.Service.OnHourChange -= HandleHourChange;
+        nightEventManager.OnNightEventTriggered -= OnNightEventTriggered;
     }
-
+    
     private void Start()
     {
         _targetVelocity  = VelocityFor(leverController.Current);
@@ -45,27 +43,14 @@ public class LighthouseManager : Singleton<LighthouseManager>
         leverController.OnSpeedChanged += HandleSpeedChanged;
         GeneratorManager.Instance.OnGeneratorActivated += HandleOnGeneratorActivated;
         GeneratorManager.Instance.OnGeneratorDeactivated += HandleOnGeneratorDeactivated;
-        TimeManager.Instance.Service.OnHourChange += HandleHourChange;
+        nightEventManager.OnNightEventTriggered += OnNightEventTriggered;
+
     }
 
     private void Update()
     {
         _currentVelocity = Mathf.Lerp(_currentVelocity, _targetVelocity, lerpRate * Time.deltaTime);
         beamPivot.Rotate(Vector3.up, _currentVelocity * Time.deltaTime, Space.World);
-    }
-
-    private void HandleHourChange()
-    {
-        if (TimeManager.Instance.Service.CurrentTime.Hour == nightEventHour)
-        {
-            TriggerNightSpeed(SpeedState.Slow);
-        }
-    }
-
-    private void TriggerNightSpeed(SpeedState state)
-    {
-        _targetVelocity = VelocityFor(state);
-        Debug.Log($"[Lighthouse] Night event triggered at {nightEventHour}:00 → {state}");
     }
 
     private void HandleSpeedChanged(SpeedState newState)
@@ -96,4 +81,8 @@ public class LighthouseManager : Singleton<LighthouseManager>
         beamPulse.RestoreEmission();
     }
 
+    private void OnNightEventTriggered()
+    {
+        HandleSpeedChanged(SpeedState.Slow);
+    }
 }

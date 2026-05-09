@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TimedInteractionZone : InteractionZone
@@ -6,18 +7,22 @@ public class TimedInteractionZone : InteractionZone
     [SerializeField, Range(0, 23)] private int startHour = 21;
     [SerializeField, Range(0, 24)] private int endHour   = 24;
 
-    private bool _playerInside;
+    public event Action OnTimedWindowStarted;
+    public event Action OnTimedWindowExpired;
 
-    private void OnEnable()
-    {
-        if (TimeManager.Instance != null)
-            TimeManager.Instance.Service.OnHourChange += HandleHourChange;
-    }
+    private bool _playerInside;
+    private bool _wasWithinWindow;
 
     private void OnDisable()
     {
         if (TimeManager.Instance != null)
             TimeManager.Instance.Service.OnHourChange -= HandleHourChange;
+    }
+
+    private void Start()
+    {
+        TimeManager.Instance.Service.OnHourChange += HandleHourChange;
+        _wasWithinWindow = IsWithinTimeWindow();
     }
 
     protected override void HandleEntered(Collider other)
@@ -38,7 +43,16 @@ public class TimedInteractionZone : InteractionZone
 
     private void HandleHourChange()
     {
-        if (_playerInside && IsWithinTimeWindow())
+        bool isWithinNow = IsWithinTimeWindow();
+
+        if (!_wasWithinWindow && isWithinNow)
+            OnTimedWindowStarted?.Invoke();
+        else if (_wasWithinWindow && !isWithinNow)
+            OnTimedWindowExpired?.Invoke();
+
+        _wasWithinWindow = isWithinNow;
+
+        if (_playerInside && isWithinNow)
             base.HandleEntered(null);
     }
 
