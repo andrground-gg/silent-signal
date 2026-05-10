@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using UnityEditor;
+// using UnityEditor;
 using UnityEngine;
 
-[ExecuteAlways]
+// [ExecuteAlways]
 public class GlobalMaterialController : MonoBehaviour
 {
     [SerializeField] private List<Material> materials;
@@ -43,39 +43,39 @@ public class GlobalMaterialController : MonoBehaviour
         currentTime = time;
     }
 }
-
-[CustomEditor(typeof(GlobalMaterialController))]
-public class GlobalMaterialControllerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        GlobalMaterialController controller = (GlobalMaterialController)target;
-
-        GUILayout.BeginVertical();
-
-        if (GUILayout.Button("Morning"))
-        {
-            controller.SetNormalizedTime(0);
-        }
-
-        if (GUILayout.Button("Noon"))
-        {
-            controller.SetNormalizedTime(0.25f);
-        }
-
-        if (GUILayout.Button("Evening"))
-        {
-            controller.SetNormalizedTime(0.5f);
-        }
-
-        if (GUILayout.Button("Night"))
-        {
-            controller.SetNormalizedTime(0.75f);
-        }
-
-        GUILayout.EndVertical();
-
-    }
-}
+//
+// [CustomEditor(typeof(GlobalMaterialController))]
+// public class GlobalMaterialControllerEditor : Editor
+// {
+//     public override void OnInspectorGUI()
+//     {
+//         DrawDefaultInspector();
+//
+//         GlobalMaterialController controller = (GlobalMaterialController)target;
+//
+//         GUILayout.BeginVertical();
+//
+//         if (GUILayout.Button("Morning"))
+//         {
+//             controller.SetNormalizedTime(0);
+//         }
+//
+//         if (GUILayout.Button("Noon"))
+//         {
+//             controller.SetNormalizedTime(0.25f);
+//         }
+//
+//         if (GUILayout.Button("Evening"))
+//         {
+//             controller.SetNormalizedTime(0.5f);
+//         }
+//
+//         if (GUILayout.Button("Night"))
+//         {
+//             controller.SetNormalizedTime(0.75f);
+//         }
+//
+//         GUILayout.EndVertical();
+//
+//     }
+// }
