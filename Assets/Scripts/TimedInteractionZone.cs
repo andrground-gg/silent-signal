@@ -7,11 +7,14 @@ public class TimedInteractionZone : InteractionZone
     [SerializeField, Range(0, 23)] private int startHour = 21;
     [SerializeField, Range(0, 24)] private int endHour   = 24;
 
+    [SerializeField] private AudioSource triggerSound;
+
     public event Action OnTimedWindowStarted;
     public event Action OnTimedWindowExpired;
 
     private bool _playerInside;
     private bool _wasWithinWindow;
+    private bool _hasTriggeredWithinWindow;
 
     private void OnDisable()
     {
@@ -23,22 +26,48 @@ public class TimedInteractionZone : InteractionZone
     {
         TimeManager.Instance.Service.OnHourChange += HandleHourChange;
         _wasWithinWindow = IsWithinTimeWindow();
+        _hasTriggeredWithinWindow = false;
     }
 
     protected override void HandleEntered(Collider other)
     {
         _playerInside = true;
 
-        if (IsWithinTimeWindow())
+        if (IsWithinTimeWindow() && !_hasTriggeredWithinWindow)
+        {
             base.HandleEntered(other);
+            _hasTriggeredWithinWindow = true;
+
+            if (triggerSound != null)
+                triggerSound.Play();
+        }
     }
 
     protected override void HandleExited(Collider other)
     {
         _playerInside = false;
 
-        if (IsWithinTimeWindow())
+        if (IsWithinTimeWindow() && _hasTriggeredWithinWindow)
             base.HandleExited(other);
+
+        _hasTriggeredWithinWindow = false;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!other.CompareTag(tag)) return;
+
+        _playerInside = true;
+
+        if (IsWithinTimeWindow() && !_hasTriggeredWithinWindow)
+        {
+            base.HandleEntered(other);
+
+            if (triggerSound != null)
+                triggerSound.Play();
+                
+            _hasTriggeredWithinWindow = true;
+        }
     }
 
     private void HandleHourChange()
@@ -52,8 +81,14 @@ public class TimedInteractionZone : InteractionZone
 
         _wasWithinWindow = isWithinNow;
 
-        if (_playerInside && isWithinNow)
+        if (_playerInside && isWithinNow && !_hasTriggeredWithinWindow)
+        {
             base.HandleEntered(null);
+            _hasTriggeredWithinWindow = true;
+        }
+
+        if (!isWithinNow)
+            _hasTriggeredWithinWindow = false;
     }
 
     private bool IsWithinTimeWindow()
