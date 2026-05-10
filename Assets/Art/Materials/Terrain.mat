@@ -33,7 +33,7 @@ Material:
     - _Sun_Intensity: 1
     - _Sun_Scale: 0.01
     - _Use_Indivisual_Scale: 0
-    - _time: 0.75
+    - _time: 0.5
     m_Colors:
     - _Color1: {r: 0.39253017, g: 0.6037736, b: 0.38447848, a: 1}
     - _Color2: {r: 0.08018868, g: 0.3207547, b: 0.20805185, a: 1}
@@ -44,7 +44,7 @@ Material:
     - _Night1: {r: 0.14117648, g: 0.47843137, b: 0.49019608, a: 1}
     - _Noon1: {r: 0.96470594, g: 0.9803922, b: 0.53333336, a: 1}
     - _Noon2: {r: 0.5372549, g: 0.4039216, b: 0.054901965, a: 1}
-    - _Path_Color: {r: 0.3301887, g: 0.31010523, b: 0.2538715, a: 1}
+    - _Path_Color: {r: 0.33962262, g: 0.33161265, b: 0.30918473, a: 1}
     - _Sun_Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
