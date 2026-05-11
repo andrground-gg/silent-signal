@@ -47,8 +47,42 @@ public class TimeOfDayController : Singleton<TimeOfDayController>
     private float smoothedVisibilityMul = 1f;
     private float smoothedDensityMul = 1f;
 
+    // ─────────────────────────────────────────────
+    // Skybox preset lerping
+    // ─────────────────────────────────────────────
+    [Header("Skybox Presets (sampled — never modified)")]
+    [SerializeField] private Material skyboxMorning;
+    [SerializeField] private Material skyboxNoon;
+    [SerializeField] private Material skyboxEvening;
+    [SerializeField] private Material skyboxNight;
+
+    [Header("Skybox Target (written every frame)")]
+    [Tooltip("The single skybox material that lives in the scene / RenderSettings.skybox.")]
+    [SerializeField] private Material skyboxTarget;
+
+    // ─────────────────────────────────────────────
+    // Sun rotation
+    // ─────────────────────────────────────────────
+    [Header("Sun Rotation")]
+    [Tooltip("Directional light that represents the sun. Rotated based on currentTime.")]
+    [SerializeField] private Transform sunTransform;
+
+    [Tooltip("Axis around which the sun orbits. X = classic east-west arc.")]
+    [SerializeField] private Vector3 sunRotationAxis = Vector3.right;
+
+    [Tooltip("Compass direction of sunrise (rotation around world Y).")]
+    [SerializeField, Range(-180f, 180f)] private float sunYawOffset = 0f;
+
+    [Tooltip("Angle offset so time=0 (morning) points at the horizon, not straight down.")]
+    [SerializeField, Range(-180f, 180f)] private float sunAngleOffset = -90f;
+
+    [Tooltip("Flip if the sun moves the wrong way across the sky.")]
+    [SerializeField] private bool sunInvertDirection = false;
+
     // Property IDs — cached for perf
     private static readonly int TimeProp      = Shader.PropertyToID("_time");
+
+    // Fog
     private static readonly int Visibility    = Shader.PropertyToID("_Visibility");
     private static readonly int Density       = Shader.PropertyToID("_Density");
     private static readonly int FogColor      = Shader.PropertyToID("_FogColor");
@@ -58,6 +92,15 @@ public class TimeOfDayController : Singleton<TimeOfDayController>
     private static readonly int NoiseScale    = Shader.PropertyToID("_NoiseScale");
     private static readonly int NoiseStrength = Shader.PropertyToID("_NoiseStrength");
     private static readonly int NoiseSpeed    = Shader.PropertyToID("_NoiseSpeed");
+
+    // Skybox
+    private static readonly int SkyColor1             = Shader.PropertyToID("_Color1");
+    private static readonly int SkyColor2             = Shader.PropertyToID("_Color2");
+    private static readonly int SkySunColor           = Shader.PropertyToID("_Sun_Color");
+    private static readonly int SkySunIntensity       = Shader.PropertyToID("_Sun_Intensity");
+    private static readonly int SkySunScale           = Shader.PropertyToID("_Sun_Scale");
+    private static readonly int SkyBias               = Shader.PropertyToID("_Bias");
+    private static readonly int SkyTransitionSmooth   = Shader.PropertyToID("_TransitionSmoothness");
 
     void Update()
     {
@@ -74,6 +117,8 @@ public class TimeOfDayController : Singleton<TimeOfDayController>
 
         UpdateColorMaterials();
         UpdateFog();
+        UpdateSkybox();
+        UpdateSunRotation();
     }
 
     // ─────────────────────────────────────────────
@@ -122,19 +167,25 @@ public class TimeOfDayController : Singleton<TimeOfDayController>
         }
     }
 
+    /// <summary>
+    /// Picks the two presets to blend and returns the local 0..1 factor between them
+    /// based on the current normalized time-of-day wheel.
+    /// </summary>
+    void GetTimeWheelBlend(Material morning, Material noon, Material evening, Material night,
+                           out Material a, out Material b, out float t)
+    {
+        if      (currentTime < 0.25f) { a = morning; b = noon;    t = (currentTime - 0.00f) / 0.25f; }
+        else if (currentTime < 0.50f) { a = noon;    b = evening; t = (currentTime - 0.25f) / 0.25f; }
+        else if (currentTime < 0.75f) { a = evening; b = night;   t = (currentTime - 0.50f) / 0.25f; }
+        else                          { a = night;   b = morning; t = (currentTime - 0.75f) / 0.25f; }
+    }
+
     void UpdateFog()
     {
         if (fogTargets == null || fogTargets.Count == 0) return;
         if (fogMorning == null || fogNoon == null || fogEvening == null || fogNight == null) return;
 
-        // Time wheel: pick which two presets to blend, and the local 0..1 factor
-        Material a, b;
-        float t;
-
-        if      (currentTime < 0.25f) { a = fogMorning; b = fogNoon;    t = (currentTime - 0.00f) / 0.25f; }
-        else if (currentTime < 0.50f) { a = fogNoon;    b = fogEvening; t = (currentTime - 0.25f) / 0.25f; }
-        else if (currentTime < 0.75f) { a = fogEvening; b = fogNight;   t = (currentTime - 0.50f) / 0.25f; }
-        else                          { a = fogNight;   b = fogMorning; t = (currentTime - 0.75f) / 0.25f; }
+        GetTimeWheelBlend(fogMorning, fogNoon, fogEvening, fogNight, out var a, out var b, out float t);
 
         // Sample both presets, lerp every property
         float visibility    = Mathf.Lerp(a.GetFloat(Visibility),    b.GetFloat(Visibility),    t) * smoothedVisibilityMul;
@@ -163,6 +214,43 @@ public class TimeOfDayController : Singleton<TimeOfDayController>
             if (mat.HasProperty(NoiseStrength)) mat.SetFloat (NoiseStrength, noiseStrength);
             if (mat.HasProperty(NoiseSpeed))    mat.SetVector(NoiseSpeed,    noiseSpeed);
         }
+    }
+
+    void UpdateSkybox()
+    {
+        if (skyboxTarget == null) return;
+        if (skyboxMorning == null || skyboxNoon == null || skyboxEvening == null || skyboxNight == null) return;
+
+        GetTimeWheelBlend(skyboxMorning, skyboxNoon, skyboxEvening, skyboxNight, out var a, out var b, out float t);
+
+        // Sample both presets, lerp every property
+        Color color1            = Color.Lerp(a.GetColor(SkyColor1),           b.GetColor(SkyColor1),           t);
+        Color color2            = Color.Lerp(a.GetColor(SkyColor2),           b.GetColor(SkyColor2),           t);
+        Color sunColor          = Color.Lerp(a.GetColor(SkySunColor),         b.GetColor(SkySunColor),         t);
+        float sunIntensity      = Mathf.Lerp(a.GetFloat(SkySunIntensity),     b.GetFloat(SkySunIntensity),     t);
+        float sunScale          = Mathf.Lerp(a.GetFloat(SkySunScale),         b.GetFloat(SkySunScale),         t);
+        float bias              = Mathf.Lerp(a.GetFloat(SkyBias),             b.GetFloat(SkyBias),             t);
+        float transitionSmooth  = Mathf.Lerp(a.GetFloat(SkyTransitionSmooth), b.GetFloat(SkyTransitionSmooth), t);
+
+        if (skyboxTarget.HasProperty(SkyColor1))           skyboxTarget.SetColor(SkyColor1,           color1);
+        if (skyboxTarget.HasProperty(SkyColor2))           skyboxTarget.SetColor(SkyColor2,           color2);
+        if (skyboxTarget.HasProperty(SkySunColor))         skyboxTarget.SetColor(SkySunColor,         sunColor);
+        if (skyboxTarget.HasProperty(SkySunIntensity))     skyboxTarget.SetFloat(SkySunIntensity,     sunIntensity);
+        if (skyboxTarget.HasProperty(SkySunScale))         skyboxTarget.SetFloat(SkySunScale,         sunScale);
+        if (skyboxTarget.HasProperty(SkyBias))             skyboxTarget.SetFloat(SkyBias,             bias);
+        if (skyboxTarget.HasProperty(SkyTransitionSmooth)) skyboxTarget.SetFloat(SkyTransitionSmooth, transitionSmooth);
+    }
+
+    void UpdateSunRotation()
+    {
+        if (sunTransform == null) return;
+
+        float direction = sunInvertDirection ? -1f : 1f;
+        float angle = sunAngleOffset + currentTime * 360f * direction;
+
+        sunTransform.rotation =
+            Quaternion.Euler(0f, sunYawOffset, 0f) *
+            Quaternion.AngleAxis(angle, sunRotationAxis);
     }
 }
 

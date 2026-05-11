@@ -328,6 +328,16 @@ MonoBehaviour:
   visibilityMultiplier: 1
   densityMultiplier: 1
   modifierLerpSpeed: 2
+  skyboxMorning: {fileID: 2100000, guid: c2b341eeba9d9084f9333267fb5e087c, type: 2}
+  skyboxNoon: {fileID: 2100000, guid: fec7b6c86bb904a4487aa59559385cb9, type: 2}
+  skyboxEvening: {fileID: 2100000, guid: 3bf8579299b6c494db002f248476339c, type: 2}
+  skyboxNight: {fileID: 2100000, guid: 956526d3baf32d14abe7034194820feb, type: 2}
+  skyboxTarget: {fileID: 2100000, guid: 8f09ebbb1e04c03458fd24808688fd97, type: 2}
+  sunTransform: {fileID: 0}
+  sunRotationAxis: {x: 1, y: 0, z: 0}
+  sunYawOffset: 0
+  sunAngleOffset: -90
+  sunInvertDirection: 0
 --- !u!1 &8025508558816333952
 GameObject:
   m_ObjectHideFlags: 0
