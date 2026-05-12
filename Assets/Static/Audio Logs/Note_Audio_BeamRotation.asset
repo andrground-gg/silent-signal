@@ -19,5 +19,18 @@ MonoBehaviour:
   boardSprite: {fileID: 0}
   lockedPlaceholder: -???????
   boardUpdates: []
-  contentText: The rotation mechanism can be manually adjusted
+  contentText: "It's such a strange feeling. After all these years.\nI thought nothing
+    would ever change. That life would just be... endlessly the same. On and on.
+    Day after day, slowly crawling, from nowhere to nowhere. And me along with it.\nAnd
+    then today I found that mechanism under the lighthouse. Levers, a diagram, instructions.
+    So I played with it \u2014 that's not like me, but somehow I couldn't stop. Somehow
+    I couldn't make sense of what I was doing.\n(pause)\nYou know how it is, when
+    someone spends their whole life in a flat with the furniture always arranged
+    the same way. Over and over. And then one day they come home \u2014 and everything
+    is different. First, shock. Confusion. How is this even possible?\nLeft lever
+    up. The rest down.\nAnd the water level dropped.\n(silence)\nHow is that even
+    possible? Or... or am I losing my mind? Eight years here alone, things can happen
+    to a person's head.\nBut I went to look. Three times. And every time \u2014 the
+    water. Lower.\n(slowly)\nMaybe something is still waiting for me. Something I
+    didn't expect. After all this time.\nThat would be a first. In a very long while."
   paperSprite: {fileID: 0}

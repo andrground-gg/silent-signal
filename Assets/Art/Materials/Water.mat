@@ -46,7 +46,7 @@ Material:
     - _HeightStart: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Visibility: 101.99992
+    - _Visibility: 102
     - _depth: 3.24
     - _time: 0.5
     m_Colors:

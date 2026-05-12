@@ -21,5 +21,8 @@ MonoBehaviour:
   boardUpdates:
   - triggerKey: 0
     textToAppend: 
-  contentText: The lighthouse light intensity depends on an external generator
+  contentText: "Eight years. Eight years I've been here and I didn't notice a thing
+    like this. When an external generator is added, the light intensity changes.
+    \nEight years \u2013 and this escaped me. How could I not have noticed. I'm a
+    blind man. I could overlook absolutely anything."
   paperSprite: {fileID: 0}

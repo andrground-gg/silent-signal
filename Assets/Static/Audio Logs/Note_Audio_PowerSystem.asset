@@ -19,5 +19,6 @@ MonoBehaviour:
   boardSprite: {fileID: 0}
   lockedPlaceholder: -???????
   boardUpdates: []
-  contentText: Only several generators actually affect something
+  contentText: "Must mark which ones actually do something. Not all of these generators
+    matter \u2013 only a few of them affect anything at all. Need to keep track."
   paperSprite: {fileID: 0}

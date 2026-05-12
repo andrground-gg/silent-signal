@@ -131,7 +131,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _StepCount: 86
     - _Surface: 0
-    - _Visibility: 101.99992
+    - _Visibility: 102
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1

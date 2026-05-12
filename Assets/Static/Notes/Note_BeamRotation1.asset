@@ -20,6 +20,10 @@ MonoBehaviour:
   boardSprite: {fileID: 0}
   lockedPlaceholder: -???????
   boardUpdates: []
-  contentText: Lighthouse rotational mechanism is located in the lighthouse's machinery
-    floor
+  contentText: "A man doesn't stray from the path. Between the supply dock and my
+    shack, the world is just wide enough \u2013 and I had convinced myself that was
+    enough. Eight years of the same stones underfoot, the same wind at my back. Eight
+    years of knowing exactly where I belonged. And yet. One step off the gravel.
+    Then another. The bushes gave way to a hidden path, the path to a ladder, the
+    ladder to a room that had no right to exist.\_"
   paperSprite: {fileID: 0}
