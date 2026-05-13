@@ -164,6 +164,6 @@ Material:
     - _Color2: {r: 1, g: 0.0532929, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Sun_Color: {r: 105.19516, g: 26.630686, b: 0, a: 1}
+    - _Sun_Color: {r: 105.19516, g: 6.30293, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

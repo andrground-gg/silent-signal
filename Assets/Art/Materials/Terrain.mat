@@ -25,7 +25,15 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _GrassPalette:
+        m_Texture: {fileID: 2800000, guid: be1767167c7fd04489ca4f597137f3fe, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PathPalette:
+        m_Texture: {fileID: 2800000, guid: 910e93914b45f814fa5ccbf5626be414, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _Gradient_Scale_Mult: 10
@@ -33,7 +41,7 @@ Material:
     - _Sun_Intensity: 1
     - _Sun_Scale: 0.01
     - _Use_Indivisual_Scale: 0
-    - _time: 0
+    - _time: 1
     m_Colors:
     - _Color1: {r: 0.39253017, g: 0.6037736, b: 0.38447848, a: 1}
     - _Color2: {r: 0.08018868, g: 0.3207547, b: 0.20805185, a: 1}
