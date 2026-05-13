@@ -44,10 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c033a5a202455449268359a5fc626a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameplayFogController
-  gameplayPreset: {fileID: 2100000, guid: d58e6557c9c68ec41a7ebeb257b3676c, type: 2}
   targets:
   - {fileID: 2100000, guid: d58e6557c9c68ec41a7ebeb257b3676c, type: 2}
-  visibilityMultiplier: 0.6
+  visibilityMultiplier: 1
   densityMultiplier: 1
   modifierLerpSpeed: 2
 --- !u!1 &4595330268209888928
@@ -438,8 +437,10 @@ MonoBehaviour:
   beamPivot: {fileID: 0}
   beamPulse: {fileID: 0}
   leverController: {fileID: 1669377243401893882}
-  generatorEnabledValue: 2
-  generatorDisabledValue: 0.6
+  timeOfDayEnabledValue: 2
+  timeOfDayDisabledValue: 0.6
+  gameplayFogEnabledValue: 35
+  gameplayFogDisabledValue: 1
   slowSpeed: 20
   normalSpeed: 60
   fastSpeed: 150

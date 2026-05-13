@@ -11,9 +11,11 @@ public class LighthouseManager : Singleton<LighthouseManager>
     [SerializeField] private LightHousePulse  beamPulse;
     [SerializeField] private LeverController leverController;
     
-    [Header("Generator Settings")]
-    [SerializeField] private float generatorEnabledValue = 2f;
-    [SerializeField] private float generatorDisabledValue = 1f;
+    [Header("Generator Visibility Multipliers")]
+    [SerializeField] private float timeOfDayEnabledValue = 2f;
+    [SerializeField] private float timeOfDayDisabledValue = 1f;
+    [SerializeField] private float gameplayFogEnabledValue = 2f;
+    [SerializeField] private float gameplayFogDisabledValue = 1f;
     
     [Header("Angular velocities (degrees per second)")]
     [SerializeField] private float slowSpeed   = 20f;
@@ -70,14 +72,16 @@ public class LighthouseManager : Singleton<LighthouseManager>
     private void HandleOnGeneratorActivated(GeneratorID id)
     {
         if (id != GeneratorID.GENERATOR_LIGHTHOUSE) return;
-        GameplayFogController.Instance?.SetVisibilityMultiplier(generatorEnabledValue);
+        TimeOfDayController.Instance?.SetVisibilityMultiplier(timeOfDayEnabledValue);
+        GameplayFogController.Instance?.SetVisibilityMultiplier(gameplayFogEnabledValue);
         beamPulse.BoostEmission();
     }
     
     private void HandleOnGeneratorDeactivated(GeneratorID id)
     {
         if (id != GeneratorID.GENERATOR_LIGHTHOUSE) return;
-        GameplayFogController.Instance?.SetVisibilityMultiplier(generatorDisabledValue);
+        TimeOfDayController.Instance?.SetVisibilityMultiplier(timeOfDayDisabledValue);
+        GameplayFogController.Instance?.SetVisibilityMultiplier(gameplayFogDisabledValue);
         beamPulse.RestoreEmission();
     }
 

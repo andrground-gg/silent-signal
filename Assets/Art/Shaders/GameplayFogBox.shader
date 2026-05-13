@@ -6,19 +6,14 @@ Shader "Custom/GameplayFogBox"
         _Visibility     ("Visibility (meters)",  Range(1, 1000))   = 100
         _Density        ("Density Multiplier",   Range(0, 5))      = 1
         _StepCount      ("Ray March Steps",      Range(8, 128))    = 32
+        _MinFogAmount   ("Minimum Fog Amount",   Range(0, 1))      = 0
 
         [Header(Color)]
         _FogColor       ("Fog Color",            Color)            = (0.7, 0.75, 0.8, 1)
 
-        [Header(Height Fog)]
-        _HeightStart    ("Height Start (Y)",     Float)            = 0
-        _HeightEnd      ("Height End (Y)",       Float)            = 50
-        _HeightFalloff  ("Height Falloff",       Range(0.1, 10))   = 2
-
-        [Header(Noise)]
-        _NoiseScale     ("Noise Scale",          Range(0.001, 1))  = 0.05
-        _NoiseStrength  ("Noise Strength",       Range(0, 1))      = 0.5
-        _NoiseSpeed     ("Wind Speed (XYZ)",     Vector)           = (0.5, 0.1, 0.3, 0)
+        [Header(Shape)]
+        _EdgeRadius     ("Edge Radius",          Range(0, 0.45))   = 0.15
+        _EdgeSoftness   ("Edge Softness",        Range(0.001, 0.5))= 0.1
     }
 
     SubShader
@@ -65,59 +60,22 @@ Shader "Custom/GameplayFogBox"
                 float  _Visibility;
                 float  _Density;
                 float  _StepCount;
+                float  _MinFogAmount;
                 float4 _FogColor;
-                float  _HeightStart;
-                float  _HeightEnd;
-                float  _HeightFalloff;
-                float  _NoiseScale;
-                float  _NoiseStrength;
-                float4 _NoiseSpeed;
+                float  _EdgeRadius;
+                float  _EdgeSoftness;
             CBUFFER_END
-
-            float hash(float3 p)
-            {
-                p = frac(p * 0.3183099 + 0.1);
-                p *= 17.0;
-                return frac(p.x * p.y * p.z * (p.x + p.y + p.z));
-            }
-
-            float noise3D(float3 x)
-            {
-                float3 i = floor(x);
-                float3 f = frac(x);
-                f = f * f * (3.0 - 2.0 * f);
-
-                return lerp(
-                    lerp(lerp(hash(i + float3(0,0,0)), hash(i + float3(1,0,0)), f.x),
-                         lerp(hash(i + float3(0,1,0)), hash(i + float3(1,1,0)), f.x), f.y),
-                    lerp(lerp(hash(i + float3(0,0,1)), hash(i + float3(1,0,1)), f.x),
-                         lerp(hash(i + float3(0,1,1)), hash(i + float3(1,1,1)), f.x), f.y),
-                    f.z);
-            }
-
-            float fbm(float3 p)
-            {
-                float v = 0.0;
-                float a = 0.5;
-                for (int i = 0; i < 3; i++)
-                {
-                    v += a * noise3D(p);
-                    p *= 2.03;
-                    a *= 0.5;
-                }
-                return v;
-            }
 
             float sampleDensity(float3 wpos)
             {
-                float h = saturate((wpos.y - _HeightStart) / max(0.001, _HeightEnd - _HeightStart));
-                float heightFactor = pow(1.0 - h, _HeightFalloff);
+                float3 posOS = mul(UNITY_MATRIX_I_M, float4(wpos, 1.0)).xyz;
+                float radius = min(_EdgeRadius, 0.49);
+                float3 halfSize = float3(0.5, 0.5, 0.5) - radius;
+                float3 q = abs(posOS) - halfSize;
+                float dist = length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0) - radius;
+                float edgeMask = smoothstep(0.0, max(0.001, _EdgeSoftness), -dist);
 
-                float3 noisePos = wpos * _NoiseScale + _NoiseSpeed.xyz * _Time.y;
-                float n = fbm(noisePos);
-                float noiseMod = lerp(1.0 - _NoiseStrength, 1.0 + _NoiseStrength, n);
-
-                return _Density * heightFactor * noiseMod;
+                return _Density * edgeMask;
             }
 
             bool RayBoxIntersect(float3 rayOriginOS, float3 rayDirOS, out float tEnter, out float tExit)
@@ -206,7 +164,7 @@ Shader "Custom/GameplayFogBox"
                 float fogAmount  = 1.0 - extinction;
 
                 // Enforce a minimum opacity based on full fog thickness to avoid silhouettes.
-                float minFogAmount = 1.0 - exp(-segmentLength * _Density / max(0.001, _Visibility));
+                float minFogAmount = (1.0 - exp(-segmentLength * _Density / max(0.001, _Visibility))) * _MinFogAmount;
                 fogAmount = max(fogAmount, minFogAmount);
 
                 return half4(_FogColor.rgb, fogAmount * _FogColor.a);

@@ -110,17 +110,20 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EdgeRadius: 0.307
+    - _EdgeSoftness: 0.37
     - _EnvironmentReflections: 1
     - _FogContrast: 2
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HeightEnd: 266.8
-    - _HeightFalloff: 7.2
-    - _HeightStart: 30.03
+    - _HeightEnd: 229.1
+    - _HeightFalloff: 0.1
+    - _HeightStart: 29.53
     - _Metallic: 0
-    - _NoiseScale: 0.26
-    - _NoiseStrength: 0.545
+    - _MinFogAmount: 0
+    - _NoiseScale: 0.289
+    - _NoiseStrength: 0.272
     - _OcclusionBoost: 8
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -133,7 +136,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _StepCount: 80.4
     - _Surface: 0
-    - _Visibility: 1
+    - _Visibility: 0.35999918
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
