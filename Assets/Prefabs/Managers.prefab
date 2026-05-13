@@ -1,5 +1,55 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1373513431571993780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3072783444434813966}
+  - component: {fileID: 1137604115331054927}
+  m_Layer: 0
+  m_Name: GameplayFogManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3072783444434813966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373513431571993780}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2538065089576931721}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1137604115331054927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373513431571993780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c033a5a202455449268359a5fc626a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameplayFogController
+  gameplayPreset: {fileID: 2100000, guid: d58e6557c9c68ec41a7ebeb257b3676c, type: 2}
+  targets:
+  - {fileID: 2100000, guid: d58e6557c9c68ec41a7ebeb257b3676c, type: 2}
+  visibilityMultiplier: 0.6
+  densityMultiplier: 1
+  modifierLerpSpeed: 2
 --- !u!1 &4595330268209888928
 GameObject:
   m_ObjectHideFlags: 0
@@ -38,6 +88,7 @@ Transform:
   - {fileID: 258436960554465867}
   - {fileID: 2699486791130490536}
   - {fileID: 2624645477030004737}
+  - {fileID: 3072783444434813966}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3894192932622620803
@@ -325,7 +376,7 @@ MonoBehaviour:
   fogTargets:
   - {fileID: 2100000, guid: 1293f5b79453e3d4281642692ef9b4ec, type: 2}
   - {fileID: 2100000, guid: a9076476b7b8e6d4aafab39602b1297e, type: 2}
-  visibilityMultiplier: 1
+  visibilityMultiplier: 0.6
   densityMultiplier: 1
   modifierLerpSpeed: 2
   skyboxMorning: {fileID: 2100000, guid: c2b341eeba9d9084f9333267fb5e087c, type: 2}
@@ -388,7 +439,7 @@ MonoBehaviour:
   beamPulse: {fileID: 0}
   leverController: {fileID: 1669377243401893882}
   generatorEnabledValue: 2
-  generatorDisabledValue: 1
+  generatorDisabledValue: 0.6
   slowSpeed: 20
   normalSpeed: 60
   fastSpeed: 150
@@ -668,7 +719,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1182504913860568544, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
       propertyPath: m_fontSize
-      value: 21.35
+      value: 23.7
       objectReference: {fileID: 0}
     - target: {fileID: 2371411441977283027, guid: 01dcdb8736c9bed4fa05bade6a023f5c, type: 3}
       propertyPath: m_RaycastTarget

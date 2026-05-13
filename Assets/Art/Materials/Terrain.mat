@@ -33,7 +33,7 @@ Material:
     - _Sun_Intensity: 1
     - _Sun_Scale: 0.01
     - _Use_Indivisual_Scale: 0
-    - _time: 0.5
+    - _time: 0
     m_Colors:
     - _Color1: {r: 0.39253017, g: 0.6037736, b: 0.38447848, a: 1}
     - _Color2: {r: 0.08018868, g: 0.3207547, b: 0.20805185, a: 1}

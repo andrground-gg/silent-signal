@@ -70,14 +70,14 @@ public class LighthouseManager : Singleton<LighthouseManager>
     private void HandleOnGeneratorActivated(GeneratorID id)
     {
         if (id != GeneratorID.GENERATOR_LIGHTHOUSE) return;
-        TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorEnabledValue);
+        GameplayFogController.Instance?.SetVisibilityMultiplier(generatorEnabledValue);
         beamPulse.BoostEmission();
     }
     
     private void HandleOnGeneratorDeactivated(GeneratorID id)
     {
         if (id != GeneratorID.GENERATOR_LIGHTHOUSE) return;
-        TimeOfDayController.Instance?.SetVisibilityMultiplier(generatorDisabledValue);
+        GameplayFogController.Instance?.SetVisibilityMultiplier(generatorDisabledValue);
         beamPulse.RestoreEmission();
     }
 
