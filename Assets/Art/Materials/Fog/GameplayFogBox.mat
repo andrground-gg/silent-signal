@@ -110,8 +110,8 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EdgeRadius: 0.307
-    - _EdgeSoftness: 0.37
+    - _EdgeRadius: 0.416
+    - _EdgeSoftness: 0.5
     - _EnvironmentReflections: 1
     - _FogContrast: 2
     - _GlossMapScale: 0
