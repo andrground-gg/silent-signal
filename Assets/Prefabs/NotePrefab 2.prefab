@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 9088907163949733805}
   - component: {fileID: 1148892618157871500}
   - component: {fileID: 3050956400241361206}
-  - component: {fileID: 8041625103441553698}
   - component: {fileID: 5214637025727572595}
+  - component: {fileID: 5917605248466156949}
   m_Layer: 3
   m_Name: NotePrefab 2
   m_TagString: Untagged
@@ -118,19 +118,6 @@ MonoBehaviour:
     - {x: 0, y: 0, z: -1}
     - {x: 0, y: 0, z: -1}
     - {x: 0, y: 0, z: -1}
---- !u!114 &8041625103441553698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3655969159884876065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6664037c8808bf42970e03d83344c4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NoteInteractable
-  data: {fileID: 11400000, guid: 602cf489b40ca6c48bc9a07fb49942d7, type: 2}
 --- !u!65 &5214637025727572595
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -152,6 +139,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.39867467, y: 0.09870224, z: 0.4629951}
   m_Center: {x: -0.14202182, y: 0.00018107895, z: -0.010410853}
+--- !u!114 &5917605248466156949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655969159884876065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e125f87427159dc4982857285ac53333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InspectableInteractable
+  inspectionPrefab: {fileID: 3655969159884876065}
+  collectibleData: {fileID: 11400000, guid: a8bf2d8042e84e04d95f2a754270acfc, type: 2}
+  spawnRotation: {x: -90, y: 0, z: 180}
 --- !u!1 &4329854843368830163
 GameObject:
   m_ObjectHideFlags: 0

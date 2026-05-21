@@ -10,12 +10,23 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
+        if (ItemInspectionController.Instance != null && ItemInspectionController.Instance.IsInspecting)
+        {
+            if (current != null)
+            {
+                current.OnHoverExit();
+                current = null;
+            }
+            return;
+        }
+
         HandleHover();
 
-        if (Input.GetKeyDown(KeyCode.E) && current != null)
-        {
+        var inspection = ItemInspectionController.Instance;
+        bool inspectionJustStopped = inspection != null && inspection.LastStopFrame == Time.frameCount;
+
+        if (Input.GetKeyDown(KeyCode.E) && current != null && !inspectionJustStopped)
             current.Interact();
-        }
     }
 
     void HandleHover()

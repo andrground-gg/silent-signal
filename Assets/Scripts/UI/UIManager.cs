@@ -20,7 +20,6 @@ public class UIManager : Singleton<UIManager>
     protected void Start()
     {
         // Make sure everything starts hidden.
-        if (noteUI != null) noteUI.gameObject.SetActive(false);
         if (audioUI != null) audioUI.gameObject.SetActive(false);
         if (discoveryText != null) discoveryText.gameObject.SetActive(false);
         // if (archiveUI != null) archiveUI.gameObject.SetActive(false);

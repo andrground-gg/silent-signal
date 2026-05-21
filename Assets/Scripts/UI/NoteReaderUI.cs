@@ -2,31 +2,42 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-/// <summary>
-/// Dumb view: receives data and displays it.
-/// UIManager handles show/hide via SetActive on this GameObject.
-/// </summary>
 public class NoteReaderUI : MonoBehaviour
 {
     [Header("Refs")]
+    [SerializeField] private GameObject panel;
     [SerializeField] private TMP_Text bodyLabel;
     [SerializeField] private Image paperImage;
 
-    private void Update()
+    [Header("Buttons")]
+    [SerializeField] private Button openButton;
+    [SerializeField] private Button closeButton;
+
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Escape))
-            UIManager.Instance?.HideNote();
+        panel?.SetActive(false);
+        if (openButton != null)  openButton.onClick.AddListener(OnOpen);
+        if (closeButton != null) closeButton.onClick.AddListener(OnClose);
     }
+
+    private void OnDestroy()
+    {
+        if (openButton != null)  openButton.onClick.RemoveListener(OnOpen);
+        if (closeButton != null) closeButton.onClick.RemoveListener(OnClose);
+    }
+
+    private void OnOpen()  => panel?.SetActive(true);
+    private void OnClose() => panel?.SetActive(false);
 
     public void SetData(NoteData data)
     {
         if (data == null) return;
 
-        if (bodyLabel != null)  bodyLabel.text  = data.contentText;
+        if (bodyLabel != null) bodyLabel.text = data.contentText;
+
         if (paperImage != null)
         {
             paperImage.sprite  = data.paperSprite;
-            paperImage.enabled = data.paperSprite != null;
         }
     }
 }

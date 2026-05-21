@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
 
     private bool _isRunning;
 
+    public bool IsInspecting { get; set; }
+
     public LayerMask grassLayer;
     public LayerMask concreteLayer;
 
@@ -66,12 +68,12 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         cameraRestPosition = playerCamera.localPosition;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        CursorManager.Lock();
     }
 
     void Update()
     {
+        if (IsInspecting) return;
         UpdateLockState();
         UpdateRotation();
         UpdateMovement();
@@ -196,7 +198,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateRotation()
     {
-        if (Cursor.lockState != CursorLockMode.Locked)
+        if (!CursorManager.IsLocked)
             return;
         
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -216,17 +218,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            CursorManager.Unlock();
             return;
         }
 
-        if (Cursor.lockState != CursorLockMode.Locked && Input.GetMouseButtonDown(0))
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            return;
-        }
+        if (!CursorManager.IsLocked && !CursorManager.UIHasCursor && Input.GetMouseButtonDown(0))
+            CursorManager.Lock();
     }
 
     private void UpdateHeadBob()
