@@ -122,7 +122,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Bias: 0.05
+    - _Bias: -0.57
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -150,20 +150,20 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _SunIntensity: 0.42
-    - _Sun_Intensity: 0.41
-    - _Sun_Scale: 0.025
+    - _Sun_Intensity: 0.21
+    - _Sun_Scale: 0.044
     - _Surface: 0
-    - _TransitionSmoothness: 0.5
+    - _TransitionSmoothness: 0.79
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.040227838, g: 0.0754717, b: 0.07363443, a: 1}
-    - _Color2: {r: 0.57796365, g: 0.6415094, b: 0.5355998, a: 1}
+    - _Color1: {r: 1.2958673, g: 2.0047965, b: 2.065593, a: 1}
+    - _Color2: {r: 0.16696566, g: 0.16981131, b: 0.13376646, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Sun_Color: {r: 11.495654, g: 14.259475, b: 5.9862885, a: 1}
+    - _Sun_Color: {r: 456.3032, g: 355.2123, b: 234.60873, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
