@@ -38,10 +38,11 @@ public class ReflectedBeam : MonoBehaviour
         if (_mesh != null) Destroy(_mesh);
     }
 
-    public void Activate(Vector3 direction)
+    public void Activate()
     {
         _hitTower = null;
 
+        var direction  = transform.up;
         var ownerTower = GetComponentInParent<SignalTower>();
 
         float length;
@@ -56,7 +57,7 @@ public class ReflectedBeam : MonoBehaviour
             length = maxDistance;
         }
 
-        BuildCylinder(direction, length);
+        BuildCylinder(transform.up, length);
 
         // Null-assign forces MeshCollider to re-bake the new shape before activation
         _meshCollider.sharedMesh = null;

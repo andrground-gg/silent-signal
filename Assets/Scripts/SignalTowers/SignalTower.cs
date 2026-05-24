@@ -145,7 +145,7 @@ public class SignalTower : MonoBehaviour
     private void TryActivateReflection()
     {
         if (!CanReflect || reflectedBeam == null || !IsAnyBeamHitting) return;
-        reflectedBeam.Activate(rotatingHead.forward);
+        reflectedBeam.Activate();
     }
 
     private void DeactivateReflection()
