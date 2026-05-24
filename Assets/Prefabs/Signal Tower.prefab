@@ -6938,6 +6938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReflectedBeam
   cylinderRadius: 4.5
+  endRadius: 15
   segments: 16
   hitMask:
     serializedVersion: 2
