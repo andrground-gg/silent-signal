@@ -29,8 +29,8 @@ public class SolarPanel : MonoBehaviour
 
     public event Action              OnPanelActivated;
 
-    private bool     _isBeamHitting;
-    private float    _timeSinceLastHit;
+    private int   _beamHitCount;
+    private float _timeSinceLastHit;
     private Material _mat;
     private Material _meterMat;
 
@@ -55,7 +55,7 @@ public class SolarPanel : MonoBehaviour
     {
         if (IsActivated) return;
 
-        if (_isBeamHitting)
+        if (_beamHitCount > 0)
         {
             _timeSinceLastHit = 0f;
             Charge = Mathf.Min(100f, Charge + chargeRate * Time.deltaTime);
@@ -76,14 +76,14 @@ public class SolarPanel : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(beamTag))
-            _isBeamHitting = true;
+            _beamHitCount++;
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag(beamTag)) return;
-        _isBeamHitting = false;
-        _timeSinceLastHit = 0f;
+        _beamHitCount = Mathf.Max(0, _beamHitCount - 1);
+        if (_beamHitCount == 0) _timeSinceLastHit = 0f;
     }
 
     private void ApplyVisuals()

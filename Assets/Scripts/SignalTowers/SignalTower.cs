@@ -6,8 +6,12 @@ using UnityEngine;
 public class SignalTower : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Transform rotatingHead;
-    [SerializeField] private Renderer  indicatorRenderer;
+    [SerializeField] private Transform     rotatingHead;
+    [SerializeField] private Renderer      indicatorRenderer;
+    [SerializeField] private ReflectedBeam reflectedBeam;
+
+    [Header("Beam Detection")]
+    [SerializeField] private string beamTag = "LightHouseBeam";
 
     [Header("Rotation")]
     [SerializeField] private float rotationDuration = 1f;
@@ -21,7 +25,10 @@ public class SignalTower : MonoBehaviour
 
     private int  _state;   // 0–3  →  0° / 90° / 180° / 270°
     private bool _isRotating;
-    private bool  _isFogBlocked;
+    private bool _isFogBlocked;
+    private bool         _isPrimaryBeamHitting;
+    private bool         _isExternalBeamHitting;
+    private ReflectedBeam _externalBeamSource;
 
     private MaterialPropertyBlock _mpb;
 
@@ -36,6 +43,8 @@ public class SignalTower : MonoBehaviour
             if (_isFogBlocked == value) return;
             _isFogBlocked = value;
             UpdateIndicator();
+            if (_isFogBlocked) DeactivateReflection();
+            else               TryActivateReflection();
             OnCanReflectChanged?.Invoke(CanReflect);
         }
     }
@@ -44,9 +53,22 @@ public class SignalTower : MonoBehaviour
 
     public event Action<bool> OnCanReflectChanged;
 
+    private bool IsAnyBeamHitting => _isPrimaryBeamHitting || _isExternalBeamHitting;
+
     private void Awake()
     {
         _mpb = new MaterialPropertyBlock();
+    }
+
+    private void Update()
+    {
+        // OnTriggerExit ненадійний всередині physics callback — перевіряємо самі кожен фрейм
+        if (_isExternalBeamHitting && (_externalBeamSource == null || !_externalBeamSource.gameObject.activeSelf))
+        {
+            _isExternalBeamHitting = false;
+            _externalBeamSource    = null;
+            if (!_isPrimaryBeamHitting) DeactivateReflection();
+        }
     }
 
     private void Start()
@@ -72,6 +94,7 @@ public class SignalTower : MonoBehaviour
         _state = (_state + 1) % 4;
 
         _isRotating = true;
+        DeactivateReflection();
         OnCanReflectChanged?.Invoke(false);
 
         rotatingHead
@@ -80,9 +103,54 @@ public class SignalTower : MonoBehaviour
             .OnComplete(() =>
             {
                 _isRotating = false;
+                TryActivateReflection();
                 OnCanReflectChanged?.Invoke(CanReflect);
             })
             .SetLink(gameObject);
+    }
+
+    public void ClearExternalBeamHit()
+    {
+        _isExternalBeamHitting = false;
+        _externalBeamSource    = null;
+        if (!_isPrimaryBeamHitting) DeactivateReflection();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag(beamTag)) return;
+        var source = other.GetComponentInParent<ReflectedBeam>();
+        if (source != null)
+        {
+            if (source == reflectedBeam) return; // власний промінь — ігноруємо
+            _isExternalBeamHitting = true;
+            _externalBeamSource    = source;
+        }
+        else
+        {
+            _isPrimaryBeamHitting = true;
+        }
+        TryActivateReflection();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag(beamTag)) return;
+        var source = other.GetComponentInParent<ReflectedBeam>();
+        if (source != null) return; // зовнішній промінь — обробляється в Update, не тут
+        _isPrimaryBeamHitting = false;
+        if (!_isExternalBeamHitting) DeactivateReflection();
+    }
+
+    private void TryActivateReflection()
+    {
+        if (!CanReflect || reflectedBeam == null || !IsAnyBeamHitting) return;
+        reflectedBeam.Activate(rotatingHead.forward);
+    }
+
+    private void DeactivateReflection()
+    {
+        reflectedBeam?.Deactivate();
     }
 
     private void OnGeneratorActivated(GeneratorID id)
@@ -90,6 +158,7 @@ public class SignalTower : MonoBehaviour
         if (id != GeneratorID.GENERATOR_SIGNAL_TOWERS) return;
         IsPowered = true;
         UpdateIndicator();
+        TryActivateReflection();
         OnCanReflectChanged?.Invoke(CanReflect);
     }
 
@@ -98,6 +167,7 @@ public class SignalTower : MonoBehaviour
         if (id != GeneratorID.GENERATOR_SIGNAL_TOWERS) return;
         IsPowered = false;
         UpdateIndicator();
+        DeactivateReflection();
         OnCanReflectChanged?.Invoke(CanReflect);
     }
 
