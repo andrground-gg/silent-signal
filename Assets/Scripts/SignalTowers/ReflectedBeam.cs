@@ -11,6 +11,8 @@ public class ReflectedBeam : MonoBehaviour
     [SerializeField] private LayerMask hitMask        = ~0;
     [SerializeField] private float     maxDistance    = 300f;
 
+    public Vector3 BeamDirection { get; private set; }
+
     private MeshFilter   _meshFilter;
     private MeshCollider _meshCollider;
     private Mesh         _mesh;
@@ -22,8 +24,8 @@ public class ReflectedBeam : MonoBehaviour
         _mesh            = new Mesh { name = "ReflectedBeamMesh" };
         _meshFilter.mesh = _mesh;
 
-        _meshCollider         = GetComponent<MeshCollider>();
-        _meshCollider.convex   = true;
+        _meshCollider           = GetComponent<MeshCollider>();
+        _meshCollider.convex    = true;
         _meshCollider.isTrigger = true;
 
         var rb         = GetComponent<Rigidbody>();
@@ -38,17 +40,21 @@ public class ReflectedBeam : MonoBehaviour
         if (_mesh != null) Destroy(_mesh);
     }
 
-    public void Activate()
+    public void Activate(Vector3 incomingDir)
     {
         _hitTower = null;
 
-        var direction  = transform.up;
+        var d = new Vector3(incomingDir.x, 0f, incomingDir.z).normalized;
+        var n = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
+        BeamDirection = Vector3.Reflect(d, n);
+
+        var direction  = BeamDirection;
         var ownerTower = GetComponentInParent<SignalTower>();
 
         float length;
         if (Physics.SphereCast(transform.position, cylinderRadius, direction, out RaycastHit hit, maxDistance, hitMask, QueryTriggerInteraction.Ignore))
         {
-            length = hit.distance + 5;
+            length = hit.distance + 5f;
             var hitTower = hit.collider.GetComponentInParent<SignalTower>();
             _hitTower = (hitTower != null && hitTower != ownerTower) ? hitTower : null;
         }
@@ -57,9 +63,12 @@ public class ReflectedBeam : MonoBehaviour
             length = maxDistance;
         }
 
-        BuildCylinder(transform.up, length);
+        Debug.DrawRay(transform.position, d * 5f,            Color.red,   0.5f);
+        Debug.DrawRay(transform.position, BeamDirection * 5f, Color.green, 0.5f);
+        Debug.DrawRay(transform.position, n * 3f,            Color.blue,  0.5f);
 
-        // Null-assign forces MeshCollider to re-bake the new shape before activation
+        BuildCylinder(direction, length);
+
         _meshCollider.sharedMesh = null;
         _meshCollider.sharedMesh = _mesh;
 
@@ -68,7 +77,6 @@ public class ReflectedBeam : MonoBehaviour
 
     public void Deactivate()
     {
-        // Напряму повідомляємо башту бо OnTriggerExit ненадійний всередині physics callback
         _hitTower?.ClearExternalBeamHit();
         _hitTower = null;
         gameObject.SetActive(false);
@@ -100,9 +108,9 @@ public class ReflectedBeam : MonoBehaviour
             vertices[i]            = transform.InverseTransformPoint(worldStart + outward * cylinderRadius);
             vertices[i + segments] = transform.InverseTransformPoint(worldEnd   + outward * cylinderRadius);
 
-            Vector3 localNormal    = transform.InverseTransformDirection(outward).normalized;
-            normals[i]             = localNormal;
-            normals[i + segments]  = localNormal;
+            Vector3 localNormal   = transform.InverseTransformDirection(outward).normalized;
+            normals[i]            = localNormal;
+            normals[i + segments] = localNormal;
 
             uvs[i]            = new Vector2((float)i / segments, 0f);
             uvs[i + segments] = new Vector2((float)i / segments, 1f);

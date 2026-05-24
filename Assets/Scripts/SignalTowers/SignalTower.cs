@@ -26,9 +26,11 @@ public class SignalTower : MonoBehaviour
     private int  _state;   // 0–3  →  0° / 90° / 180° / 270°
     private bool _isRotating;
     private bool _isFogBlocked;
-    private bool         _isPrimaryBeamHitting;
-    private bool         _isExternalBeamHitting;
+    private bool          _isPrimaryBeamHitting;
+    private bool          _isExternalBeamHitting;
     private ReflectedBeam _externalBeamSource;
+    private Vector3       _lastIncomingDir;
+    private float         _primaryBeamLastStayTime = -1f;
 
     private MaterialPropertyBlock _mpb;
 
@@ -62,12 +64,17 @@ public class SignalTower : MonoBehaviour
 
     private void Update()
     {
-        // OnTriggerExit ненадійний всередині physics callback — перевіряємо самі кожен фрейм
         if (_isExternalBeamHitting && (_externalBeamSource == null || !_externalBeamSource.gameObject.activeSelf))
         {
             _isExternalBeamHitting = false;
             _externalBeamSource    = null;
             if (!_isPrimaryBeamHitting) DeactivateReflection();
+        }
+
+        if (_isPrimaryBeamHitting && Time.time - _primaryBeamLastStayTime > Time.fixedDeltaTime * 3f)
+        {
+            _isPrimaryBeamHitting = false;
+            if (!_isExternalBeamHitting) DeactivateReflection();
         }
     }
 
@@ -125,12 +132,55 @@ public class SignalTower : MonoBehaviour
             if (source == reflectedBeam) return; // власний промінь — ігноруємо
             _isExternalBeamHitting = true;
             _externalBeamSource    = source;
+            _lastIncomingDir       = source.BeamDirection;
         }
         else
         {
-            _isPrimaryBeamHitting = true;
+            _isPrimaryBeamHitting    = true;
+            _primaryBeamLastStayTime = Time.time;
+            _lastIncomingDir         = GetBeamForward(other);
         }
         TryActivateReflection();
+    }
+
+    private static Vector3 GetBeamForward(Collider other)
+    {
+        var t = other.transform;
+        while (t.parent != null && !t.CompareTag("LightHouseBeam"))
+            t = t.parent;
+        return t.forward;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!other.CompareTag(beamTag)) return;
+        var source = other.GetComponentInParent<ReflectedBeam>();
+        if (source != null)
+        {
+            if (source == reflectedBeam) return;
+            bool wasHitting = _isExternalBeamHitting && _externalBeamSource == source;
+            _isExternalBeamHitting = true;
+            _externalBeamSource    = source;
+            _lastIncomingDir       = source.BeamDirection;
+            if (!wasHitting) TryActivateReflection();
+        }
+        else
+        {
+            var newDir               = GetBeamForward(other);
+            bool wasHitting          = _isPrimaryBeamHitting;
+            _isPrimaryBeamHitting    = true;
+            _primaryBeamLastStayTime = Time.time;
+            if (!wasHitting)
+            {
+                _lastIncomingDir = newDir;
+                TryActivateReflection();
+            }
+            else if (Vector3.Angle(newDir, _lastIncomingDir) > 0.5f)
+            {
+                _lastIncomingDir = newDir;
+                TryActivateReflection();
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -142,10 +192,10 @@ public class SignalTower : MonoBehaviour
         if (!_isExternalBeamHitting) DeactivateReflection();
     }
 
-    private void TryActivateReflection()
+private void TryActivateReflection()
     {
         if (!CanReflect || reflectedBeam == null || !IsAnyBeamHitting) return;
-        reflectedBeam.Activate();
+        reflectedBeam.Activate(_lastIncomingDir);
     }
 
     private void DeactivateReflection()

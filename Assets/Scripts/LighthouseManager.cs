@@ -8,6 +8,7 @@ public class LighthouseManager : Singleton<LighthouseManager>
     [SerializeField] private NightEventManager nightEventManager;
     
     [SerializeField] private Transform  beamPivot;
+    public             Transform  BeamPivot => beamPivot;
     [SerializeField] private LightHousePulse  beamPulse;
     [SerializeField] private LeverController leverController;
     
