@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioLogData
   id: AudioLog_BeamRotation1
   title: Rotational Mechanism Adjustment
-  key: 0
+  key: 14
   boardContentText: The rotation mechanism can be manually adjusted
   boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}
   lockedPlaceholder: -???????

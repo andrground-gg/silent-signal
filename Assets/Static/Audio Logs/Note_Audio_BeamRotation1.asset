@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
-  m_Name: Note_Audio_BeamRotation
+  m_Name: Note_Audio_BeamRotation1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
   id: AudioLog_BeamRotation1
   title: Rotational Mechanism Adjustment
-  key: 6
+  key: 14
   boardContentText: The rotation mechanism can be manually adjusted
   boardSprite: {fileID: 0}
   lockedPlaceholder: -???????

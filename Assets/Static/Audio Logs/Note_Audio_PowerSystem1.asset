@@ -9,14 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0986aede5c9a95d49ba1682150f3882a, type: 3}
-  m_Name: AudioLog_PowerSystem1
-  m_EditorClassIdentifier: Assembly-CSharp::AudioLogData
+  m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
+  m_Name: Note_Audio_PowerSystem1
+  m_EditorClassIdentifier: Assembly-CSharp::NoteData
   id: AudioLog_PowerSystem1
   title: Generators
   key: 15
   boardContentText: Only several generators actually affect something
-  boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}
+  boardSprite: {fileID: 0}
   lockedPlaceholder: -???????
   boardUpdates: []
-  audioClip: {fileID: 8300000, guid: 149de8b2c68071f448dfe29bcdecac86, type: 3}
+  contentText: "Must mark which ones actually do something. Not all of these generators
+    matter \u2013 only a few of them affect anything at all. Need to keep track."
+  paperSprite: {fileID: 0}

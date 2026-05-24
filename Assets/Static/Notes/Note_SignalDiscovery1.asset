@@ -10,19 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
-  m_Name: Note_PowerSystem1
+  m_Name: Note_SignalDiscovery1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_PowerSystem1
-  title: LIght Intensity Dependance
-  key: 5
-  boardContentText: The lighthouse light intensity depends on an external generator
+  id: Note_SignalDiscovery1
+  title: Responses to the Signal
+  key: 13
+  boardContentText: 'Light patterns produced consistent responses
+
+
+    The signal
+    appeared to be interpreted'
   boardSprite: {fileID: 0}
   lockedPlaceholder: -???????
   boardUpdates:
   - triggerKey: 0
     textToAppend: 
-  contentText: "Eight years. Eight years I've been here and I didn't notice a thing
-    like this. When an external generator is added, the light intensity changes.
-    \nEight years \u2013 and this escaped me. How could I not have noticed. I'm a
-    blind man. I could overlook absolutely anything."
+  contentText: 'Light patterns produced consistent responses
+
+
+    The signal appeared
+    to be interpreted'
   paperSprite: {fileID: 0}
