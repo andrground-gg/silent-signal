@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Concrete
+  m_Name: Brass
   m_Shader: {fileID: -6465566751694194690, guid: 3ca84562b9c01bd41acc92b2a9c2919c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -70,7 +70,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Palette:
-        m_Texture: {fileID: 2800000, guid: 9e7e9588c2df7b2428af2ce8ed25748a, type: 3}
+        m_Texture: {fileID: 2800000, guid: c2ffd189fc7aec04a8e1db0c98c65d50, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -147,14 +147,14 @@ Material:
     - _Color1: {r: 0.972549, g: 0.95686275, b: 0.8901961, a: 1}
     - _Color2: {r: 0.3764706, g: 0.42745098, b: 0.3647059, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Evening1: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
-    - _Evening2: {r: 0.24661294, g: 0.21658063, b: 0.2924528, a: 1}
-    - _Morning1: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
+    - _Evening1: {r: 1, g: 0.86026704, b: 0, a: 1}
+    - _Evening2: {r: 0.735849, g: 0.24874228, b: 0.06594872, a: 1}
+    - _Morning1: {r: 0.7830189, g: 0.4542987, b: 0.4542987, a: 1}
     - _Morning2: {r: 0.20558916, g: 0.26415092, b: 0.25490433, a: 1}
-    - _Night1: {r: 0.21960664, g: 0.3301887, b: 0.3223809, a: 1}
-    - _Night2: {r: 0, g: 0, b: 0, a: 1}
-    - _Noon1: {r: 1, g: 1, b: 1, a: 1}
-    - _Noon2: {r: 0.41509432, g: 0.39847308, b: 0.24083303, a: 1}
+    - _Night1: {r: 0.43460116, g: 0.4528302, b: 0.42933428, a: 1}
+    - _Night2: {r: 0.16647384, g: 0.2735849, b: 0.26257002, a: 1}
+    - _Noon1: {r: 1, g: 0.53612185, b: 0.3915094, a: 1}
+    - _Noon2: {r: 0.5754717, g: 0.08957815, b: 0.08957815, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
