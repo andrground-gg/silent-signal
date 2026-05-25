@@ -132,7 +132,7 @@ public class SignalTower : MonoBehaviour
             if (source == reflectedBeam) return; // власний промінь — ігноруємо
             _isExternalBeamHitting = true;
             _externalBeamSource    = source;
-            _lastIncomingDir       = source.BeamDirection;
+            _lastIncomingDir       = -source.BeamDirection;
         }
         else
         {
@@ -161,7 +161,7 @@ public class SignalTower : MonoBehaviour
             bool wasHitting = _isExternalBeamHitting && _externalBeamSource == source;
             _isExternalBeamHitting = true;
             _externalBeamSource    = source;
-            _lastIncomingDir       = source.BeamDirection;
+            _lastIncomingDir       = -source.BeamDirection;
             if (!wasHitting) TryActivateReflection();
         }
         else
