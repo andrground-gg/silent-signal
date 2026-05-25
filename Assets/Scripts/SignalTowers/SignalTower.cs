@@ -51,7 +51,7 @@ public class SignalTower : MonoBehaviour
         }
     }
 
-    public bool CanReflect => IsPowered && !_isFogBlocked && !_isRotating;
+    public bool CanReflect => IsPowered && !_isFogBlocked;
 
     public event Action<bool> OnCanReflectChanged;
 
@@ -76,6 +76,9 @@ public class SignalTower : MonoBehaviour
             _isPrimaryBeamHitting = false;
             if (!_isExternalBeamHitting) DeactivateReflection();
         }
+
+        if (_isRotating && IsAnyBeamHitting)
+            TryActivateReflection(updateCollider: false);
     }
 
     private void Start()
@@ -101,8 +104,6 @@ public class SignalTower : MonoBehaviour
         _state = (_state + 1) % 4;
 
         _isRotating = true;
-        DeactivateReflection();
-        OnCanReflectChanged?.Invoke(false);
 
         rotatingHead
             .DOLocalRotate(new Vector3(0f, 90f, 0f), rotationDuration, RotateMode.LocalAxisAdd)
@@ -111,7 +112,6 @@ public class SignalTower : MonoBehaviour
             {
                 _isRotating = false;
                 TryActivateReflection();
-                OnCanReflectChanged?.Invoke(CanReflect);
             })
             .SetLink(gameObject);
     }
@@ -161,8 +161,16 @@ public class SignalTower : MonoBehaviour
             bool wasHitting = _isExternalBeamHitting && _externalBeamSource == source;
             _isExternalBeamHitting = true;
             _externalBeamSource    = source;
-            _lastIncomingDir       = -source.BeamDirection;
-            if (!wasHitting) TryActivateReflection();
+            var newExternalDir     = -source.BeamDirection;
+            if (!wasHitting || Vector3.Angle(newExternalDir, _lastIncomingDir) > 0.5f)
+            {
+                _lastIncomingDir = newExternalDir;
+                TryActivateReflection();
+            }
+            else
+            {
+                _lastIncomingDir = newExternalDir;
+            }
         }
         else
         {
@@ -187,15 +195,24 @@ public class SignalTower : MonoBehaviour
     {
         if (!other.CompareTag(beamTag)) return;
         var source = other.GetComponentInParent<ReflectedBeam>();
-        if (source != null) return; // зовнішній промінь — обробляється в Update, не тут
-        _isPrimaryBeamHitting = false;
-        if (!_isExternalBeamHitting) DeactivateReflection();
+        if (source != null)
+        {
+            if (source != _externalBeamSource) return;
+            _isExternalBeamHitting = false;
+            _externalBeamSource    = null;
+            if (!_isPrimaryBeamHitting) DeactivateReflection();
+        }
+        else
+        {
+            _isPrimaryBeamHitting = false;
+            if (!_isExternalBeamHitting) DeactivateReflection();
+        }
     }
 
-private void TryActivateReflection()
+    private void TryActivateReflection(bool updateCollider = true)
     {
         if (!CanReflect || reflectedBeam == null || !IsAnyBeamHitting) return;
-        reflectedBeam.Activate(_lastIncomingDir);
+        reflectedBeam.Activate(_lastIncomingDir, updateCollider);
     }
 
     private void DeactivateReflection()

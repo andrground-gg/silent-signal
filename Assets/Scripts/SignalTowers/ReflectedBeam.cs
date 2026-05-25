@@ -97,11 +97,12 @@ public class ReflectedBeam : MonoBehaviour
         return unique.ToArray();
     }
 
-    public void Activate(Vector3 incomingDir)
+    public void Activate(Vector3 incomingDir, bool updateCollider = true)
     {
         _hitTower = null;
 
         var d = new Vector3(incomingDir.x, 0f, incomingDir.z).normalized;
+        if (d.sqrMagnitude < 0.001f) return;
         var n = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
         BeamDirection = Vector3.Reflect(d, n);
 
@@ -109,7 +110,7 @@ public class ReflectedBeam : MonoBehaviour
         var ownerTower = GetComponentInParent<SignalTower>();
         var origin     = transform.parent.position;
 
-        if (Physics.SphereCast(origin, cylinderRadius, direction, out RaycastHit hit, maxDistance, hitMask, QueryTriggerInteraction.Ignore))
+        if (updateCollider && Physics.SphereCast(origin, cylinderRadius, direction, out RaycastHit hit, maxDistance, hitMask, QueryTriggerInteraction.Ignore))
         {
             var hitTower = hit.collider.GetComponentInParent<SignalTower>();
             _hitTower = (hitTower != null && hitTower != ownerTower) ? hitTower : null;
@@ -123,8 +124,10 @@ public class ReflectedBeam : MonoBehaviour
 
         BuildCylinder(direction, length, origin);
 
-        _meshCollider.sharedMesh = null;
-        _meshCollider.sharedMesh = _mesh;
+        if (updateCollider)
+        {
+            _meshCollider.sharedMesh = _mesh;
+        }
 
         gameObject.SetActive(true);
     }
