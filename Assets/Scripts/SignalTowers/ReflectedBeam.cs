@@ -105,6 +105,11 @@ public class ReflectedBeam : MonoBehaviour
         if (d.sqrMagnitude < 0.001f) return;
         var n = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
         BeamDirection = Vector3.Reflect(d, n);
+        if (Vector3.Dot(d, transform.up) < 0f)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
 
         var direction  = BeamDirection;
         var ownerTower = GetComponentInParent<SignalTower>();
