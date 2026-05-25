@@ -17,6 +17,7 @@ MonoBehaviour:
   key: 16
   boardContentText: 'Fog is affected by lighthouse light intensity
 
+
     Fog could
     be hiding important structures'
   boardSprite: {fileID: 0}
@@ -24,6 +25,7 @@ MonoBehaviour:
   boardUpdates: []
   contentText: 'Fog is affected by lighthouse light intensity
 
-    Fog could be hiding
-    important structures'
+
+    Fog could be
+    hiding important structures'
   paperSprite: {fileID: 0}
