@@ -55830,7 +55830,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1927013632
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59479,7 +59479,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5444083047802086362, guid: 14422afa6759ff247bf012771b1eb22d, type: 3}
       propertyPath: m_fontSize
-      value: 24.1
+      value: 22.6
       objectReference: {fileID: 0}
     - target: {fileID: 5850502845395552493, guid: 14422afa6759ff247bf012771b1eb22d, type: 3}
       propertyPath: keepersDenZone
@@ -60149,7 +60149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &2081912963
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62406,11 +62406,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: dc6f38d9d34611d4ab6fe6eeac6fe559, type: 2}
     - target: {fileID: 2785803833684286869, guid: 6c5410d9fe28a9d45a38317170758946, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.8723032
+      value: 1.8326104
       objectReference: {fileID: 0}
     - target: {fileID: 2785803833684286869, guid: 6c5410d9fe28a9d45a38317170758946, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8854
+      value: 0.93276894
       objectReference: {fileID: 0}
     - target: {fileID: 2785803833684286869, guid: 6c5410d9fe28a9d45a38317170758946, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62443,6 +62443,10 @@ PrefabInstance:
     - target: {fileID: 2785803833684286869, guid: 6c5410d9fe28a9d45a38317170758946, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 186.505
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019730913311131219, guid: 6c5410d9fe28a9d45a38317170758946, type: 3}
+      propertyPath: m_Name
+      value: Old Crew Photo
       objectReference: {fileID: 0}
     - target: {fileID: 5155730536618019488, guid: 6c5410d9fe28a9d45a38317170758946, type: 3}
       propertyPath: m_Name
