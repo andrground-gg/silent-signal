@@ -15,16 +15,13 @@ MonoBehaviour:
   id: Note_GovernmentProject1
   title: Classified Research Program
   key: 11
+  topic: 1
   boardContentText: 'A classified research program was established
 
 
     Additional
     equipment was installed across the island '
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates:
-  - triggerKey: 0
-    textToAppend: 
   contentText: 'A classified research program was established
 
 

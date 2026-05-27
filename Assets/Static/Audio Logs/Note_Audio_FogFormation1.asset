@@ -15,14 +15,13 @@ MonoBehaviour:
   id: AudioLog_ForFormation1
   title: Fog Information
   key: 16
+  topic: 2
   boardContentText: 'Fog is affected by lighthouse light intensity
 
 
     Fog could
     be hiding important structures'
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: 'Fog is affected by lighthouse light intensity
 
 

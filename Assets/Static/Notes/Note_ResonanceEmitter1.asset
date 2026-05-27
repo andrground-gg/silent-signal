@@ -15,9 +15,8 @@ MonoBehaviour:
   id: Note_ResonanceEmitter1
   title: Resonance Emitter Strong Mode
   key: 7
+  topic: 1
   boardContentText: Strong mode is unlocked through solar power
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: Strong mode is unlocked through solar power
   paperSprite: {fileID: 0}

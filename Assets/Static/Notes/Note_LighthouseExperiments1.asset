@@ -15,11 +15,8 @@ MonoBehaviour:
   id: Note_LighthouseExperiments1
   title: Responses to Light Patterns
   key: 10
+  topic: 1
   boardContentText: Researchers discovered that light patterns produced responses
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates:
-  - triggerKey: 0
-    textToAppend: 
   contentText: Researchers discovered that light patterns produced responses
   paperSprite: {fileID: 0}

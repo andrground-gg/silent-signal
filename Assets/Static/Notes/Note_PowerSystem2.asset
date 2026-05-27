@@ -15,11 +15,8 @@ MonoBehaviour:
   id: Note_PowerSystem2
   title: Abandoned Research Station Power
   key: 5
+  topic: 1
   boardContentText: Abandoned research station is powered from an external generator
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates:
-  - triggerKey: 0
-    textToAppend: 
   contentText: Abandoned research station is powered from an external generator
   paperSprite: {fileID: 0}

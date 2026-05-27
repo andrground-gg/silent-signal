@@ -15,6 +15,7 @@ MonoBehaviour:
   id: 2
   title: Test Audio
   key: 0
+  topic: 2
   boardContentText: 'So there''s some updates:
 
     -Added audio log
@@ -22,8 +23,4 @@ MonoBehaviour:
     -Found
     audio log'
   boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}
-  lockedPlaceholder: -???????
-  boardUpdates:
-  - triggerKey: 1
-    textToAppend: -So it's connected with Test_Log this way.
   audioClip: {fileID: 8300000, guid: 149de8b2c68071f448dfe29bcdecac86, type: 3}

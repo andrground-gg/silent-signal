@@ -15,9 +15,8 @@ MonoBehaviour:
   id: AudioLog_Lighthouse1
   title: Lighthouse Purpose
   key: 17
+  topic: 2
   boardContentText: The lighthouse is no longer just a navigational tool
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: The lighthouse is no longer just a navigational tool
   paperSprite: {fileID: 0}

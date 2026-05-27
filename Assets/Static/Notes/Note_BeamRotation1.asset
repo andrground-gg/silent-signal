@@ -15,11 +15,10 @@ MonoBehaviour:
   id: Note_BeamRotation1
   title: Beam Rotation Mechanism
   key: 3
+  topic: 1
   boardContentText: Lighthouse rotational mechanism is located in the lighthouse's
     machinery floor
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: "A man doesn't stray from the path. Between the supply dock and my
     shack, the world is just wide enough \u2013 and I had convinced myself that was
     enough. Eight years of the same stones underfoot, the same wind at my back. Eight

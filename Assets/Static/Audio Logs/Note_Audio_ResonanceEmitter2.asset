@@ -15,11 +15,10 @@ MonoBehaviour:
   id: AudioLog_ResonanceEmitter2
   title: Resonance Emitter Usage
   key: 18
+  topic: 2
   boardContentText: The previous lighthouse keeper used resonance emitter during
     his final experiment
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: The previous lighthouse keeper used resonance emitter during his final
     experiment
   paperSprite: {fileID: 0}

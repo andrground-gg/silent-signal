@@ -10,6 +10,13 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
+        if (UIManager.Instance != null && UIManager.Instance.IsNoteOpen)
+        {
+            if (current != null) { current.OnHoverExit(); current = null; }
+            if (Input.GetKeyDown(KeyCode.E)) UIManager.Instance.HideNote();
+            return;
+        }
+
         if (ItemInspectionController.Instance != null && ItemInspectionController.Instance.IsInspecting)
         {
             if (current != null)

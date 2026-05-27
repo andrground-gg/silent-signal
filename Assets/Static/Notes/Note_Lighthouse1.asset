@@ -15,9 +15,8 @@ MonoBehaviour:
   id: Note_Lighthouse1
   title: Lighthouse and Solar Panels Connection
   key: 3
+  topic: 1
   boardContentText: Lighthouse beam could power solar panels
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: Lighthouse beam could power solar panels
   paperSprite: {fileID: 0}

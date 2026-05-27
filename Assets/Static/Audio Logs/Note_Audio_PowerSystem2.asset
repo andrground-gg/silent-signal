@@ -15,14 +15,13 @@ MonoBehaviour:
   id: AudioLog_PowerSystem2
   title: Signal Towers Information
   key: 15
+  topic: 2
   boardContentText: 'Signal towers are powered from an external generator
 
 
     Signal
     towers were installed to redirect the beam'
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: 'Signal towers are powered from an external generator
 
 

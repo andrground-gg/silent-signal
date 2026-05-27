@@ -15,16 +15,13 @@ MonoBehaviour:
   id: Note_SignalDiscovery1
   title: Responses to the Signal
   key: 13
+  topic: 1
   boardContentText: 'Light patterns produced consistent responses
 
 
     The signal
     appeared to be interpreted'
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates:
-  - triggerKey: 0
-    textToAppend: 
   contentText: 'Light patterns produced consistent responses
 
 

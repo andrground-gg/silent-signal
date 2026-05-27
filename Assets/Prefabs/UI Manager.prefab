@@ -134,8 +134,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d8d233c7e5b28743abe285fbe0e2f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoteReaderUI
+  panel: {fileID: 133578734376154910}
   bodyLabel: {fileID: 5609704032916648605}
   paperImage: {fileID: 0}
+  openButton: {fileID: 0}
+  closeButton: {fileID: 0}
 --- !u!1 &1473399711652949999
 GameObject:
   m_ObjectHideFlags: 0

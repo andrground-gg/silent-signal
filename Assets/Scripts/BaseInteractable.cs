@@ -31,4 +31,9 @@ public class BaseInteractable : MonoBehaviour, IInteractable
     {
         outline.enabled = enabled;
     }
+
+    public void SetHighlight(bool on)
+    {
+        if (outline != null) outline.enabled = on;
+    }
 }

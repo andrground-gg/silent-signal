@@ -15,10 +15,9 @@ MonoBehaviour:
   id: Note_SpectralModulator1
   title: Spectral Modulator Functionality
   key: 8
+  topic: 1
   boardContentText: Spectral modulator converts lighthouse beam into ultraviolet
     light
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: Spectral modulator converts lighthouse beam into ultraviolet light
   paperSprite: {fileID: 0}

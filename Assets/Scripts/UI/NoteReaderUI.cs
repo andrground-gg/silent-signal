@@ -26,6 +26,7 @@ public class NoteReaderUI : MonoBehaviour
         if (closeButton != null) closeButton.onClick.RemoveListener(OnClose);
     }
 
+    public void Open()     => panel?.SetActive(true);
     private void OnOpen()  => panel?.SetActive(true);
     private void OnClose() => panel?.SetActive(false);
 

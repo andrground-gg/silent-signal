@@ -15,11 +15,10 @@ MonoBehaviour:
   id: Note_SpectralModulator2
   title: Spectral Modulator Location
   key: 8
+  topic: 1
   boardContentText: Spectral modulation could be controlled from the abandoned research
     station
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: Spectral modulation could be controlled from the abandoned research
     station
   paperSprite: {fileID: 0}

@@ -15,8 +15,7 @@ MonoBehaviour:
   id: AudioLog_PowerSystem1
   title: Generators
   key: 15
+  topic: 2
   boardContentText: Only several generators actually affect something
   boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   audioClip: {fileID: 8300000, guid: 149de8b2c68071f448dfe29bcdecac86, type: 3}

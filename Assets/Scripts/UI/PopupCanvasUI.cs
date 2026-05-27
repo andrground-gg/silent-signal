@@ -50,10 +50,7 @@ public class PopupCanvasUI : MonoBehaviour
             titleText.text = data.title;
 
         if (bodyText != null)
-        {
-            // Dynamic text — base content + appended updates from any unlocked triggers.
-            bodyText.text = data.GetCurrentBoardText(IsUnlocked);
-        }
+            bodyText.text = data.boardContentText;
 
         if (iconImage != null)
         {
@@ -69,9 +66,33 @@ public class PopupCanvasUI : MonoBehaviour
         }
     }
 
-    private static bool IsUnlocked(LogKeys key)
+    public void SetTopicData(BoardTopic topic, Sprite sprite)
     {
-        return CollectibleRegistry.Instance != null && CollectibleRegistry.Instance.IsDiscovered(key);
+        if (titleText != null)
+            titleText.text = topic.ToString();
+
+        if (bodyText != null)
+            bodyText.text = string.Empty;
+
+        if (iconImage != null)
+        {
+            if (sprite != null)
+            {
+                iconImage.gameObject.SetActive(true);
+                iconImage.sprite = sprite;
+            }
+            else
+            {
+                iconImage.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void SetNotDiscoveredData()
+    {
+        if (titleText != null) titleText.text = "Not Discovered";
+        if (bodyText != null) bodyText.text = string.Empty;
+        if (iconImage != null) iconImage.gameObject.SetActive(false);
     }
 
     private void PlayShowAnimation()

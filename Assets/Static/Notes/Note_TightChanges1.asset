@@ -15,10 +15,9 @@ MonoBehaviour:
   id: 4
   title: Submerged Areas
   key: 5
+  topic: 1
   boardContentText: There are some submerged areas that could be accessible
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: "\u2026I walk the island in circles. I can't trust my own eyes. The
     water level has dropped. How is that even possible. I hear strange sounds \u2013
     ones that were never here before. And there's a charge in the air, something

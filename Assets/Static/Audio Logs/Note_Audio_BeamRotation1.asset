@@ -15,10 +15,9 @@ MonoBehaviour:
   id: AudioLog_BeamRotation1
   title: Rotational Mechanism Adjustment
   key: 14
+  topic: 2
   boardContentText: The rotation mechanism can be manually adjusted
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: "It's such a strange feeling. After all these years.\nI thought nothing
     would ever change. That life would just be... endlessly the same. On and on.
     Day after day, slowly crawling, from nowhere to nowhere. And me along with it.\nAnd

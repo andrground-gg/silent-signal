@@ -15,14 +15,13 @@ MonoBehaviour:
   id: AudioLog_ResonanceEmitter1
   title: Resonance Emitter Information
   key: 18
+  topic: 2
   boardContentText: 'Resonance emitter is located inside the tidal cave
 
 
     Resonance
     emitter transmits low-frequency vibrations into the ocean floor'
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: 'Resonance emitter is located inside the tidal cave
 
 

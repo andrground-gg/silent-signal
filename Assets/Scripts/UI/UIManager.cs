@@ -16,6 +16,7 @@ public class UIManager : Singleton<UIManager>
     // [SerializeField] private KeeperArchiveUI archiveUI;
 
     private PopupCanvasUI currentPopup;
+    private PopupCanvasUI currentTopicPopup;
     
     protected void Start()
     {
@@ -25,6 +26,8 @@ public class UIManager : Singleton<UIManager>
         // if (archiveUI != null) archiveUI.gameObject.SetActive(false);
     }
 
+    public bool IsNoteOpen => noteUI != null && noteUI.gameObject.activeSelf;
+
     // ---------- Note ----------
 
     public void ShowNote(NoteData data)
@@ -32,6 +35,7 @@ public class UIManager : Singleton<UIManager>
         if (noteUI == null || data == null) return;
         noteUI.gameObject.SetActive(true);
         noteUI.SetData(data);
+        noteUI.Open();
     }
 
     public void HideNote()
@@ -73,6 +77,34 @@ public class UIManager : Singleton<UIManager>
 
         currentPopup.HideAndDestroy();
         currentPopup = null;
+    }
+
+    public void ShowBoardTopic(BoardTopic topic, Sprite sprite, Transform anchor)
+    {
+        HideBoardTopic();
+        if (anchor == null) return;
+
+        currentTopicPopup = Instantiate(popupCanvasUIPrefab, anchor, worldPositionStays: false);
+        currentTopicPopup.SetTopicData(topic, sprite);
+        currentTopicPopup.Show();
+    }
+
+    public void ShowNotDiscovered(Transform anchor)
+    {
+        HideBoardCollectible();
+        if (anchor == null) return;
+
+        currentPopup = Instantiate(popupCanvasUIPrefab, anchor, worldPositionStays: false);
+        currentPopup.SetNotDiscoveredData();
+        currentPopup.Show();
+    }
+
+    public void HideBoardTopic()
+    {
+        if (currentTopicPopup == null) return;
+
+        currentTopicPopup.HideAndDestroy();
+        currentTopicPopup = null;
     }
 
     public void ShowDiscoveryText()

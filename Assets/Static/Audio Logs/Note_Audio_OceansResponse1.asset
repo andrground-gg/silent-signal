@@ -15,6 +15,7 @@ MonoBehaviour:
   id: AudioLog_OceansResponse1
   title: The Water Secrets
   key: 19
+  topic: 2
   boardContentText: 'The ocean reacts to changes in the lighthouse signal
 
 
@@ -25,8 +26,6 @@ MonoBehaviour:
     There is strange movement observed
     beneath the water'
   boardSprite: {fileID: 0}
-  lockedPlaceholder: -???????
-  boardUpdates: []
   contentText: 'The ocean reacts to changes in the lighthouse signal
 
 
