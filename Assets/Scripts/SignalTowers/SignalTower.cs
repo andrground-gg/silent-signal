@@ -16,6 +16,7 @@ public class SignalTower : MonoBehaviour
     [Header("Rotation")]
     [SerializeField] private float rotationDuration = 1f;
     [SerializeField] private Ease  rotationEase     = Ease.InOutSine;
+    [SerializeField] private AudioSource rotateSound;
 
     [Header("Indicator")]
     [SerializeField] private Color offEmission = new Color(0.15f, 0f,    0f);
@@ -104,6 +105,7 @@ public class SignalTower : MonoBehaviour
         _state = (_state + 1) % 4;
 
         _isRotating = true;
+        rotateSound.Play();
 
         rotatingHead
             .DOLocalRotate(new Vector3(0f, 90f, 0f), rotationDuration, RotateMode.LocalAxisAdd)
