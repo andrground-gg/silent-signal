@@ -16,6 +16,7 @@ public class SolarPanel : MonoBehaviour
     [SerializeField] private Renderer panelRenderer;
     [SerializeField] private Color    baseEmissionColor = Color.yellow;
     [SerializeField] private float    maxGlowMultiplier = 4f;
+    [SerializeField] private float    glowLerpSpeed = 3f;
 
     [Header("Meter")]
     [Tooltip("Renderer for the charge meter indicator — color shifts red→yellow→green.")]
@@ -33,6 +34,8 @@ public class SolarPanel : MonoBehaviour
     private float _timeSinceLastHit;
     private Material _mat;
     private Material _meterMat;
+    private Color _defaultPanelEmissionColor = Color.black;
+    private Color _currentPanelEmissionColor = Color.black;
 
     private void Awake()
     {
@@ -40,7 +43,11 @@ public class SolarPanel : MonoBehaviour
         {
             _mat = panelRenderer.materials[1];
             if (_mat.HasProperty(EmissionColor))
+            {
                 _mat.EnableKeyword("_EMISSION");
+                _defaultPanelEmissionColor = _mat.GetColor(EmissionColor);
+                _currentPanelEmissionColor = _defaultPanelEmissionColor;
+            }
         }
 
         if (meterRenderer != null && meterRenderer.sharedMaterials.Length > 1)
@@ -91,7 +98,17 @@ public class SolarPanel : MonoBehaviour
         float t = Charge / 100f;
 
         if (_mat != null)
-            _mat.SetColor(EmissionColor, baseEmissionColor * (t * maxGlowMultiplier));
+        {
+            Color targetEmission = _beamHitCount > 0
+                ? baseEmissionColor * maxGlowMultiplier
+                : _defaultPanelEmissionColor;
+            _currentPanelEmissionColor = Color.Lerp(
+                _currentPanelEmissionColor,
+                targetEmission,
+                glowLerpSpeed * Time.deltaTime
+            );
+            _mat.SetColor(EmissionColor, _currentPanelEmissionColor);
+        }
 
         if (_meterMat != null)
         {
