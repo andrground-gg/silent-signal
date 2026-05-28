@@ -101,11 +101,11 @@ public class ReflectedBeam : MonoBehaviour
     {
         _hitTower = null;
 
-        var d = new Vector3(incomingDir.x, 0f, incomingDir.z).normalized;
+        var d = incomingDir.normalized;
         if (d.sqrMagnitude < 0.001f) return;
-        var n = new Vector3(transform.right.x, 0f, transform.right.z).normalized;
-        BeamDirection = Vector3.Reflect(d, n);
-        if (Vector3.Dot(d, transform.up) < 0f)
+        var n = transform.up.normalized;
+        BeamDirection = -Vector3.Reflect(d, n).normalized;
+        if (Vector3.Dot(d, n) < 0f)
         {
             gameObject.SetActive(false);
             return;

@@ -102,13 +102,13 @@ public class SignalTower : MonoBehaviour
     {
         if (_isRotating) return;
 
-        _state = (_state + 1) % 4;
+        _state = (_state + 1) % 8;
 
         _isRotating = true;
         rotateSound.Play();
 
         rotatingHead
-            .DOLocalRotate(new Vector3(0f, 90f, 0f), rotationDuration, RotateMode.LocalAxisAdd)
+            .DOLocalRotate(new Vector3(0f, 45f, 0f), rotationDuration, RotateMode.LocalAxisAdd)
             .SetEase(rotationEase)
             .OnComplete(() =>
             {

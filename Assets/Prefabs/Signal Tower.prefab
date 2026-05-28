@@ -55,7 +55,7 @@ MonoBehaviour:
   indicatorRenderer: {fileID: 6180394389769200911}
   reflectedBeam: {fileID: 3357164446499395170}
   beamTag: LightHouseBeam
-  rotationDuration: 2.5
+  rotationDuration: 1.5
   rotationEase: 4
   rotateSound: {fileID: 3630819868892064418}
   offEmission: {r: 0.6603774, g: 0.021804927, b: 0.021804927, a: 1}
