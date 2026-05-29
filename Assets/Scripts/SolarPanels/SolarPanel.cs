@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SolarPanel : MonoBehaviour
@@ -32,6 +33,7 @@ public class SolarPanel : MonoBehaviour
 
     private int   _beamHitCount;
     private float _timeSinceLastHit;
+    private readonly HashSet<Collider> _activeBeams = new HashSet<Collider>();
     private Material _mat;
     private Material _meterMat;
     private Color _defaultPanelEmissionColor = Color.black;
@@ -60,37 +62,49 @@ public class SolarPanel : MonoBehaviour
 
     private void Update()
     {
-        if (IsActivated) return;
+        CleanupInactiveBeams();
+        Debug.Log(Charge);
 
-        if (_beamHitCount > 0)
+        if (!IsActivated)
         {
-            _timeSinceLastHit = 0f;
-            Charge = Mathf.Min(100f, Charge + chargeRate * Time.deltaTime);
+            if (_beamHitCount > 0)
+            {
+                _timeSinceLastHit = 0f;
+                Charge = Mathf.Min(100f, Charge + chargeRate * Time.deltaTime);
+            }
+            else
+            {
+                _timeSinceLastHit += Time.deltaTime;
+                if (_timeSinceLastHit >= decayStartTime)
+                    Charge = Mathf.Max(0f, Charge - decayRate * Time.deltaTime);
+            }
+
+            if (Charge >= 100f)
+                Activate();
         }
         else
         {
-            _timeSinceLastHit += Time.deltaTime;
-            if (_timeSinceLastHit >= decayStartTime)
-                Charge = Mathf.Max(0f, Charge - decayRate * Time.deltaTime);
+            Charge = 100f;
         }
 
         ApplyVisuals();
-
-        if (Charge >= 100f)
-            Activate();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(beamTag))
+        if (!other.CompareTag(beamTag)) return;
+        if (_activeBeams.Add(other))
             _beamHitCount++;
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag(beamTag)) return;
-        _beamHitCount = Mathf.Max(0, _beamHitCount - 1);
-        if (_beamHitCount == 0) _timeSinceLastHit = 0f;
+        if (_activeBeams.Remove(other))
+        {
+            _beamHitCount = Mathf.Max(0, _beamHitCount - 1);
+            if (_beamHitCount == 0) _timeSinceLastHit = 0f;
+        }
     }
 
     private void ApplyVisuals()
@@ -117,6 +131,16 @@ public class SolarPanel : MonoBehaviour
                 : Color.Lerp(Color.yellow, Color.green, (t - 0.5f) * 2f);
             _meterMat.SetColor(EmissionColor, meterColor * meterGlowMultiplier);
         }
+    }
+
+    private void CleanupInactiveBeams()
+    {
+        if (_activeBeams.Count == 0) return;
+
+        _activeBeams.RemoveWhere(beam => beam == null || !beam.enabled || !beam.gameObject.activeInHierarchy);
+        _beamHitCount = _activeBeams.Count;
+        if (_beamHitCount == 0)
+            _timeSinceLastHit = 0f;
     }
 
     private void Activate()

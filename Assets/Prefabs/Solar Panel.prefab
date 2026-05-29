@@ -130,12 +130,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SolarPanel
   beamTag: LightHouseBeam
-  chargeRate: 10
-  decayStartTime: 3
-  decayRate: 10
+  chargeRate: 90
+  decayStartTime: 8
+  decayRate: 20
   panelRenderer: {fileID: 8497557201491249867}
   baseEmissionColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   maxGlowMultiplier: 4
+  glowLerpSpeed: 3
   meterRenderer: {fileID: 7947268904851504759}
   meterGlowMultiplier: 3
 --- !u!54 &7139868025763690761
