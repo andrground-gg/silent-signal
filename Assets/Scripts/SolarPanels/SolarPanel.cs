@@ -23,6 +23,9 @@ public class SolarPanel : MonoBehaviour
     [Tooltip("Renderer for the charge meter indicator — color shifts red→yellow→green.")]
     [SerializeField] private Renderer meterRenderer;
     [SerializeField] private float    meterGlowMultiplier = 3f;
+
+    [Header("Actions")]
+    [SerializeField] private List<SolarPanelAction> actions = new List<SolarPanelAction>();
     
     private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
@@ -144,9 +147,33 @@ public class SolarPanel : MonoBehaviour
 
     private void Activate()
     {
-        Debug.Log($"Activate: {gameObject.name}");
         IsActivated = true;
         Charge = 100f;
         OnPanelActivated?.Invoke();
+
+        foreach (var action in actions)
+            if (action != null) action.Execute();
+    }
+
+    [ContextMenu("Debug/Trigger Actions")]
+    private void DebugTriggerActions()
+    {
+        if (!Application.isPlaying) return;
+        foreach (var action in actions)
+            if (action != null) action.Execute();
+    }
+
+    [ContextMenu("Debug/Simulate Activation")]
+    private void DebugActivate()
+    {
+        if (!Application.isPlaying) return;
+        Activate();
+    }
+
+    [ContextMenu("Debug/Reset Panel")]
+    private void DebugReset()
+    {
+        IsActivated = false;
+        Charge = 0f;
     }
 }
