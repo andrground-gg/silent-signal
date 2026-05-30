@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - LightHouseBeam
+  - Fog
   layers:
   - Default
   - TransparentFX

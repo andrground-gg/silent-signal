@@ -10,8 +10,9 @@ public class ReflectedBeam : MonoBehaviour
     [SerializeField] private float     cylinderRadius    = 0.5f;
     [SerializeField] private float     endRadius         = 2f;
     [SerializeField] private int       segments          = 16;
-    [SerializeField] private LayerMask hitMask           = ~0;
-    [SerializeField] private float     maxDistance       = 300f;
+    [SerializeField] private LayerMask hitMask              = ~0;
+    [SerializeField] private float     maxDistance          = 300f;
+    [SerializeField] private float     fogVisibilityThreshold = 2f;
 
     public Vector3 BeamDirection { get; private set; }
 
@@ -115,13 +116,45 @@ public class ReflectedBeam : MonoBehaviour
         var ownerTower = GetComponentInParent<SignalTower>();
         var origin     = transform.parent.position;
 
-        if (updateCollider && Physics.SphereCast(origin, cylinderRadius, direction, out RaycastHit hit, maxDistance, hitMask, QueryTriggerInteraction.Ignore))
+        float visibility = GameplayFogController.Instance != null
+            ? GameplayFogController.Instance.CurrentVisibility
+            : 1f;
+
+        // башта всередині туману — блочимо якщо видимість недостатня
+        foreach (var col in Physics.OverlapSphere(origin, cylinderRadius, hitMask, QueryTriggerInteraction.Collide))
         {
-            var hitTower = hit.collider.GetComponentInParent<SignalTower>();
-            _hitTower = (hitTower != null && hitTower != ownerTower) ? hitTower : null;
+            if (col.CompareTag("Fog") && visibility < fogVisibilityThreshold)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
         }
 
         float length = maxDistance;
+
+        if (updateCollider)
+        {
+
+            var hits = Physics.SphereCastAll(origin, cylinderRadius, direction, maxDistance, hitMask, QueryTriggerInteraction.Collide);
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+            foreach (var hit in hits)
+            {
+                if (hit.collider.CompareTag("Fog"))
+                {
+                    if (visibility >= fogVisibilityThreshold) continue;
+                    length = hit.distance;
+                    break;
+                }
+
+                var hitTower = hit.collider.GetComponentInParent<SignalTower>();
+                if (hitTower != null && hitTower != ownerTower)
+                {
+                    _hitTower = hitTower;
+                    break;
+                }
+            }
+        }
 
         Debug.DrawRay(origin, d * 5f,            Color.red,   0.5f);
         Debug.DrawRay(origin, BeamDirection * 5f, Color.green, 0.5f);

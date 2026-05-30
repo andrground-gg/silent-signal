@@ -63,7 +63,6 @@ public class SolarPanel : MonoBehaviour
     private void Update()
     {
         CleanupInactiveBeams();
-        Debug.Log(Charge);
 
         if (!IsActivated)
         {
