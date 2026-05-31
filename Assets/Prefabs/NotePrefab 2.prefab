@@ -154,6 +154,7 @@ MonoBehaviour:
   inspectionPrefab: {fileID: 3655969159884876065}
   collectibleData: {fileID: 11400000, guid: a8bf2d8042e84e04d95f2a754270acfc, type: 2}
   spawnRotation: {x: -90, y: 0, z: 180}
+  spawnDistance: 1
 --- !u!1 &4329854843368830163
 GameObject:
   m_ObjectHideFlags: 0

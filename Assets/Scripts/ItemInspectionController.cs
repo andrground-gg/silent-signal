@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ItemInspectionController : Singleton<ItemInspectionController>
@@ -7,57 +9,88 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
     [SerializeField] private float rotationSpeed = 200f;
     [SerializeField] private float backgroundAlpha = 0.8f;
     [SerializeField] private int renderTextureSize = 600;
-    [SerializeField] private float stageCameraDistance = 3f;
-    [SerializeField] private float stageCameraFov = 40f;
+
+    [Header("Inspection Scene")]
+    [SerializeField] private string inspectionSceneName = "InspectionScene";
+    [SerializeField] private string inspectionLayer = "Inspection";
 
     [Header("Editor Canvas (optional)")]
+    [SerializeField] private GameObject inspectionRoot;   // the object that holds the inspection UI; toggled on/off
     [SerializeField] private Canvas inspectionCanvas;
     [SerializeField] private RawImage itemDisplay;
+    [SerializeField] private RenderTexture sharedRenderTexture; // assign the same RT used by ItemDisplay
     [SerializeField] private NoteReaderUI noteReaderUI;
 
     public bool IsInspecting { get; private set; }
     public int LastStopFrame { get; private set; }
 
-    // Item is spawned here — far from any actual geometry.
-    private static readonly Vector3 StagePosition = new Vector3(10000f, 10000f, 10000f);
-
     private PlayerController _player;
     private GameObject _instance;
-    private Camera _stageCamera;
     private RenderTexture _rt;
     private Canvas _canvas;
     private int _startFrame;
 
+    private InspectionStage _stage;
+    private Scene _inspectionScene;
+    private Scene _previousActiveScene;
+
     protected override void Awake()
     {
         base.Awake();
-        BuildStageCamera();
+        SetupRenderTexture();
         BuildUI();
     }
 
     void Start()
     {
         _player = FindObjectOfType<PlayerController>();
+        StartCoroutine(LoadInspectionScene());
     }
 
-    void BuildStageCamera()
+    IEnumerator LoadInspectionScene()
     {
-        var go = new GameObject("_InspectionStageCamera");
-        go.transform.SetParent(transform);
-        // Sit behind the stage along -Z, look toward +Z at the item.
-        go.transform.position = StagePosition - Vector3.forward * stageCameraDistance;
+        if (SceneManager.GetSceneByName(inspectionSceneName).isLoaded)
+        {
+            _inspectionScene = SceneManager.GetSceneByName(inspectionSceneName);
+        }
+        else
+        {
+            yield return SceneManager.LoadSceneAsync(inspectionSceneName, LoadSceneMode.Additive);
+            _inspectionScene = SceneManager.GetSceneByName(inspectionSceneName);
+        }
 
-        _stageCamera = go.AddComponent<Camera>();
-        _stageCamera.clearFlags = CameraClearFlags.SolidColor;
-        _stageCamera.backgroundColor = new Color(0f, 0f, 0f, 0f);
-        _stageCamera.fieldOfView = stageCameraFov;
-        _stageCamera.nearClipPlane = 0.1f;
-        _stageCamera.farClipPlane = stageCameraDistance * 4f;
-        _stageCamera.enabled = false;
+        _stage = InspectionStage.Instance;
+        if (_stage != null && _stage.StageCamera != null)
+        {
+            _stage.StageCamera.targetTexture = _rt;
+            _stage.StageCamera.enabled = false;
+        }
+        else
+        {
+            Debug.LogWarning($"[Inspection] Scene '{inspectionSceneName}' loaded but no InspectionStage found.");
+        }
+    }
+
+    void SetupRenderTexture()
+    {
+        if (sharedRenderTexture != null)
+        {
+            _rt = sharedRenderTexture;
+            return;
+        }
 
         _rt = new RenderTexture(renderTextureSize, renderTextureSize, 24, RenderTextureFormat.ARGB32);
         _rt.antiAliasing = 2;
-        _stageCamera.targetTexture = _rt;
+    }
+
+    void SetUIVisible(bool visible)
+    {
+        // Prefer an explicit root object; otherwise toggle the canvas's own GameObject
+        // so children (background, item display) are fully hidden, not just unrendered.
+        if (inspectionRoot != null)
+            inspectionRoot.SetActive(visible);
+        else if (_canvas != null)
+            _canvas.gameObject.SetActive(visible);
     }
 
     void BuildUI()
@@ -67,7 +100,7 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
             _canvas = inspectionCanvas;
             if (itemDisplay != null)
                 itemDisplay.texture = _rt;
-            _canvas.enabled = false;
+            SetUIVisible(false);
             return;
         }
 
@@ -96,7 +129,7 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
         dr.sizeDelta = new Vector2(renderTextureSize, renderTextureSize);
         dr.anchoredPosition = Vector2.zero;
 
-        _canvas.enabled = false;
+        SetUIVisible(false);
     }
 
     static void Stretch(RectTransform rt)
@@ -106,18 +139,45 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
         rt.offsetMin = rt.offsetMax = Vector2.zero;
     }
 
-    public void StartInspection(GameObject prefab, Quaternion rotation = default, CollectibleData data = null)
+    static void SetLayerRecursively(GameObject go, int layer)
+    {
+        if (layer < 0) return;
+        go.layer = layer;
+        foreach (Transform child in go.transform)
+            SetLayerRecursively(child.gameObject, layer);
+    }
+
+    public void StartInspection(GameObject prefab, Quaternion rotation = default, CollectibleData data = null, float spawnDistance = 0f)
     {
         if (IsInspecting || prefab == null) return;
+        if (_stage == null || _stage.StageCamera == null)
+        {
+            Debug.LogWarning("[Inspection] Stage not ready — inspection scene still loading?");
+            return;
+        }
 
-        _instance = Instantiate(prefab, StagePosition, rotation);
+        // spawnDistance > 0 places the item along the camera's forward at that distance;
+        // otherwise the item sits exactly on the anchor.
+        Transform anchor = _stage.ItemAnchor != null ? _stage.ItemAnchor : _stage.StageCamera.transform;
+        Vector3 spawnPos = spawnDistance > 0f
+            ? _stage.StageCamera.transform.position + _stage.StageCamera.transform.forward * spawnDistance
+            : anchor.position;
+
+        _instance = Instantiate(prefab, spawnPos, rotation);
+        SceneManager.MoveGameObjectToScene(_instance, _inspectionScene);
+        SetLayerRecursively(_instance, LayerMask.NameToLayer(inspectionLayer));
+
         foreach (var col in _instance.GetComponentsInChildren<Collider>())
             col.enabled = false;
         foreach (var r in _instance.GetComponentsInChildren<Renderer>())
             r.shadowCastingMode = ShadowCastingMode.Off;
 
-        _stageCamera.enabled = true;
-        _canvas.enabled = true;
+        _stage.StageCamera.enabled = true;
+        SetUIVisible(true);
+
+        // Drive ambient/skybox/fog from the inspection scene while inspecting.
+        _previousActiveScene = SceneManager.GetActiveScene();
+        SceneManager.SetActiveScene(_inspectionScene);
 
         // Record the frame so that the same E keydown that triggered Interact()
         // does not immediately close the inspection in the same frame.
@@ -139,8 +199,8 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
         {
             float dx = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
             float dy = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
-            _instance.transform.Rotate(_stageCamera.transform.up, -dx, Space.World);
-            _instance.transform.Rotate(_stageCamera.transform.right, dy, Space.World);
+            _instance.transform.Rotate(_stage.StageCamera.transform.up, -dx, Space.World);
+            _instance.transform.Rotate(_stage.StageCamera.transform.right, dy, Space.World);
         }
 
         if (Input.GetKeyDown(KeyCode.E) && Time.frameCount > _startFrame)
@@ -151,10 +211,14 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
     {
         if (!IsInspecting) return;
 
+        if (_previousActiveScene.IsValid())
+            SceneManager.SetActiveScene(_previousActiveScene);
+
         Destroy(_instance);
         _instance = null;
-        _stageCamera.enabled = false;
-        _canvas.enabled = false;
+        if (_stage != null && _stage.StageCamera != null)
+            _stage.StageCamera.enabled = false;
+        SetUIVisible(false);
         IsInspecting = false;
         LastStopFrame = Time.frameCount;
         _player.IsInspecting = false;
@@ -163,6 +227,7 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
 
     void OnDestroy()
     {
-        if (_rt != null) _rt.Release();
+        // Only release a RT we created ourselves; leave the shared asset alone.
+        if (_rt != null && _rt != sharedRenderTexture) _rt.Release();
     }
 }
