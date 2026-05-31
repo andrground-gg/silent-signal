@@ -1,13 +1,12 @@
 using System;
-using DG.Tweening;
 using UnityEngine;
 
-public class LighthouseLens : BaseInteractable
+public class LighthouseLens : HoldInteractable
 {
     [Header("Cleanliness")]
     [SerializeField] private bool  startClean        = true;
     [SerializeField] private float secondsUntilDirty = 300f;
-    [SerializeField] private float cleanDuration      = 2f;
+    [SerializeField] private float holdDuration      = 2f;
 
     [Header("Visual")]
     [SerializeField] private GameObject dirtObject;
@@ -16,8 +15,15 @@ public class LighthouseLens : BaseInteractable
 
     public event Action<bool> OnCleanStateChanged;
 
-    private Tween _cleanTween;
     private float _timeSinceClean;
+
+    public override float HoldDuration => holdDuration;
+    public override bool  CanHold      => !IsClean;
+
+    public override void OnHoverEnter()
+    {
+        if (!IsClean) base.OnHoverEnter();
+    }
 
     protected override void Awake()
     {
@@ -40,21 +46,11 @@ public class LighthouseLens : BaseInteractable
         }
     }
 
-    public override void Interact()
+    public override void OnHoldComplete()
     {
-        base.Interact();
-
-        canInteract = false;
-        _cleanTween?.Kill();
-        _cleanTween = DOVirtual.DelayedCall(cleanDuration, () =>
-        {
-            IsClean = true;
-            _timeSinceClean = 0f;
-            if (dirtObject != null) dirtObject.SetActive(false);
-            OnCleanStateChanged?.Invoke(true);
-            canInteract = true;
-        }).SetLink(gameObject);
+        IsClean = true;
+        _timeSinceClean = 0f;
+        if (dirtObject != null) dirtObject.SetActive(false);
+        OnCleanStateChanged?.Invoke(true);
     }
-
-    private void OnDestroy() => _cleanTween?.Kill();
 }

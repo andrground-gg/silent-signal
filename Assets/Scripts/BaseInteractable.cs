@@ -13,18 +13,21 @@ public class BaseInteractable : MonoBehaviour, IInteractable
     
     public virtual void Interact()
     {
+        Debug.Log("Try to interact");
         if (!canInteract) return;
-        // Debug.Log("Interacted");
+        Debug.Log("Interacted");
     }
 
     public virtual void OnHoverEnter()
     {
         Outline(true);
+        Debug.Log("OnHoverEnter");
     }
 
     public virtual void OnHoverExit()
     {
         Outline(false);
+        Debug.Log("OnHoverExit");
     }
     
     void Outline(bool enabled)
