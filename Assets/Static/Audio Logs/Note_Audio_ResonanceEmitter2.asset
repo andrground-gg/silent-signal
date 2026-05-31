@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_Audio_ResonanceEmitter2
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: AudioLog_ResonanceEmitter2
   title: Resonance Emitter Usage
-  key: 18
-  topic: 2
+  key: 22
+  topic: 1
   boardContentText: The previous lighthouse keeper used resonance emitter during
     his final experiment
   boardSprite: {fileID: 0}

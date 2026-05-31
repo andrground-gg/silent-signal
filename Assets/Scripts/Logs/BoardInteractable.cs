@@ -42,6 +42,14 @@ public class BoardInteractable : BaseInteractable
         _topicPin = null; // reset cache when data changes
     }
 
+    // Highlights this node as part of a topic group (topic-pin hover) — only if
+    // already revealed, so hovering never exposes undiscovered nodes.
+    public void SetTopicHighlight(bool on)
+    {
+        if (!isRevealed) return;
+        SetHighlight(on);
+    }
+
     public void Reveal(bool animated)
     {
         isRevealed = true;

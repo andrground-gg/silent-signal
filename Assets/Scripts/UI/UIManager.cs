@@ -12,6 +12,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private NoteReaderUI noteUI;
     [SerializeField] private AudioLogUI audioUI;
     [SerializeField] private PopupCanvasUI popupCanvasUIPrefab;
+    [SerializeField] private PopupCanvasUI topicPopupCanvasUIPrefab;
     [SerializeField] private DiscoveryText discoveryText;
     // [SerializeField] private KeeperArchiveUI archiveUI;
 
@@ -84,7 +85,8 @@ public class UIManager : Singleton<UIManager>
         HideBoardTopic();
         if (anchor == null) return;
 
-        currentTopicPopup = Instantiate(popupCanvasUIPrefab, anchor, worldPositionStays: false);
+        var prefab = topicPopupCanvasUIPrefab != null ? topicPopupCanvasUIPrefab : popupCanvasUIPrefab;
+        currentTopicPopup = Instantiate(prefab, anchor, worldPositionStays: false);
         currentTopicPopup.SetTopicData(topic, sprite);
         currentTopicPopup.Show();
     }

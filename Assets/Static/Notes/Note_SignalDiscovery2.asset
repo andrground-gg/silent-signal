@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_SignalDiscovery2
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_SignalDiscovery2
   title: 'Communication Tool '
-  key: 13
-  topic: 1
+  key: 25
+  topic: 2
   boardContentText: The lighthouse is a communication tool
   boardSprite: {fileID: 0}
   contentText: The lighthouse is a communication tool

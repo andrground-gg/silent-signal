@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_Audio_PowerSystem1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: AudioLog_PowerSystem1
   title: Generators
   key: 15
-  topic: 2
+  topic: 4
   boardContentText: Only several generators actually affect something
   boardSprite: {fileID: 0}
   contentText: "Must mark which ones actually do something. Not all of these generators

@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_MaritimeIncidents2
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_MaritimeIncidents2
   title: Incidents and Lighthouse Connection
-  key: 12
+  key: 24
   topic: 1
   boardContentText: Incidents stopped when lighthouse worked normally
   boardSprite: {fileID: 0}

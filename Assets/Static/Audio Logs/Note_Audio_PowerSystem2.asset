@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_Audio_PowerSystem2
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: AudioLog_PowerSystem2
   title: Signal Towers Information
-  key: 15
-  topic: 2
+  key: 20
+  topic: 4
   boardContentText: 'Signal towers are powered from an external generator
 
 

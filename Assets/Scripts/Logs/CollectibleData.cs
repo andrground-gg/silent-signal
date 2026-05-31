@@ -9,7 +9,6 @@ public enum CollectibleType
 public abstract class CollectibleData : ScriptableObject
 {
     [Header("Identity")]
-    public string id;
     public string title;
 
     public abstract CollectibleType Type { get; }
@@ -24,10 +23,4 @@ public abstract class CollectibleData : ScriptableObject
 
     [Tooltip("Optional sprite shown in the investigation board.")]
     public Sprite boardSprite;
-
-    private void OnValidate()
-    {
-        if (string.IsNullOrEmpty(id))
-            id = name;
-    }
 }

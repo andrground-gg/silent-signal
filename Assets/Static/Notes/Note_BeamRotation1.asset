@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_BeamRotation1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_BeamRotation1
   title: Beam Rotation Mechanism
   key: 3
-  topic: 1
+  topic: 2
   boardContentText: Lighthouse rotational mechanism is located in the lighthouse's
     machinery floor
   boardSprite: {fileID: 0}

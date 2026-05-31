@@ -78,6 +78,15 @@ public class InvestigationBoard : MonoBehaviour
                 yield return entry;
     }
 
+    // Highlights every revealed node sharing the given topic. Used on hover so
+    // the whole topic group lights up together.
+    public void SetTopicHighlight(BoardTopic topic, bool on)
+    {
+        foreach (var entry in entries)
+            if (entry != null && entry.Data != null && entry.Data.topic == topic)
+                entry.SetTopicHighlight(on);
+    }
+
     // ---------- Setup ----------
 
     private void BuildMap()
@@ -212,6 +221,30 @@ public class InvestigationBoard : MonoBehaviour
         {
             conn.gameObject.SetActive(true);
         }
+    }
+
+    // ---------- Debug ----------
+
+    /// <summary>
+    /// Reveals every mapped node and all valid connections instantly, and
+    /// persists them as discovered. Bypasses the zone/queue animation.
+    /// </summary>
+    [ContextMenu("DEBUG / Reveal All")]
+    public void RevealAll()
+    {
+        if (map.Count == 0) BuildMap();
+
+        if (playRoutine != null)
+        {
+            StopCoroutine(playRoutine);
+            playRoutine = null;
+        }
+        pendingQueue.Clear();
+
+        foreach (var kvp in map)
+            RevealInstant(kvp.Key);
+
+        CollectibleRegistry.Instance?.DiscoverAll();
     }
 
     [ContextMenu("DEBUG / Set Interactables")]

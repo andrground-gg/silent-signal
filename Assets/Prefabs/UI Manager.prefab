@@ -676,6 +676,7 @@ MonoBehaviour:
   noteUI: {fileID: 8523719535744323710}
   audioUI: {fileID: 7020514833170102343}
   popupCanvasUIPrefab: {fileID: 850787788618547076, guid: 68b796d4bfff6954e9f17189c812df69, type: 3}
+  topicPopupCanvasUIPrefab: {fileID: 850787788618547076, guid: f1ec79e9e01b1bd41901be8621643e9e, type: 3}
   discoveryText: {fileID: 3887278665410312269}
 --- !u!114 &1529940546088434570
 MonoBehaviour:
@@ -692,6 +693,9 @@ MonoBehaviour:
   debugUI: {fileID: 4324820149058684190}
   toggleKey: 282
   startEnabled: 0
+  board: {fileID: 0}
+  discoverAllKey: 283
+  discoverAllButton: {fileID: 0}
 --- !u!1 &3421437225346214608
 GameObject:
   m_ObjectHideFlags: 0

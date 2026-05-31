@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_SignalTowers1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_SignalTowers1
   title: Signal Tower Behind Fog
   key: 9
-  topic: 1
+  topic: 3
   boardContentText: One signal tower could be hidden behind fog
   boardSprite: {fileID: 0}
   contentText: One signal tower could be hidden behind fog

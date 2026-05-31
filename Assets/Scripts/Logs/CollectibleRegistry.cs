@@ -78,6 +78,23 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
         return true;
     }
 
+    /// <summary>
+    /// Debug helper: marks every known collectible as discovered.
+    /// Fires OnFirstDiscovery per newly-added key so listeners (board) react.
+    /// </summary>
+    public void DiscoverAll()
+    {
+        foreach (var c in allCollectibles)
+        {
+            if (c == null || c.key == LogKeys.None) continue;
+            if (discoveredKeys.Add(c.key))
+                OnFirstDiscovery?.Invoke(c);
+        }
+
+        Save();
+        Debug.Log($"[CollectibleRegistry] DiscoverAll — {discoveredKeys.Count} key(s) discovered.");
+    }
+
     public IEnumerable<NoteData> GetDiscoveredNotes()
     {
         foreach (var c in allCollectibles)
@@ -131,6 +148,9 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
         PlayerPrefs.DeleteKey(PrefsKey);
         PlayerPrefs.Save();
     }
+
+    [ContextMenu("Discover All")]
+    private void DebugDiscoverAll() => DiscoverAll();
 
     // ---------- Editor-only ----------
 

@@ -15,22 +15,14 @@ public class BoardTopicPin : BaseInteractable
     public override void OnHoverEnter()
     {
         UIManager.Instance?.ShowBoardTopic(topic, sprite, transform);
-
-        if (_board != null)
-            foreach (var entry in _board.GetEntriesForTopic(topic))
-                entry.SetHighlight(true);
-
+        _board?.SetTopicHighlight(topic, true);
         base.OnHoverEnter();
     }
 
     public override void OnHoverExit()
     {
         UIManager.Instance?.HideBoardTopic();
-
-        if (_board != null)
-            foreach (var entry in _board.GetEntriesForTopic(topic))
-                entry.SetHighlight(false);
-
+        _board?.SetTopicHighlight(topic, false);
         base.OnHoverExit();
     }
 }

@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0986aede5c9a95d49ba1682150f3882a, type: 3}
   m_Name: AudioLog_PowerSystem1
   m_EditorClassIdentifier: Assembly-CSharp::AudioLogData
-  id: AudioLog_PowerSystem1
   title: Generators
-  key: 15
+  key: 0
   topic: 2
   boardContentText: Only several generators actually affect something
   boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}

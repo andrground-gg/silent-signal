@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DebugUIController : MonoBehaviour
 {
@@ -8,6 +9,23 @@ public class DebugUIController : MonoBehaviour
     [Header("Settings")]
     public KeyCode toggleKey = KeyCode.F1;
     public bool startEnabled = false;
+
+    [Header("Collectibles")]
+    [SerializeField] private InvestigationBoard board;
+    [SerializeField] private KeyCode discoverAllKey = KeyCode.F2;
+    [SerializeField] private Button discoverAllButton;
+
+    void Awake()
+    {
+        if (discoverAllButton != null)
+            discoverAllButton.onClick.AddListener(DiscoverAll);
+    }
+
+    void OnDestroy()
+    {
+        if (discoverAllButton != null)
+            discoverAllButton.onClick.RemoveListener(DiscoverAll);
+    }
 
     void Start()
     {
@@ -21,6 +39,17 @@ public class DebugUIController : MonoBehaviour
         {
             Toggle();
         }
+
+        if (Input.GetKeyDown(discoverAllKey))
+            DiscoverAll();
+    }
+
+    public void DiscoverAll()
+    {
+        if (board != null)
+            board.RevealAll();
+        else
+            CollectibleRegistry.Instance?.DiscoverAll();
     }
 
     public void Toggle()

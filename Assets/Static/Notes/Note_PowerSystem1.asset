@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_PowerSystem1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_PowerSystem1
   title: LIght Intensity Dependance
   key: 5
-  topic: 1
+  topic: 4
   boardContentText: The lighthouse light intensity depends on an external generator
   boardSprite: {fileID: 0}
   contentText: "Eight years. Eight years I've been here and I didn't notice a thing

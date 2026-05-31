@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7399640490341042921
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.26905334, y: 0.71352464}
   m_AnchorMax: {x: 0.73094666, y: 0.9184425}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 41.7}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6944774867943298597
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 49
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -182,15 +182,15 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5532366171028855494}
   - {fileID: 7399640490341042921}
   - {fileID: 1947226979850734769}
-  - {fileID: 5532366171028855494}
   m_Father: {fileID: 8620521012327718799}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -55.33}
+  m_SizeDelta: {x: 0, y: 110.66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4693793758240927043
 CanvasRenderer:
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3839773858162347716}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -248,7 +248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1947226979850734769
 RectTransform:
   m_ObjectHideFlags: 0
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 850787788618547076}
   - component: {fileID: 6806040595199987077}
   m_Layer: 5
-  m_Name: PopupCanvas
+  m_Name: TopicCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -473,7 +473,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4598356702034229062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,8 +569,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6674827, y: 0.14065576}
   m_AnchorMax: {x: 0.9630009, y: 0.6650821}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -140.6, y: 23.17}
+  m_SizeDelta: {x: 281.19, y: 100.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2731219878761517535
 CanvasRenderer:
@@ -600,7 +600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}
+  m_Sprite: {fileID: -1467283842, guid: de902b7c9fcb2b34f934e8d5464b1245, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_Audio_FogFormation1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: AudioLog_ForFormation1
   title: Fog Information
   key: 16
-  topic: 2
+  topic: 3
   boardContentText: 'Fog is affected by lighthouse light intensity
 
 

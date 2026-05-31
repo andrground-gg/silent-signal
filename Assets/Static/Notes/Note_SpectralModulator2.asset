@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_SpectralModulator2
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_SpectralModulator2
   title: Spectral Modulator Location
-  key: 8
+  key: 27
   topic: 1
   boardContentText: Spectral modulation could be controlled from the abandoned research
     station
