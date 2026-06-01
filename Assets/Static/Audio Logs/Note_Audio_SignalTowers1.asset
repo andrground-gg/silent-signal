@@ -10,12 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
-  m_Name: Note_SignalTowers1
+  m_Name: Note_Audio_SignalTowers1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
   title: Signal Tower Behind Fog
   key: 9
   topic: 3
   boardContentText: One signal tower could be hidden behind fog
   boardSprite: {fileID: 0}
-  contentText: One signal tower could be hidden behind fog
+  contentText: 'EMIL: So, look.
+
+    [brief pause]
+
+    EMIL: I turned up the intensity
+    of the lighthouse. It drove the fog away. Suddenly I can see new things. There
+    the whole time, behind that fog.
+
+    [pause]
+
+    EMIL: Interesting.
+
+    [brief
+    silence]
+
+    EMIL: Now I don''t know if I''ve gone mad.
+
+    [click]'
   paperSprite: {fileID: 0}

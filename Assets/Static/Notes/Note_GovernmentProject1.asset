@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_GovernmentProject1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_GovernmentProject1
   title: Classified Research Program
   key: 11
   topic: 1
@@ -22,9 +21,24 @@ MonoBehaviour:
     Additional
     equipment was installed across the island '
   boardSprite: {fileID: 0}
-  contentText: 'A classified research program was established
-
-
-    Additional equipment
-    was installed across the island '
+  contentText: "[CLASSIFIED \u2014 JOINT PROJECT AUTHORIZATION]\n\nPROJECT: SILENT
+    SIGNAL (working title)\nSPONSORS: Vibration Society / Army\nACCESS LEVEL: 3\n\nI.
+    OBJECTIVE\nThe joint program is established for the purpose of mapping vibrational
+    and atmospheric patterns in the waters surrounding the island. The region has,
+    over decades, exhibited recurring maritime anomalies \u2014 particularly fog
+    formation, tidal variability, and unexplained navigational disturbances.\n\nII.
+    INTENDED OUTCOMES\n- Develop a predictive model of fog and tidal behavior\n-
+    Identify the causes of historical maritime incidents\n- Improve civilian and
+    military navigation through the region\n- Test sub-surface vibrational sensing
+    as an oceanographic tool\n\nIII. INSTALLATIONS\nThe program permits the construction
+    and installation of supplementary equipment across the island, including but
+    not limited to:\n- Signal redirection towers (multiple)\n- Power and generator
+    network\n- Spectral and resonance instruments\n- Modifications to the existing
+    lighthouse apparatus\n\nIV. CONFIDENTIALITY\nThe work shall remain confidential.
+    Publication is prohibited. Public access to the island is restricted during operational
+    periods.\n\nV. RESPONSIBLE PERSON\nDr. H. Vogel, Vibration Society.\nRenowned
+    scientific figure. Exceptional results in the field of vibrational research.
+    Following a recent personal loss (brother), exhibits signs of emotional instability;
+    nevertheless, in light of past achievements, confirmed as project lead.\n\nSignature:\n[two
+    illegible signatures]"
   paperSprite: {fileID: 0}

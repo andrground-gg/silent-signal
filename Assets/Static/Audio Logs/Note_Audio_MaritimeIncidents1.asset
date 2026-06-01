@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
+  m_Name: Note_Audio_MaritimeIncidents1
+  m_EditorClassIdentifier: Assembly-CSharp::NoteData
+  title: Environmental Oddities
+  key: 12
+  topic: 3
+  boardContentText: Fog and tides behaved unpredictably
+  boardSprite: {fileID: 0}
+  contentText: "EMIL: My audio diary. Next entry.\n[pause]\nEMIL: The water keeps
+    changing. Up, down. No pattern.\n[brief silence]\nEMIL: I can't get into the
+    machinery room again. The tunnel is underwater. I've gone back three times. Three
+    times the same.\n[pause]\nEMIL: And then there's the fog. Sometimes so thick
+    I can't see one step ahead. Comes out of a clear sky. I'm standing at my front
+    door \u2014 and before I step out, it's all around me.\n[longer silence]\nEMIL:
+    Everything here behaves so strangely. Just... off.\n[pause]\nEMIL: ...Could this
+    have something to do with the lighthouse? I've been playing with it. Changing
+    the rotation speed. ...And then this.\n[brief silence]\nEMIL: But why would it
+    have any effect? What does the spin of the beam have to do with water? With fog?\n[hesitation]\nEMIL:
+    I don't understand it. ...I don't understand any of it.\n[click]"
+  paperSprite: {fileID: 0}

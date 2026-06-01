@@ -12,11 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_ResonanceEmitter1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_ResonanceEmitter1
   title: Resonance Emitter Strong Mode
   key: 7
   topic: 1
   boardContentText: Strong mode is unlocked through solar power
   boardSprite: {fileID: 0}
-  contentText: Strong mode is unlocked through solar power
+  contentText: 'Now it all makes sense.
+
+    That heavy metal thing down in the cave...
+    the resonance emitter. It vibrates through the floor.
+
+    It was my first time
+    there. For years I kept telling myself to leave whatever those scientists left
+    behind, that it had nothing to do with me. Same as always. I turn my back...
+    and then I find out it was the most important thing. Always too late.
+
+    For
+    the thing to actually work, it needs juice. And only the solar panels can give
+    it that.
+
+    Without the energy it doesn''t run.'
   paperSprite: {fileID: 0}

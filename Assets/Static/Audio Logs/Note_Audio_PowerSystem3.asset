@@ -12,10 +12,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_Audio_PowerSystem3
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  title: Generators Usefulness
+  title: Abandoned Research Station Power
   key: 21
   topic: 4
-  boardContentText: Only several generators actually affect something
+  boardContentText: Abandoned research station is powered from an external generator
   boardSprite: {fileID: 0}
-  contentText: Only several generators actually affect something
+  contentText: 'EMIL: So, look.
+
+    [pause]
+
+    EMIL: There''s a power cable coming
+    out of the research station. Leads off somewhere behind the rocks. I''m following
+    it.
+
+    [brief silence]
+
+    EMIL: I have a feeling I need to find and turn
+    on the right generator. Without it, the station is dead.
+
+    [pause]
+
+    EMIL:
+    Maybe that also explains why there are so many in the generator room.
+
+    [longer
+    silence, wind]
+
+    EMIL: Half a year ago, I wouldn''t have walked like this.
+    I''d have stuck to my route from the house to the lighthouse and back. The cable
+    wouldn''t have interested me. The station wouldn''t have interested me.
+
+    [pause]
+
+    EMIL:
+    Now I''m following it like a dog on a scent. ...And actually, I''m enjoying it.
+
+    [brief
+    silence]
+
+    EMIL: That''s terrible. That I''m enjoying it. After so many years.
+
+    [pause]
+
+    EMIL:
+    And at the same time... I might be in trouble. I hope it doesn''t end as catastrophically
+    as the last time I disobeyed an order.
+
+    [brief silence]
+
+    EMIL: End of
+    recording.
+
+    [click]'
   paperSprite: {fileID: 0}

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
-  m_Name: Note_TightChanges1
+  m_Name: Note_TideChanges1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
   title: Submerged Areas
-  key: 26
+  key: 6
   topic: 1
   boardContentText: There are some submerged areas that could be accessible
   boardSprite: {fileID: 0}

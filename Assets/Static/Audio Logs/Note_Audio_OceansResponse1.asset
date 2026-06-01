@@ -25,13 +25,70 @@ MonoBehaviour:
     There is strange movement observed
     beneath the water'
   boardSprite: {fileID: 0}
-  contentText: 'The ocean reacts to changes in the lighthouse signal
+  contentText: 'EMIL: My audio diary. Next entry.
 
+    [pause]
 
-    Something
-    beneath the water appears to be responding
+    EMIL: Something
+    is happening here. And it isn''t just in my head. ...At least, that''s what I
+    keep telling myself.
 
+    [brief silence]
 
-    There is strange movement observed
-    beneath the water'
+    EMIL: I''ve been standing by the
+    tower. For hours. Watching the sea.
+
+    [pause]
+
+    EMIL: When I tried switching
+    the lighthouse around again... something stirred in the water. Not waves. Something
+    deeper. Something big. Beneath the surface.
+
+    [longer silence]
+
+    EMIL:
+    And then again. And again.
+
+    [pause]
+
+    EMIL: Every time I change the beam,
+    something moves down there. Every time.
+
+    [hesitation]
+
+    EMIL: That''s
+    not normal. ...Someone would have seen this by now.
+
+    [brief silence]
+
+    EMIL:
+    Unless I''m the only one even looking.
+
+    [longer pause, waves]
+
+    EMIL:
+    ...And there''s something else. Something I can''t put together.
+
+    [silence]
+
+    EMIL:
+    It''s like I can hear Marie. My wife. ...Like I can see her. Down there, beneath
+    the water.
+
+    [brief silence]
+
+    EMIL: Marie''s been dead a long time. She''s
+    gone. I know that. I buried... no, I didn''t even bury her. I wasn''t there.
+
+    [pause]
+
+    EMIL:
+    And now I feel her here. I see her.
+
+    [longer silence]
+
+    EMIL: ...Have
+    I lost my mind?
+
+    [click]'
   paperSprite: {fileID: 0}

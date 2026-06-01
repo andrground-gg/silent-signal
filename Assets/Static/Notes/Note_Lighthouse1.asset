@@ -17,5 +17,6 @@ MonoBehaviour:
   topic: 2
   boardContentText: Lighthouse beam could power solar panels
   boardSprite: {fileID: 0}
-  contentText: Lighthouse beam could power solar panels
+  contentText: "That panel doesn't charge from the sun. The lighthouse beam charges
+    it.\n\nWho should have figured this out? Not me, that's for sure.\n\n\u2014 E."
   paperSprite: {fileID: 0}

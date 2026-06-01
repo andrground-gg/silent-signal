@@ -17,8 +17,7 @@ MonoBehaviour:
   topic: 4
   boardContentText: The lighthouse light intensity depends on an external generator
   boardSprite: {fileID: 0}
-  contentText: "Eight years. Eight years I've been here and I didn't notice a thing
-    like this. When an external generator is added, the light intensity changes.
-    \nEight years \u2013 and this escaped me. How could I not have noticed. I'm a
-    blind man. I could overlook absolutely anything."
+  contentText: "Observation: when the auxiliary generator is engaged, beam intensity
+    increases. The lantern therefore does not depend solely on the main power supply.\n\nWe
+    recommend documenting all generator configurations.\n\n\u2014 Smith"
   paperSprite: {fileID: 0}

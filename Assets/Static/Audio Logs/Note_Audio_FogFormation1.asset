@@ -21,9 +21,33 @@ MonoBehaviour:
     Fog could
     be hiding important structures'
   boardSprite: {fileID: 0}
-  contentText: 'Fog is affected by lighthouse light intensity
+  contentText: 'EMIL: My audio diary. Next entry.
 
+    [pause]
 
-    Fog could be
-    hiding important structures'
+    EMIL: ...That''s
+    curious.
+
+    [pause, short breath, surprised]
+
+    EMIL: After a long time...
+    I suddenly feel like discovering something.
+
+    [brief silence]
+
+    EMIL: The
+    lighthouse... it''s like it''s pushing the fog away. Changing the intensity.
+    ...That''s not normal. But it''s happening.
+
+    [pause]
+
+    EMIL: I''m in awe
+    of it.
+
+    [pause]
+
+    EMIL: Part of me wonders if I''ve finally lost my mind
+    out here in the solitude. ...But no. What I''m seeing is real.
+
+    [click]'
   paperSprite: {fileID: 0}

@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_LighthouseExperiments1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_LighthouseExperiments1
   title: Responses to Light Patterns
   key: 10
   topic: 1
   boardContentText: Researchers discovered that light patterns produced responses
   boardSprite: {fileID: 0}
-  contentText: Researchers discovered that light patterns produced responses
+  contentText: "I have been on the island for over a month and no one has come for
+    me. No one acknowledges me, as if I were a ghost.\n\n...the same thing, again
+    and again. I transmit a light pattern. I get a response. Not chance. Every time.\n\nVogel
+    knows. Smith knows. I know. And yet we are not allowed to say it out loud.\n\n\u2014
+    Dr. Friedrich Kellerstein"
   paperSprite: {fileID: 0}

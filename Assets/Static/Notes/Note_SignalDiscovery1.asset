@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd7ffe4606ce749a81aac1c495eb14, type: 3}
   m_Name: Note_SignalDiscovery1
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
-  id: Note_SignalDiscovery1
   title: Responses to the Signal
   key: 13
   topic: 1
@@ -22,9 +21,35 @@ MonoBehaviour:
     The signal
     appeared to be interpreted'
   boardSprite: {fileID: 0}
-  contentText: 'Light patterns produced consistent responses
+  contentText: 'Test 1, pattern A, 47 repetitions. Response in 44 cases. Time delay
+    between transmission and reaction: constant, average 14 minutes.
 
 
-    The signal appeared
-    to be interpreted'
+    Test 2,
+    pattern B, 31 repetitions. Response in 29 cases. Change in fog density correlated
+    with amplitude.
+
+
+    Test 3, pattern C, control noise. No response.
+
+
+    CONCLUSION
+
+    The
+    signal is not received by the environment at random. Something distinguishes
+    it from noise and reacts selectively according to the input pattern.
+
+
+    HYPOTHESIS
+
+    What
+    interprets the signal does not merely understand it. Some of the as yet unclassified
+    environmental anomalies may be a response... a pattern in return. We assume the
+    other side is also transmitting.
+
+
+    We recommend preparing equipment capable
+    of reception.
+
+'
   paperSprite: {fileID: 0}

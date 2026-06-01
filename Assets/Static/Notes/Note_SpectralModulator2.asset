@@ -18,6 +18,12 @@ MonoBehaviour:
   boardContentText: Spectral modulation could be controlled from the abandoned research
     station
   boardSprite: {fileID: 0}
-  contentText: Spectral modulation could be controlled from the abandoned research
-    station
+  contentText: "They ignore me. As if I were a ghost.\nThe ship was supposed to come
+    a week ago. Still nothing. No one answers \u2014 not the radio, not even a greeting.
+    And they keep building their mad experiments. They work at night. Vogel is with
+    them.\nI cannot explain it. We have worked here together for a long time. We
+    were friends. And now, suddenly, it's as if I do not exist. It is so strange.\nSomething
+    is happening here. It is unsettling.\nI have discovered one thing. The spectral
+    modulation can be controlled from the abandoned research station. It is still
+    operational. Will they find me, if they discover that?\n\u2014 Dr. Kellerstein"
   paperSprite: {fileID: 0}
