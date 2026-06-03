@@ -160,8 +160,11 @@ public class PlayerController : MonoBehaviour
                 _ladderReattachTimer = ladderReattachDelay;
                 groundedTimer = 0f;
                 _groundedStableTimer = 0f;
-                velocity = (_ladderNormal * ladderJumpHorizontal) + (Vector3.up * ladderJumpVertical);
-                controller.Move(velocity * Time.deltaTime);
+                // apply an immediate impulse away from the ladder
+                Vector3 impulse = (_ladderNormal * ladderJumpHorizontal) + (Vector3.up * ladderJumpVertical);
+                controller.Move(impulse * Time.deltaTime);
+                // keep only the vertical component so horizontal momentum isn't retained
+                velocity = Vector3.up * ladderJumpVertical;
                 _wasMovingOnGround = false;
                 _wasGrounded = false;
                 return;
@@ -268,7 +271,7 @@ public class PlayerController : MonoBehaviour
         _footstepTimer = _isRunning ? runStepInterval : walkStepInterval;
 
         Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
-        if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 1.5f))
+        if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 3f))
         {
             AudioClip toPlay;
             int layer = hit.collider.gameObject.layer;
