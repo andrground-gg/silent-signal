@@ -24,4 +24,4 @@ MonoBehaviour:
     years of knowing exactly where I belonged. And yet. One step off the gravel.
     Then another. The bushes gave way to a hidden path, the path to a ladder, the
     ladder to a room that had no right to exist.\_"
-  paperSprite: {fileID: 0}
+  paperSprite: {fileID: 21300000, guid: cea3c49c6ad23de4286197f5004fc48e, type: 3}

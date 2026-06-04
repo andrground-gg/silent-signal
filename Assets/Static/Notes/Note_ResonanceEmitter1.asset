@@ -32,4 +32,4 @@ MonoBehaviour:
     it that.
 
     Without the energy it doesn''t run.'
-  paperSprite: {fileID: 0}
+  paperSprite: {fileID: 21300000, guid: cea3c49c6ad23de4286197f5004fc48e, type: 3}
