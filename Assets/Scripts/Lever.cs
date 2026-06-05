@@ -69,4 +69,15 @@ public class Lever : BaseInteractable
 
     public void PlayPullSound() => pullSound.Play();
     public void PlayReleaseSound() => releaseSound.Play();
+
+#if UNITY_EDITOR
+    [ContextMenu("Toggle (Pull / Release)")]
+    private void EditorToggle() => Interact();
+
+    [ContextMenu("Pull")]
+    private void EditorPull() => AnimatePull();
+
+    [ContextMenu("Release")]
+    private void EditorRelease() => AnimateRelease();
+#endif
 }
