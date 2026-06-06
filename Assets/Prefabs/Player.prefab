@@ -138,7 +138,6 @@ MonoBehaviour:
   ladderJumpVertical: 4
   ladderJumpHorizontal: 3
   ladderReattachDelay: 0.2
-  ladderJumpControlDelay: 0.15
   grassLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -245,7 +244,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.562
+  m_Volume: 0.892
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -254,7 +253,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 10
+  MaxDistance: 1.01
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0

@@ -25,9 +25,11 @@ public enum LogKeys
     Audio_PowerSystem = 15,
     Audio_PowerSystem2 = 20,
     Audio_PowerSystem3 = 21,
-    Audio_FogFormation = 16,
+    Audio_FogFormation1 = 16,
+    Audio_FogFormation2,
     Audio_Lighthouse = 17,
     Audio_ResonanceEmitter = 18,
     Audio_ResonanceEmitter2 = 22,
     Audio_OceansResponse = 19,
+    Audio_Exposition
 }

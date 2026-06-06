@@ -10,11 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0986aede5c9a95d49ba1682150f3882a, type: 3}
-  m_Name: AudioLog_BeamRotation1
+  m_Name: AudioLog_ResonanceEmitter1
   m_EditorClassIdentifier: Assembly-CSharp::AudioLogData
-  title: Rotational Mechanism Adjustment
-  key: 14
-  topic: 2
-  boardContentText: The rotation mechanism can be manually adjusted
+  title: Generators
+  key: 18
+  topic: 1
+  boardContentText: 'Resonance emitter is located inside the tidal cave
+
+
+    Resonance
+    emitter transmits low-frequency vibrations into the ocean floor'
   boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}
-  audioClip: {fileID: 8300000, guid: 98d254d6f6727c440a810d26341869f1, type: 3}
+  audioClip: {fileID: 8300000, guid: eb9b72c53c2154b4c86460042272d079, type: 3}
