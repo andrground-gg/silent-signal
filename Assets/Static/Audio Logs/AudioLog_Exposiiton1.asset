@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AudioLog_Exposiiton1
   m_EditorClassIdentifier: Assembly-CSharp::AudioLogData
   title: Exposition
-  key: 20
+  key: 29
   topic: 0
   boardContentText: 
   boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}

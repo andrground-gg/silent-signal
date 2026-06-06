@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AudioLog_FogFormation2
   m_EditorClassIdentifier: Assembly-CSharp::AudioLogData
   title: Fog Information 2
-  key: 17
+  key: 32
   topic: 3
   boardContentText: Fog could be hiding important structures
   boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}

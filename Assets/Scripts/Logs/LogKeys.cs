@@ -1,6 +1,6 @@
 public enum LogKeys
 {
-    // Last number: 28
+    // Last number: 32
     None = 0,
     Test_Log = 1,
     Test_Audio = 2,
@@ -26,10 +26,12 @@ public enum LogKeys
     Audio_PowerSystem2 = 20,
     Audio_PowerSystem3 = 21,
     Audio_FogFormation1 = 16,
-    Audio_FogFormation2,
+    Audio_FogFormation2 = 32,
     Audio_Lighthouse = 17,
     Audio_ResonanceEmitter = 18,
     Audio_ResonanceEmitter2 = 22,
     Audio_OceansResponse = 19,
-    Audio_Exposition
+    Audio_Exposition = 29,
+    Audio_Exposition2 = 30,
+    Audio_Exposition3 = 31,
 }
