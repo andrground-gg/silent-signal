@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0986aede5c9a95d49ba1682150f3882a, type: 3}
-  m_Name: AudioLog_BeamRotation1
+  m_Name: AudioLog_FogFormation1
   m_EditorClassIdentifier: Assembly-CSharp::AudioLogData
-  title: Rotational Mechanism Adjustment
-  key: 14
-  topic: 2
-  boardContentText: The rotation mechanism can be manually adjusted
+  title: Fog Information
+  key: 16
+  topic: 3
+  boardContentText: Fog is affected by lighthouse light intensity
   boardSprite: {fileID: -1380134472, guid: 2d3929120a342b6439a9b3285af18feb, type: 3}
-  audioClip: {fileID: 8300000, guid: 98d254d6f6727c440a810d26341869f1, type: 3}
+  audioClip: {fileID: 8300000, guid: 4273acd7a1f2e5247843e76479a92025, type: 3}

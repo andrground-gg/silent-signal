@@ -955,11 +955,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: eb96b58f-78aa-46b8-b6db-1d27d71a9b83
+  cloudProjectId: a92a2905-7087-418b-8a13-f634c145a4eb
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: SilentSignal1
-  organizationId: chornozem-entertainment
+  organizationId: andrground-gg
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
