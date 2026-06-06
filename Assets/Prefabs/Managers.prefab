@@ -276,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameplayFogController
   targets:
   - {fileID: 2100000, guid: d58e6557c9c68ec41a7ebeb257b3676c, type: 2}
-  baseVisibility: 12.599964
+  baseVisibility: 1
   baseDensity: 5
   visibilityMultiplier: 1
   densityMultiplier: 1
