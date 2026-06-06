@@ -11,12 +11,18 @@ public class DiscoveryText : MonoBehaviour
     [SerializeField] private int blinkCount = 6;
     [SerializeField] private float visibleTime = 2f;
 
+    [Header("Audio (optional)")]
+    [SerializeField] private AudioSource discoverySound;
+
     Tween currentTween;
 
     public void ShowDiscovery()
     {
         currentTween?.Kill();
         discoveryText.alpha = 0f;
+
+        if (discoverySound != null)
+            discoverySound.Play();
 
         Sequence seq = DOTween.Sequence();
 

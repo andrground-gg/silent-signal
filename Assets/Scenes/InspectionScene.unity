@@ -127,10 +127,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2375430358546016986, guid: d1f44a248becb6542a73712cd65938aa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2515229520815749234, guid: d1f44a248becb6542a73712cd65938aa, type: 3}
       propertyPath: m_fontSize
       value: 21.3
       objectReference: {fileID: 0}
+    - target: {fileID: 2515229520815749234, guid: d1f44a248becb6542a73712cd65938aa, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 5233075466357788030, guid: bf2e384849db97d458c6924d13cf35e9, type: 2}
     - target: {fileID: 3561659032327890101, guid: d1f44a248becb6542a73712cd65938aa, type: 3}
       propertyPath: m_Name
       value: _InspectionCanvas

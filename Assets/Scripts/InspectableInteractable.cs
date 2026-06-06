@@ -4,6 +4,7 @@ public class InspectableInteractable : BaseInteractable
 {
     [SerializeField] private GameObject inspectionPrefab;
     [SerializeField] private CollectibleData collectibleData;
+    [SerializeField] private InspectableContent inspectableContent;
 
     [Header("Spawn Settings")]
     [SerializeField] private Vector3 spawnRotation;
@@ -13,10 +14,16 @@ public class InspectableInteractable : BaseInteractable
     {
         if (!canInteract || inspectionPrefab == null) return;
 
-        ItemInspectionController.Instance.StartInspection(inspectionPrefab, Quaternion.Euler(spawnRotation), collectibleData, spawnDistance);
+        // Render the data onto the item itself (e.g. a note's text on its pages).
+        if (inspectableContent != null)
+            inspectableContent.Apply(collectibleData);
 
-        if (collectibleData != null)
-            CollectibleRegistry.Instance?.MarkDiscovered(collectibleData);
+        // Mark discovered up front, but show the discovery text only after the
+        // player leaves inspection so it isn't hidden behind the inspection view.
+        bool firstDiscovery = collectibleData != null
+            && (CollectibleRegistry.Instance?.MarkDiscovered(collectibleData) ?? false);
+
+        ItemInspectionController.Instance.StartInspection(inspectionPrefab, Quaternion.Euler(spawnRotation), collectibleData, spawnDistance, firstDiscovery);
 
         base.Interact();
     }

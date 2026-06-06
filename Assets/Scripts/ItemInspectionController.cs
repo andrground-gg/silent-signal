@@ -33,6 +33,7 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
     private InspectionStage _stage;
     private Scene _inspectionScene;
     private Scene _previousActiveScene;
+    private bool _pendingDiscovery;
 
     protected override void Awake()
     {
@@ -147,7 +148,7 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
             SetLayerRecursively(child.gameObject, layer);
     }
 
-    public void StartInspection(GameObject prefab, Quaternion rotation = default, CollectibleData data = null, float spawnDistance = 0f)
+    public void StartInspection(GameObject prefab, Quaternion rotation = default, CollectibleData data = null, float spawnDistance = 0f, bool showDiscoveryOnExit = false)
     {
         if (IsInspecting || prefab == null) return;
         if (_stage == null || _stage.StageCamera == null)
@@ -184,6 +185,7 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
         _startFrame = Time.frameCount;
 
         IsInspecting = true;
+        _pendingDiscovery = showDiscoveryOnExit;
         _player.IsInspecting = true;
         CursorManager.RequestUI();
 
@@ -223,6 +225,13 @@ public class ItemInspectionController : Singleton<ItemInspectionController>
         LastStopFrame = Time.frameCount;
         _player.IsInspecting = false;
         CursorManager.ReleaseUI();
+
+        // Surface the discovery text now that the inspection view is gone.
+        if (_pendingDiscovery)
+        {
+            _pendingDiscovery = false;
+            UIManager.Instance?.ShowDiscoveryText();
+        }
     }
 
     void OnDestroy()

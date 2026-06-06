@@ -71,7 +71,9 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
         if (data == null || data.key == LogKeys.None) return false;
         if (!discoveredKeys.Add(data.key)) return false;
 
-        UIManager.Instance.ShowDiscoveryText();
+        // NOTE: callers decide when to surface the discovery text. Inspectable
+        // items defer it until inspection ends (see ItemInspectionController),
+        // while notes/audio logs show it immediately.
         Save();
         Debug.Log($"[CollectibleRegistry] Discovered key '{data.key}'");
         OnFirstDiscovery?.Invoke(data);

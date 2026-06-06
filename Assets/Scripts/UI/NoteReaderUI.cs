@@ -34,7 +34,7 @@ public class NoteReaderUI : MonoBehaviour
     {
         if (data == null) return;
 
-        if (bodyLabel != null) bodyLabel.text = data.contentText;
+        if (bodyLabel != null) bodyLabel.text = data.FullText;
 
         if (paperImage != null)
         {

@@ -19,8 +19,9 @@ public class AudioLogInteractable : BaseInteractable
         if (result == null || result == false) return;
         
         UIManager.Instance?.ShowAudioLog(data);
-        CollectibleRegistry.Instance?.MarkDiscovered(data);
-        
+        if (CollectibleRegistry.Instance?.MarkDiscovered(data) == true)
+            UIManager.Instance?.ShowDiscoveryText();
+
         StartCoroutine(WaitForClip(data.audioClip.length));
 
         base.Interact();

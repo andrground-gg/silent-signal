@@ -16,8 +16,9 @@ public class NoteInteractable : BaseInteractable
         // NoteReaderUI.Instance?.Show(data);
 
         UIManager.Instance.ShowNote(data);
-        CollectibleRegistry.Instance?.MarkDiscovered(data);
-        
+        if (CollectibleRegistry.Instance?.MarkDiscovered(data) == true)
+            UIManager.Instance.ShowDiscoveryText();
+
         base.Interact();
         // Mark discovered + fire board hook only on FIRST discovery.
         // var registry = CollectibleRegistry.Instance;

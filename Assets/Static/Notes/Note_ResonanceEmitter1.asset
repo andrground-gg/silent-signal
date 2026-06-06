@@ -24,12 +24,16 @@ MonoBehaviour:
 
     It was my first time
     there. For years I kept telling myself to leave whatever those scientists left
-    behind, that it had nothing to do with me. Same as always. I turn my back...
-    and then I find out it was the most important thing. Always too late.
+    behind, that it had nothing to do with me. Same as always.
 
-    For
-    the thing to actually work, it needs juice. And only the solar panels can give
-    it that.
+    <page>
+
+    I
+    turn my back... and then I find out it was the most important thing. Always too
+    late.
+
+    For the thing to actually work, it needs juice. And only the solar
+    panels can give it that.
 
     Without the energy it doesn''t run.'
   paperSprite: {fileID: 21300000, guid: cea3c49c6ad23de4286197f5004fc48e, type: 3}

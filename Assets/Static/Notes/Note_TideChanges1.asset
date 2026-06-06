@@ -20,8 +20,8 @@ MonoBehaviour:
   contentText: "\u2026I walk the island in circles. I can't trust my own eyes. The
     water level has dropped. How is that even possible. I hear strange sounds \u2013
     ones that were never here before. And there's a charge in the air, something
-    I can't name. This island I've known for so long \u2013 and yet. New places have
-    revealed themselves. All this time I walked past them and never saw. As though
-    I were blind. When the water recedes, it uncovers a world that was always there
-    \u2013 just hidden."
+    I can't name. This island I've known for so long \u2013 and yet. \n\n<page>\n\nNew
+    places have revealed themselves. All this time I walked past them and never saw.
+    As though I were blind. When the water recedes, it uncovers a world that was
+    always there \u2013 just hidden."
   paperSprite: {fileID: 21300000, guid: cea3c49c6ad23de4286197f5004fc48e, type: 3}
