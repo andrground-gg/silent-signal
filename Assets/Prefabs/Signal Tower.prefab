@@ -6947,6 +6947,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   maxDistance: 300
+  minReflectDot: 0.05
 --- !u!114 &7291660544621820156
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,6 +24,12 @@ public class SignalTowerInteractable : BaseInteractable
         tower.TryRotate();
     }
 
+    [ContextMenu("Rotate Tower")]
+    private void RotateTowerFromEditor()
+    {
+        tower.TryRotate();
+    }
+
     public override void OnHoverEnter()
     {
         _isHovering = true;
