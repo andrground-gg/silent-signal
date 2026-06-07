@@ -22,8 +22,14 @@ public class LighthouseManager : Singleton<LighthouseManager>
     [Header("Generator Visibility Multipliers")]
     [SerializeField] private float timeOfDayDisabledValue = 1f;
     [SerializeField] private float timeOfDayEnabledValue  = 2f;
-    [SerializeField] private float gameplayFogDisabledValue = 1f;
-    [SerializeField] private float gameplayFogEnabledValue  = 2f;
+
+    [Header("Gameplay Fog Per Intensity")]
+    [SerializeField] private float fogLowVisibility    = 1f;
+    [SerializeField] private float fogLowDensity       = 5f;
+    [SerializeField] private float fogMediumVisibility = 20f;
+    [SerializeField] private float fogMediumDensity    = 3.5f;
+    [SerializeField] private float fogHighVisibility   = 50f;
+    [SerializeField] private float fogHighDensity      = 0f;
 
     [Header("Angular velocities (degrees per second)")]
     [SerializeField] private float slowSpeed   = 20f;
@@ -93,10 +99,29 @@ public class LighthouseManager : Singleton<LighthouseManager>
 
         // fog visibility — map current multiplier into [min, max] range
         float t      = Mathf.InverseLerp(lowMultiplier, highMultiplier, _currentMultiplier);
-        float todVis = Mathf.Lerp(timeOfDayDisabledValue,   timeOfDayEnabledValue,   t);
-        float fogVis = Mathf.Lerp(gameplayFogDisabledValue, gameplayFogEnabledValue, t);
-        TimeOfDayController.Instance?.SetVisibilityMultiplierImmediate(todVis);
-        GameplayFogController.Instance?.SetVisibilityMultiplierImmediate(fogVis);
+        float todVis = Mathf.Lerp(timeOfDayDisabledValue, timeOfDayEnabledValue, t);
+        TimeOfDayController.Instance.SetVisibilityMultiplierImmediate(todVis);
+
+        // fog — lerp visibility and density across low→medium→high using t in [0,1]
+        float fogVis, fogDen;
+        if (t < 0.5f)
+        {
+            float t2 = t / 0.5f;                          // 0→1 across low..medium
+            fogVis = Mathf.Lerp(fogLowVisibility,    fogMediumVisibility, t2);
+            fogDen = Mathf.Lerp(fogLowDensity,       fogMediumDensity,    t2);
+        }
+        else
+        {
+            float t2 = (t - 0.5f) / 0.5f;                // 0→1 across medium..high
+            fogVis = Mathf.Lerp(fogMediumVisibility, fogHighVisibility,   t2);
+            fogDen = Mathf.Lerp(fogMediumDensity,    fogHighDensity,      t2);
+        }
+
+        GameplayFogController.Instance.SetVisibilityImmediate(fogVis);
+        GameplayFogController.Instance.SetDensityImmediate(fogDen);
+
+        // debug
+        _dbgFogVisibility = fogVis;
 
         // debug
         _dbgCurrentMultiplier = _currentMultiplier;
@@ -108,6 +133,7 @@ public class LighthouseManager : Singleton<LighthouseManager>
     private float ComputeTargetMultiplier()
     {
         bool clean = lens == null || lens.IsClean;
+        Debug.Log(_generatorOn + " " + clean);
         return (_generatorOn, clean) switch
         {
             (false, false) => lowMultiplier,

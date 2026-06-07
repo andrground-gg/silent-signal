@@ -278,9 +278,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: d58e6557c9c68ec41a7ebeb257b3676c, type: 2}
   baseVisibility: 1
   baseDensity: 5
-  visibilityMultiplier: 1
-  densityMultiplier: 1
-  modifierLerpSpeed: 2
+  lerpSpeed: 20
 --- !u!1 &2711793526199866814
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,9 +708,9 @@ MonoBehaviour:
   fogTargets:
   - {fileID: 2100000, guid: 1293f5b79453e3d4281642692ef9b4ec, type: 2}
   - {fileID: 2100000, guid: a9076476b7b8e6d4aafab39602b1297e, type: 2}
-  visibilityMultiplier: 0.6
-  densityMultiplier: 1
-  modifierLerpSpeed: 2
+  visibilityMultiplier: 1
+  densityMultiplier: 2
+  modifierLerpSpeed: 5
   skyboxMorning: {fileID: 2100000, guid: c2b341eeba9d9084f9333267fb5e087c, type: 2}
   skyboxNoon: {fileID: 2100000, guid: fec7b6c86bb904a4487aa59559385cb9, type: 2}
   skyboxEvening: {fileID: 2100000, guid: 3bf8579299b6c494db002f248476339c, type: 2}
@@ -777,10 +775,16 @@ MonoBehaviour:
   mediumMultiplier: 1
   highMultiplier: 3
   intensityLerpRate: 1.5
-  timeOfDayDisabledValue: 0.6
-  timeOfDayEnabledValue: 2
+  timeOfDayDisabledValue: 0.2
+  timeOfDayEnabledValue: 1.5
   gameplayFogDisabledValue: 1
   gameplayFogEnabledValue: 35
+  fogLowVisibility: 1
+  fogLowDensity: 5
+  fogMediumVisibility: 20
+  fogMediumDensity: 3.5
+  fogHighVisibility: 50
+  fogHighDensity: 0
   slowSpeed: 20
   normalSpeed: 60
   fastSpeed: 150
