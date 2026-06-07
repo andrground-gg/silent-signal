@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Metal
+  m_Name: Reflective
   m_Shader: {fileID: -6465566751694194690, guid: 3ca84562b9c01bd41acc92b2a9c2919c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -54,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 8af948ff6a1234847b7f02286ab8666a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -70,7 +70,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Palette:
-        m_Texture: {fileID: 2800000, guid: 76b9213eb87774342945a8a8c3796f58, type: 3}
+        m_Texture: {fileID: 2800000, guid: 81e2d838add647e459bde84842f78df2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -102,8 +102,10 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Bias: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BlendOp: 0
     - _BumpScale: 1
     - _CastShadows: 1
     - _ClearCoatMask: 0
@@ -118,8 +120,8 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Gradient_Scale_Mult: 0.54
-    - _Metallic: 0
+    - _Gradient_Scale_Mult: 0.02
+    - _Metallic: 1
     - _Normal_Map_Tiling: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -127,12 +129,15 @@ Material:
     - _QueueOffset: 0
     - _RECEIVE_SHADOWS_OFF: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
+    - _Sun_Intensity: 1
+    - _Sun_Scale: 0.01
     - _Surface: 0
+    - _TransitionSmoothness: 0.5
     - _Use_Indivisual_Scale: 1
     - _Use_Normal_Map: 0
     - _WorkflowMode: 1
@@ -156,6 +161,7 @@ Material:
     - _Noon1: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
     - _Noon2: {r: 0.43810073, g: 0.5188679, b: 0.5188679, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Sun_Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4094539061091986923
