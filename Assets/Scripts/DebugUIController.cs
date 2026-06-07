@@ -15,6 +15,12 @@ public class DebugUIController : MonoBehaviour
     [SerializeField] private KeyCode discoverAllKey = KeyCode.F2;
     [SerializeField] private Button discoverAllButton;
 
+    [Header("Time Scale")]
+    [SerializeField] private KeyCode timeScaleUpKey   = KeyCode.Equals;     // "+" / "="
+    [SerializeField] private KeyCode timeScaleDownKey = KeyCode.Minus;      // "-"
+    [SerializeField] private float   timeScaleStep    = 1f;
+    [SerializeField] private float   maxTimeScale     = 10f;
+
     void Awake()
     {
         if (discoverAllButton != null)
@@ -42,6 +48,18 @@ public class DebugUIController : MonoBehaviour
 
         if (Input.GetKeyDown(discoverAllKey))
             DiscoverAll();
+
+        if (Input.GetKeyDown(timeScaleUpKey) || Input.GetKeyDown(KeyCode.KeypadPlus))
+            ChangeTimeScale(timeScaleStep);
+
+        if (Input.GetKeyDown(timeScaleDownKey) || Input.GetKeyDown(KeyCode.KeypadMinus))
+            ChangeTimeScale(-timeScaleStep);
+    }
+
+    private void ChangeTimeScale(float delta)
+    {
+        Time.timeScale = Mathf.Clamp(Time.timeScale + delta, 0f, maxTimeScale);
+        Debug.Log($"[Debug] Time.timeScale = {Time.timeScale}");
     }
 
     public void DiscoverAll()
