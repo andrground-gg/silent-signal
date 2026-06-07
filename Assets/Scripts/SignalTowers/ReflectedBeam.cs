@@ -12,6 +12,7 @@ public class ReflectedBeam : MonoBehaviour
     [SerializeField] private int       segments          = 16;
     [SerializeField] private LayerMask hitMask              = ~0;
     [SerializeField] private float     maxDistance          = 300f;
+    [SerializeField] private float     minReflectDot        = 0.05f; // нижче цього кута відбиття гаситься (анти-grazing)
 
     public Vector3 BeamDirection { get; private set; }
 
@@ -105,7 +106,9 @@ public class ReflectedBeam : MonoBehaviour
         if (d.sqrMagnitude < 0.001f) return;
         var n = transform.up.normalized;
         BeamDirection = -Vector3.Reflect(d, n).normalized;
-        if (Vector3.Dot(d, n) < 0f)
+        // Біля ковзного кута (grazing) відбитий промінь стає майже вертикальним
+        // і виглядає крінжово — гасимо його, а не показуємо стрімку «вгору» позу.
+        if (Vector3.Dot(d, n) < minReflectDot)
         {
             gameObject.SetActive(false);
             return;
@@ -162,8 +165,11 @@ public class ReflectedBeam : MonoBehaviour
 
     public void Deactivate()
     {
-        _hitTower?.ClearExternalBeamHit();
+        // Обнуляємо _hitTower ДО виклику, щоб розірвати взаємну рекурсію
+        // у циклі взаємного відбиття башт (A → B → A → ...).
+        var tower = _hitTower;
         _hitTower = null;
+        tower?.ClearExternalBeamHit();
         gameObject.SetActive(false);
     }
 

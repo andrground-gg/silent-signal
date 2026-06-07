@@ -24,14 +24,15 @@ public class SignalTower : MonoBehaviour
 
     private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
-    private int  _state;   // 0–3  →  0° / 90° / 180° / 270°
+    private int  _state;   // 0–3  →  0° / 90° / 180° / 270°  (4 стани по 90°)
     private bool _isRotating;
     private bool _isFogBlocked;
     private bool          _isPrimaryBeamHitting;
     private bool          _isExternalBeamHitting;
     private ReflectedBeam _externalBeamSource;
     private Vector3       _lastIncomingDir;
-    private float         _primaryBeamLastStayTime = -1f;
+    private float         _primaryBeamLastStayTime  = -1f;
+    private float         _externalBeamLastStayTime = -1f;
 
     private MaterialPropertyBlock _mpb;
 
@@ -65,11 +66,16 @@ public class SignalTower : MonoBehaviour
 
     private void Update()
     {
-        if (_isExternalBeamHitting && (_externalBeamSource == null || !_externalBeamSource.gameObject.activeSelf))
+        if (_isExternalBeamHitting)
         {
-            _isExternalBeamHitting = false;
-            _externalBeamSource    = null;
-            if (!_isPrimaryBeamHitting) DeactivateReflection();
+            bool sourceGone = _externalBeamSource == null || !_externalBeamSource.gameObject.activeSelf;
+            bool timedOut   = Time.time - _externalBeamLastStayTime > Time.fixedDeltaTime * 3f;
+            if (sourceGone || timedOut)
+            {
+                _isExternalBeamHitting = false;
+                _externalBeamSource    = null;
+                if (!_isPrimaryBeamHitting) DeactivateReflection();
+            }
         }
 
         if (_isPrimaryBeamHitting && Time.time - _primaryBeamLastStayTime > Time.fixedDeltaTime * 3f)
@@ -132,9 +138,10 @@ public class SignalTower : MonoBehaviour
         if (source != null)
         {
             if (source == reflectedBeam) return; // власний промінь — ігноруємо
-            _isExternalBeamHitting = true;
-            _externalBeamSource    = source;
-            _lastIncomingDir       = -source.BeamDirection;
+            _isExternalBeamHitting    = true;
+            _externalBeamSource       = source;
+            _externalBeamLastStayTime = Time.time;
+            _lastIncomingDir          = -source.BeamDirection;
         }
         else
         {
@@ -161,9 +168,10 @@ public class SignalTower : MonoBehaviour
         {
             if (source == reflectedBeam) return;
             bool wasHitting = _isExternalBeamHitting && _externalBeamSource == source;
-            _isExternalBeamHitting = true;
-            _externalBeamSource    = source;
-            var newExternalDir     = -source.BeamDirection;
+            _isExternalBeamHitting    = true;
+            _externalBeamSource       = source;
+            _externalBeamLastStayTime = Time.time;
+            var newExternalDir        = -source.BeamDirection;
             if (!wasHitting || Vector3.Angle(newExternalDir, _lastIncomingDir) > 0.5f)
             {
                 _lastIncomingDir = newExternalDir;
