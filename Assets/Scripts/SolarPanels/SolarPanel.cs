@@ -115,9 +115,9 @@ public class SolarPanel : MonoBehaviour
 
         if (_mat != null)
         {
-            Color targetEmission = _beamHitCount > 0
-                ? baseEmissionColor * maxGlowMultiplier
-                : _defaultPanelEmissionColor;
+            // Яскравість панелі прив'язана до рівня заряду (синхронно з метром).
+            Color fullGlow       = baseEmissionColor * maxGlowMultiplier;
+            Color targetEmission = Color.Lerp(_defaultPanelEmissionColor, fullGlow, t);
             _currentPanelEmissionColor = Color.Lerp(
                 _currentPanelEmissionColor,
                 targetEmission,
