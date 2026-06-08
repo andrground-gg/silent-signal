@@ -15,8 +15,13 @@ using UnityEngine.SceneManagement;
 public class CollectibleRegistry : Singleton<CollectibleRegistry>
 {
     private const string PrefsKey = "CollectibleRegistry.Discovered";
+    private const string ViewedPrefsKey = "CollectibleRegistry.Viewed";
 
     private readonly HashSet<LogKeys> discoveredKeys = new HashSet<LogKeys>();
+
+    // Keys the player has actually inspected on the board (hovered at least once).
+    // Used to mark revealed-but-unseen nodes as "new".
+    private readonly HashSet<LogKeys> viewedKeys = new HashSet<LogKeys>();
 
     [Tooltip("Drop ALL NoteData / AudioLogData assets here so the archive and board can find them.")]
     [SerializeField] private List<CollectibleData> allCollectibles = new List<CollectibleData>();
@@ -58,6 +63,22 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
                 seen[c.key] = c;
             }
         }
+    }
+
+    public bool IsViewed(LogKeys key)
+        => key != LogKeys.None && viewedKeys.Contains(key);
+
+    /// <summary>
+    /// Marks a key as viewed (inspected on the board). Returns true the first
+    /// time so callers can clear the "new" highlight.
+    /// </summary>
+    public bool MarkViewed(LogKeys key)
+    {
+        if (key == LogKeys.None) return false;
+        if (!viewedKeys.Add(key)) return false;
+
+        SaveViewed();
+        return true;
     }
 
     public bool IsDiscovered(CollectibleData data)
@@ -129,17 +150,31 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
         PlayerPrefs.Save();
     }
 
+    private void SaveViewed()
+    {
+        var ints = new List<string>(viewedKeys.Count);
+        foreach (var k in viewedKeys) ints.Add(((int)k).ToString());
+        PlayerPrefs.SetString(ViewedPrefsKey, string.Join(",", ints));
+        PlayerPrefs.Save();
+    }
+
     private void Load()
     {
-        discoveredKeys.Clear();
-        if (!PlayerPrefs.HasKey(PrefsKey)) return;
-        var raw = PlayerPrefs.GetString(PrefsKey);
+        LoadKeys(PrefsKey, discoveredKeys);
+        LoadKeys(ViewedPrefsKey, viewedKeys);
+    }
+
+    private static void LoadKeys(string prefsKey, HashSet<LogKeys> target)
+    {
+        target.Clear();
+        if (!PlayerPrefs.HasKey(prefsKey)) return;
+        var raw = PlayerPrefs.GetString(prefsKey);
         if (string.IsNullOrEmpty(raw)) return;
 
         foreach (var s in raw.Split(','))
         {
             if (int.TryParse(s, out var i) && Enum.IsDefined(typeof(LogKeys), i))
-                discoveredKeys.Add((LogKeys)i);
+                target.Add((LogKeys)i);
         }
     }
 
@@ -147,7 +182,9 @@ public class CollectibleRegistry : Singleton<CollectibleRegistry>
     private void DebugReset()
     {
         discoveredKeys.Clear();
+        viewedKeys.Clear();
         PlayerPrefs.DeleteKey(PrefsKey);
+        PlayerPrefs.DeleteKey(ViewedPrefsKey);
         PlayerPrefs.Save();
     }
 

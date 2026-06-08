@@ -6,10 +6,17 @@ public class BoardInteractable : BaseInteractable
     [SerializeField] private CollectibleData data;
     [SerializeField] private Renderer boardRenderer;
 
+    [Tooltip("Outline color for nodes that are revealed but never hovered yet (\"new\").")]
+    [SerializeField] private Color unseenColor = new Color(1f, 0.82f, 0.25f, 1f);
+
     private static readonly int ColorId = Shader.PropertyToID("_BaseColor");
     private static readonly Color GrayColor = new Color(0.45f, 0.45f, 0.45f, 1f);
 
     private bool isRevealed;
+    private bool isViewed;
+    private bool isHovered;
+    private bool isTopicHighlighted;
+    private Color defaultOutlineColor;
     private InvestigationBoard _board;
     private BoardTopicPin _topicPin;
 
@@ -18,6 +25,7 @@ public class BoardInteractable : BaseInteractable
     protected override void Awake()
     {
         base.Awake();
+        defaultOutlineColor = GetOutlineColor();
         ApplyColor(GrayColor);
     }
 
@@ -47,16 +55,21 @@ public class BoardInteractable : BaseInteractable
     public void SetTopicHighlight(bool on)
     {
         if (!isRevealed) return;
-        SetHighlight(on);
+        isTopicHighlighted = on;
+        RefreshOutline();
     }
 
     public void Reveal(bool animated)
     {
         isRevealed = true;
+        isViewed = data != null && (CollectibleRegistry.Instance?.IsViewed(data.key) ?? false);
+
         if (animated)
             DOVirtual.Float(0f, 1f, 0.5f, t => ApplyColor(Color.Lerp(GrayColor, Color.white, t)));
         else
             ApplyColor(Color.white);
+
+        RefreshOutline();
     }
 
     private void ApplyColor(Color color)
@@ -68,12 +81,26 @@ public class BoardInteractable : BaseInteractable
         boardRenderer.SetPropertyBlock(block);
     }
 
+    // Drives the outline from all three sources: direct hover, topic-group
+    // highlight, and the persistent "new" glow on revealed-but-unseen nodes.
+    private void RefreshOutline()
+    {
+        bool unseen = isRevealed && !isViewed;
+        bool active = isHovered || isTopicHighlighted || unseen;
+
+        if (active)
+            SetOutlineColor(isHovered || isTopicHighlighted ? defaultOutlineColor : unseenColor);
+
+        SetHighlight(active);
+    }
+
     public override void OnHoverEnter()
     {
         if (!isRevealed)
         {
             UIManager.Instance?.ShowNotDiscovered(transform);
-            base.OnHoverEnter();
+            isHovered = true;
+            RefreshOutline();
             return;
         }
 
@@ -89,7 +116,15 @@ public class BoardInteractable : BaseInteractable
             pin.SetHighlight(true);
         }
 
-        base.OnHoverEnter();
+        // First direct inspection clears the "new" glow for good.
+        if (!isViewed && data != null)
+        {
+            CollectibleRegistry.Instance?.MarkViewed(data.key);
+            isViewed = true;
+        }
+
+        isHovered = true;
+        RefreshOutline();
     }
 
     public override void OnHoverExit()
@@ -97,6 +132,7 @@ public class BoardInteractable : BaseInteractable
         UIManager.Instance?.HideBoardCollectible();
         UIManager.Instance?.HideBoardTopic();
         TopicPin?.SetHighlight(false);
-        base.OnHoverExit();
+        isHovered = false;
+        RefreshOutline();
     }
 }

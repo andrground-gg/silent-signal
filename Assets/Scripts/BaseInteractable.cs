@@ -39,4 +39,14 @@ public class BaseInteractable : MonoBehaviour, IInteractable
     {
         if (outline != null) outline.enabled = on;
     }
+
+    protected void SetOutlineColor(Color color)
+    {
+        if (outline != null) outline.OutlineColor = color;
+    }
+
+    protected Color GetOutlineColor()
+    {
+        return outline != null ? outline.OutlineColor : Color.white;
+    }
 }
