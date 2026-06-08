@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NoteData
   title: Responses to Light Patterns
   key: 10
-  topic: 1
+  topic: 2
   boardContentText: Researchers discovered that light patterns produced responses
   boardSprite: {fileID: 0}
   contentText: "I have been on the island for over a month and no one has come for
