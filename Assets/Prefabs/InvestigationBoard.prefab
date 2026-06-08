@@ -190,6 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardInteractable
   data: {fileID: 11400000, guid: 45629bb9018cd734dadf9f73d15b9066, type: 2}
   boardRenderer: {fileID: 7535290463895284212}
+  unseenColor: {r: 1, g: 0.82, b: 0.25, a: 1}
 --- !u!65 &2793533354007873337
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -534,6 +535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardInteractable
   data: {fileID: 11400000, guid: d3186c3f4a9a85d4e99534873e8b6499, type: 2}
   boardRenderer: {fileID: 2097076797345999728}
+  unseenColor: {r: 1, g: 0.82, b: 0.25, a: 1}
 --- !u!65 &5205806937448440537
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -706,6 +708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardInteractable
   data: {fileID: 11400000, guid: 48e922729d187bb44a495a4354614307, type: 2}
   boardRenderer: {fileID: 2456502025209848104}
+  unseenColor: {r: 1, g: 0.82, b: 0.25, a: 1}
 --- !u!65 &2779278802614740711
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1511,6 +1514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardInteractable
   data: {fileID: 11400000, guid: 2af1211d5801fe04790660d2c06b2406, type: 2}
   boardRenderer: {fileID: 748886444667200221}
+  unseenColor: {r: 1, g: 0.82, b: 0.25, a: 1}
 --- !u!65 &619851741418785857
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1683,6 +1687,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardInteractable
   data: {fileID: 11400000, guid: a8bf2d8042e84e04d95f2a754270acfc, type: 2}
   boardRenderer: {fileID: 3911223870317706651}
+  unseenColor: {r: 1, g: 0.82, b: 0.25, a: 1}
 --- !u!65 &7742978301912536886
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1999,6 +2004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoardInteractable
   data: {fileID: 11400000, guid: 4d202931785727d4d84d8a00bdab3061, type: 2}
   boardRenderer: {fileID: 9095458898148982727}
+  unseenColor: {r: 1, g: 0.82, b: 0.25, a: 1}
 --- !u!65 &875947324315270637
 BoxCollider:
   m_ObjectHideFlags: 0
