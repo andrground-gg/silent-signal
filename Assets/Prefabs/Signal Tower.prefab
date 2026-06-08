@@ -7912,6 +7912,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 49beb578acefbf441b74b67cd159023d, type: 2}
+    - target: {fileID: 2570628416966649388, guid: e8a8eac2319824d41b1c9515cbaaa2c0, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ce2d4c6575dc32f429de97fe6bf77614, type: 2}
     - target: {fileID: 3280927520727180574, guid: e8a8eac2319824d41b1c9515cbaaa2c0, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
