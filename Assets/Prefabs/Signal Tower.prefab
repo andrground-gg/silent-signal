@@ -7912,6 +7912,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 49beb578acefbf441b74b67cd159023d, type: 2}
+    - target: {fileID: 2508812124418183303, guid: e8a8eac2319824d41b1c9515cbaaa2c0, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 75a5e82ad71c58c4f8fcfb50d8bdf79f, type: 2}
+    - target: {fileID: 2508812124418183303, guid: e8a8eac2319824d41b1c9515cbaaa2c0, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bd539820176d29140af47d99efec21d4, type: 2}
     - target: {fileID: 2570628416966649388, guid: e8a8eac2319824d41b1c9515cbaaa2c0, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

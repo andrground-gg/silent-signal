@@ -105,7 +105,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Density: 0.88
+    - _Density: 0.06
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -131,7 +131,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _StepCount: 86
     - _Surface: 0
-    - _Visibility: 585
+    - _Visibility: 500
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1

@@ -41,19 +41,19 @@ Material:
     - _Foam_Amount: 4.3
     - _Foam_Cutoff: 3.66
     - _Foam_Speed: 0.05
-    - _HeightEnd: 43.3904
-    - _HeightFalloff: 0.15279998
-    - _HeightStart: -1.5743992
+    - _HeightEnd: 43.2
+    - _HeightFalloff: 1.2
+    - _HeightStart: -32.8
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Visibility: 566.904
+    - _Visibility: 208
     - _depth: 3.24
-    - _time: 0.238
+    - _time: 0
     m_Colors:
     - _Evening_Deep: {r: 0.4245283, g: 0.35141706, b: 0.34242612, a: 1}
     - _Evening_Shallow: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
     - _Foam_Scale: {r: 100, g: 100, b: 0, a: 0}
-    - _FogColor: {r: 0.68461144, g: 0.7362378, b: 0.78786415, a: 0.9806118}
+    - _FogColor: {r: 0.3794054, g: 0.46328765, b: 0.5471698, a: 0.59607846}
     - _Morning_Deep: {r: 0.20545569, g: 0.22598124, b: 0.254717, a: 1}
     - _Morning_Shallow: {r: 0.3539961, g: 0.4056604, b: 0.38993648, a: 1}
     - _Night_Deep: {r: 0.114142045, g: 0.13227363, b: 0.254717, a: 1}
