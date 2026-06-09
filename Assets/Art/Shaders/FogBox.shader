@@ -3,7 +3,7 @@ Shader "Custom/FogBox"
     Properties
     {
         [Header(Visibility)]
-        _Visibility     ("Visibility (meters)",  Range(5, 1000))   = 100
+        _Visibility     ("Visibility (meters)",  Range(5, 500))   = 100
         _Density        ("Density Multiplier",   Range(0, 5))      = 1
         _StepCount      ("Ray March Steps",      Range(8, 128))    = 32
 

@@ -278,6 +278,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: d58e6557c9c68ec41a7ebeb257b3676c, type: 2}
   baseVisibility: 1
   baseDensity: 5
+  morningColor: {r: 0.7, g: 0.75, b: 0.8, a: 1}
+  noonColor: {r: 0.75, g: 0.8, b: 0.85, a: 1}
+  eveningColor: {r: 0.6, g: 0.5, b: 0.55, a: 1}
+  nightColor: {r: 0.1, g: 0.12, b: 0.2, a: 1}
   lerpSpeed: 20
 --- !u!1 &2711793526199866814
 GameObject:
@@ -771,24 +775,21 @@ MonoBehaviour:
   beamPulse: {fileID: 0}
   leverController: {fileID: 1669377243401893882}
   lens: {fileID: 0}
-  lowMultiplier: 0.3
-  mediumMultiplier: 1
-  highMultiplier: 3
-  intensityLerpRate: 1.5
-  timeOfDayDisabledValue: 0.2
-  timeOfDayEnabledValue: 1.5
-  gameplayFogDisabledValue: 1
-  gameplayFogEnabledValue: 35
-  fogLowVisibility: 1
-  fogLowDensity: 5
-  fogMediumVisibility: 20
-  fogMediumDensity: 3.5
+  lowMultiplier: 3
+  highMultiplier: 0.3
+  intensitySpeed: 1.5
+  timeOfDaySpeed: 0.04
+  fogSpeed: 0.09
+  timeOfDayDisabledValue: 0.1
+  timeOfDayEnabledValue: 3
+  fogLowVisibility: 2
+  fogLowDensity: 4
   fogHighVisibility: 50
   fogHighDensity: 0
   slowSpeed: 20
   normalSpeed: 60
   fastSpeed: 150
-  lerpRate: 3
+  velocitySpeed: 3
   _dbgCurrentMultiplier: 0
   _dbgTargetMultiplier: 0
   _dbgLensClean: 0

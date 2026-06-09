@@ -120,7 +120,7 @@ public class ReflectedBeam : MonoBehaviour
 
         bool beamAboveMedium =
             LighthouseManager.Instance != null
-            && LighthouseManager.Instance.CurrentMultiplier > LighthouseManager.Instance.MediumMultiplier;
+            && LighthouseManager.Instance.CurrentMultiplier == LighthouseManager.Instance.HighMultiplier;
 
         foreach (var col in Physics.OverlapSphere(origin, cylinderRadius, hitMask, QueryTriggerInteraction.Collide))
         {

@@ -14,10 +14,11 @@ public class LighthouseManager : Singleton<LighthouseManager>
     [SerializeField] private LighthouseLens  lens;
 
     [Header("Intensity Levels")]
-    [SerializeField] private float lowMultiplier    = 0.3f;
-    [SerializeField] private float mediumMultiplier = 1.0f;
-    [SerializeField] private float highMultiplier   = 3.0f;
-    [SerializeField] private float intensityLerpRate = 1.5f;
+    [SerializeField] private float lowMultiplier     = 0.3f;
+    [SerializeField] private float highMultiplier    = 3.0f;
+    [SerializeField] private float intensitySpeed    = 1.5f;
+    [SerializeField] private float timeOfDaySpeed    = 1.5f;
+    [SerializeField] private float fogSpeed          = 1.5f;
 
     [Header("Generator Visibility Multipliers")]
     [SerializeField] private float timeOfDayDisabledValue = 1f;
@@ -26,8 +27,6 @@ public class LighthouseManager : Singleton<LighthouseManager>
     [Header("Gameplay Fog Per Intensity")]
     [SerializeField] private float fogLowVisibility    = 1f;
     [SerializeField] private float fogLowDensity       = 5f;
-    [SerializeField] private float fogMediumVisibility = 20f;
-    [SerializeField] private float fogMediumDensity    = 3.5f;
     [SerializeField] private float fogHighVisibility   = 50f;
     [SerializeField] private float fogHighDensity      = 0f;
 
@@ -37,7 +36,7 @@ public class LighthouseManager : Singleton<LighthouseManager>
     [SerializeField] private float fastSpeed   = 150f;
 
     [Header("Transition")]
-    [SerializeField] private float lerpRate = 3f;
+    [SerializeField] private float velocitySpeed = 3f;
 
     [Header("Debug (read-only)")]
     [SerializeField] private float _dbgCurrentMultiplier;
@@ -46,7 +45,6 @@ public class LighthouseManager : Singleton<LighthouseManager>
     [SerializeField] private float _dbgFogVisibility;
 
     public float CurrentMultiplier => _currentMultiplier;
-    public float MediumMultiplier  => mediumMultiplier;
     public float HighMultiplier    => highMultiplier;
 
     private float _targetVelocity;
@@ -55,14 +53,18 @@ public class LighthouseManager : Singleton<LighthouseManager>
     private bool  _generatorOn;
     private float _targetMultiplier;
     private float _currentMultiplier;
+    private float _todMultiplier;
+    private float _fogMultiplier;
 
     public event Action<SpeedState> OnSpeedChanged;
 
     private void Start()
     {
-        _generatorOn      = GeneratorManager.Instance.IsActive(GeneratorID.GENERATOR_LIGHTHOUSE);
-        _targetMultiplier = ComputeTargetMultiplier();
+        _generatorOn       = GeneratorManager.Instance.IsActive(GeneratorID.GENERATOR_LIGHTHOUSE);
+        _targetMultiplier  = ComputeTargetMultiplier();
         _currentMultiplier = _targetMultiplier;
+        _todMultiplier     = _targetMultiplier;
+        _fogMultiplier     = _targetMultiplier;
 
         _targetVelocity  = VelocityFor(leverController.Current);
         _currentVelocity = _targetVelocity;
@@ -90,38 +92,29 @@ public class LighthouseManager : Singleton<LighthouseManager>
     private void Update()
     {
         // beam rotation
-        _currentVelocity = Mathf.Lerp(_currentVelocity, _targetVelocity, lerpRate * Time.deltaTime);
+        _currentVelocity = Mathf.MoveTowards(_currentVelocity, _targetVelocity, velocitySpeed * Time.deltaTime);
         beamPivot.Rotate(Vector3.up, _currentVelocity * Time.deltaTime, Space.World);
 
-        // intensity — smooth chase
-        _currentMultiplier = Mathf.Lerp(_currentMultiplier, _targetMultiplier, intensityLerpRate * Time.deltaTime);
+        // beam intensity — drives beamPulse directly
+        _currentMultiplier = Mathf.MoveTowards(_currentMultiplier, _targetMultiplier, intensitySpeed * Time.deltaTime);
         beamPulse.SetMultiplierDirect(_currentMultiplier);
 
-        // fog visibility — map current multiplier into [min, max] range
-        float t      = Mathf.InverseLerp(lowMultiplier, highMultiplier, _currentMultiplier);
-        float todVis = Mathf.Lerp(timeOfDayDisabledValue, timeOfDayEnabledValue, t);
+        // time of day — independent speed
+        _todMultiplier = Mathf.MoveTowards(_todMultiplier, _targetMultiplier, timeOfDaySpeed * Time.deltaTime);
+        float tTod   = Mathf.InverseLerp(lowMultiplier, highMultiplier, _todMultiplier);
+        float todVis = Mathf.Lerp(timeOfDayDisabledValue, timeOfDayEnabledValue, tTod);
         TimeOfDayController.Instance.SetVisibilityMultiplierImmediate(todVis);
 
-        // fog — lerp visibility and density across low→medium→high using t in [0,1]
+        // fog — independent speed
+        _fogMultiplier = Mathf.MoveTowards(_fogMultiplier, _targetMultiplier, fogSpeed * Time.deltaTime);
+        float tFog = Mathf.InverseLerp(lowMultiplier, highMultiplier, _fogMultiplier);
         float fogVis, fogDen;
-        if (t < 0.5f)
-        {
-            float t2 = t / 0.5f;                          // 0→1 across low..medium
-            fogVis = Mathf.Lerp(fogLowVisibility,    fogMediumVisibility, t2);
-            fogDen = Mathf.Lerp(fogLowDensity,       fogMediumDensity,    t2);
-        }
-        else
-        {
-            float t2 = (t - 0.5f) / 0.5f;                // 0→1 across medium..high
-            fogVis = Mathf.Lerp(fogMediumVisibility, fogHighVisibility,   t2);
-            fogDen = Mathf.Lerp(fogMediumDensity,    fogHighDensity,      t2);
-        }
+        float t2 = tFog / 0.5f;
+        fogVis = Mathf.Lerp(fogLowVisibility,    fogHighVisibility, t2);
+        fogDen = Mathf.Lerp(fogLowDensity,       fogHighDensity,    t2);
 
         GameplayFogController.Instance.SetVisibilityImmediate(fogVis);
         GameplayFogController.Instance.SetDensityImmediate(fogDen);
-
-        // debug
-        _dbgFogVisibility = fogVis;
 
         // debug
         _dbgCurrentMultiplier = _currentMultiplier;
@@ -132,14 +125,10 @@ public class LighthouseManager : Singleton<LighthouseManager>
 
     private float ComputeTargetMultiplier()
     {
-        bool clean = lens == null || lens.IsClean;
-        Debug.Log(_generatorOn + " " + clean);
-        return (_generatorOn, clean) switch
+        return _generatorOn switch
         {
-            (false, false) => lowMultiplier,
-            (true,  false) => mediumMultiplier,
-            (false, true)  => mediumMultiplier,
-            (true,  true)  => highMultiplier,
+            true => highMultiplier,
+            false => lowMultiplier,
         };
     }
 
