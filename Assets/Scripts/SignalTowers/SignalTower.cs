@@ -10,6 +10,9 @@ public class SignalTower : MonoBehaviour
     [SerializeField] private Renderer      indicatorRenderer;
     [SerializeField] private ReflectedBeam reflectedBeam;
 
+    [Header("Control Menu")]
+    [SerializeField] private Camera towerCamera;
+
     [Header("Beam Detection")]
     [SerializeField] private string beamTag = "LightHouseBeam";
 
@@ -95,6 +98,38 @@ public class SignalTower : MonoBehaviour
 
         IsPowered = GeneratorManager.Instance.IsActive(GeneratorID.GENERATOR_SIGNAL_TOWERS);
         UpdateIndicator();
+
+        // Menu starts closed.
+        if (towerCamera != null) towerCamera.gameObject.SetActive(false);
+    }
+
+    // Opens the tower control menu: enables its camera, shows the shared canvas
+    // and starts listening for its Rotate / Exit events.
+    public void EnterControlMode()
+    {
+        if (towerCamera != null) towerCamera.gameObject.SetActive(true);
+
+        var canvas = ControlCanvas.Instance;
+        if (canvas != null)
+        {
+            canvas.OnRotate += TryRotate;
+            canvas.OnExit   += ExitControlMode;
+            canvas.Show();
+        }
+    }
+
+    // Closes the tower control menu (also raised by the canvas Exit event).
+    public void ExitControlMode()
+    {
+        if (towerCamera != null) towerCamera.gameObject.SetActive(false);
+
+        var canvas = ControlCanvas.Instance;
+        if (canvas != null)
+        {
+            canvas.OnRotate -= TryRotate;
+            canvas.OnExit   -= ExitControlMode;
+            canvas.Hide();
+        }
     }
 
     private void OnDisable()

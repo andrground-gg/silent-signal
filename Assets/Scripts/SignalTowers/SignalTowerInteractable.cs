@@ -21,7 +21,7 @@ public class SignalTowerInteractable : BaseInteractable
     public override void Interact()
     {
         base.Interact();
-        tower.TryRotate();
+        tower.EnterControlMode();
     }
 
     [ContextMenu("Rotate Tower")]

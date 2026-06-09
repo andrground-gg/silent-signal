@@ -4,9 +4,10 @@ public class RespawnManager : MonoBehaviour
 {
     [SerializeField] private InteractionZone waterInteractionZone;
     [SerializeField] private Transform respawnPoint;
-    
+    [SerializeField] private KeyCode respawnKey = KeyCode.R;
+
     CharacterController cc;
-    
+
     private void Start()
     {
         waterInteractionZone.OnEnteredInteractionZone += OnEnteredWaterInteractionZone;
@@ -18,7 +19,15 @@ public class RespawnManager : MonoBehaviour
         waterInteractionZone.OnEnteredInteractionZone -= OnEnteredWaterInteractionZone;
     }
 
-    private void OnEnteredWaterInteractionZone()
+    private void Update()
+    {
+        if (Input.GetKeyDown(respawnKey))
+            Respawn();
+    }
+
+    private void OnEnteredWaterInteractionZone() => Respawn();
+
+    private void Respawn()
     {
         cc.enabled = false;
         transform.position = respawnPoint.position;
