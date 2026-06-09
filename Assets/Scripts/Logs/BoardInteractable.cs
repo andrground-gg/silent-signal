@@ -12,6 +12,10 @@ public class BoardInteractable : BaseInteractable
     private static readonly int ColorId = Shader.PropertyToID("_BaseColor");
     private static readonly Color GrayColor = new Color(0.45f, 0.45f, 0.45f, 1f);
 
+    // The material's own color, captured before we ever override it. This is the
+    // "revealed" target so revealing shows the material color instead of white.
+    private Color revealedColor = Color.white;
+
     private bool isRevealed;
     private bool isViewed;
     private bool isHovered;
@@ -26,6 +30,8 @@ public class BoardInteractable : BaseInteractable
     {
         base.Awake();
         defaultOutlineColor = GetOutlineColor();
+        if (boardRenderer != null)
+            revealedColor = boardRenderer.sharedMaterial.GetColor(ColorId);
         ApplyColor(GrayColor);
     }
 
@@ -65,9 +71,9 @@ public class BoardInteractable : BaseInteractable
         isViewed = data != null && (CollectibleRegistry.Instance?.IsViewed(data.key) ?? false);
 
         if (animated)
-            DOVirtual.Float(0f, 1f, 0.5f, t => ApplyColor(Color.Lerp(GrayColor, Color.white, t)));
+            DOVirtual.Float(0f, 1f, 0.5f, t => ApplyColor(Color.Lerp(GrayColor, revealedColor, t)));
         else
-            ApplyColor(Color.white);
+            ApplyColor(revealedColor);
 
         RefreshOutline();
     }
