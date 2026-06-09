@@ -902,7 +902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UVWorldTint
   tintImage: {fileID: 1688309987086780330}
-  uvTintColor: {r: 0.28, g: 0.08, b: 0.55, a: 0.12941177}
+  uvTintColor: {r: 0.28, g: 0.08, b: 0.55, a: 0.19215687}
   fadeDuration: 1
 --- !u!1 &8975241835405806144
 GameObject:
