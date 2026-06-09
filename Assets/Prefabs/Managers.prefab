@@ -782,8 +782,8 @@ MonoBehaviour:
   fogSpeed: 0.09
   timeOfDayDisabledValue: 0.1
   timeOfDayEnabledValue: 3
-  fogLowVisibility: 2
-  fogLowDensity: 4
+  fogLowVisibility: 3
+  fogLowDensity: 3.5
   fogHighVisibility: 50
   fogHighDensity: 0
   slowSpeed: 20
