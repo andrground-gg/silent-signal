@@ -43,6 +43,10 @@ public class LeverController : MonoBehaviour
         {
             entry.lever.OnPulled  += () => SetSpeed(entry.speedState);
             entry.lever.OnRelease += () => { };
+
+            // Everything starts released; the default lever gets pulled below.
+            if (entry.speedState != defaultState)
+                entry.lever.SnapToReleased();
         }
 
         GetEntry(defaultState)?.lever?.AnimatePull();
