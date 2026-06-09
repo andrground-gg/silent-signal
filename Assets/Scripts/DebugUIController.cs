@@ -46,8 +46,8 @@ public class DebugUIController : MonoBehaviour
             Toggle();
         }
 
-        if (Input.GetKeyDown(discoverAllKey))
-            DiscoverAll();
+        // if (Input.GetKeyDown(discoverAllKey))
+        //     DiscoverAll();
 
         if (Input.GetKeyDown(timeScaleUpKey) || Input.GetKeyDown(KeyCode.KeypadPlus))
             ChangeTimeScale(timeScaleStep);
